@@ -1,0 +1,55 @@
+const MONGO_HOST_SERVER = process.env.MONGO_HOST_SERVER;
+const MONGO_USERNAME    = process.env.MONGO_USERNAME;
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
+const MONGO_PORT = process.env.MONGO_PORT;
+const MONGO_DB = process.env.MONGO_DB;
+
+const MQTT_URI = `mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`;
+
+const SECRETE_API_KEY = 'somesupersecretsecret';
+const SECRETE_USER_API_KEY = 'somesupersecretsecretforuseronly';
+const SENDGRID_API_KEY = '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';
+const SECRETE_SESSION_KEY = process.env.SECRETE_USER_API_KEY;
+
+// const MONGODB_URI = 'mongodb+srv://wanggor:wanggor.123@elefante-power.1dhwo.mongodb.net/test?retryWrites=true&w=majority';
+const MONGODB_URI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_SERVER}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+
+
+const INIT_LAT = -7.27;
+const INIT_LNG = 112.75;
+const INIT_ZOOM = 12;
+const INIT_BEARING = 0;
+const INIT_PITCH = 0;
+
+const INIT_PERCENTAGE_UNBALANCE = 10;
+const INIT_MIN_FUSEBREAK_VOLTAGE = 5;
+const INIT_MAX_OVERHEATE_TEMP = 90;
+
+const INIT_MAX_DATA_HISTORY_SEND = 500;
+const INIT_MAX_AVG_DATA_IN_DAYS = 7;
+
+
+exports.MQTT_URI = MQTT_URI;
+
+exports.SECRETE_API_KEY = SECRETE_API_KEY;
+exports.SECRETE_USER_API_KEY = SECRETE_USER_API_KEY;
+exports.SENDGRID_API_KEY = SENDGRID_API_KEY;
+exports.MONGODB_URI = MONGODB_URI;
+exports.SECRETE_SESSION_KEY = SECRETE_SESSION_KEY;
+
+exports.INIT_LAT = INIT_LAT;
+exports.INIT_LNG = INIT_LNG;
+exports.INIT_ZOOM = INIT_ZOOM;
+exports.INIT_BEARING = INIT_BEARING;
+exports.INIT_PITCH = INIT_PITCH;
+
+exports.INIT_PERCENTAGE_UNBALANCE = INIT_PERCENTAGE_UNBALANCE;
+exports.INIT_MIN_FUSEBREAK_VOLTAGE = INIT_MIN_FUSEBREAK_VOLTAGE;
+exports.INIT_MAX_OVERHEATE_TEMP = INIT_MAX_OVERHEATE_TEMP;
+
+exports.INIT_MAX_DATA_HISTORY_SEND = INIT_MAX_DATA_HISTORY_SEND;
+exports.INIT_MAX_AVG_DATA_IN_DAYS = INIT_MAX_AVG_DATA_IN_DAYS;
+
+exports.MONGO_HOST_SERVER = MONGO_HOST_SERVER
+exports.MONGO_PASSWORD  = MONGO_PASSWORD
+exports.MONGO_USERNAME = MONGO_USERNAME

@@ -1,0 +1,22 @@
+<form class="register-form" action="/signup" method="POST" novalidate>
+    <input placeholder="first name" type="text" name="firstName" id="firstName"> 
+    <input placeholder="last name" type="text" name="lastName" id="lastName"> 
+    <input placeholder="email address" class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+        type="email" 
+        name="email" 
+        id="email" 
+        value="<%= oldInput.email %>"> 
+    <input placeholder="password" class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+        type="password" 
+        name="password" 
+        id="password" 
+        value="<%= oldInput.password %>">
+    <input placeholder="confirmPassword" class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid' : '' %>"
+        type="password" 
+        name="confirmPassword" 
+        id="confirmPassword" 
+        value="<%= oldInput.password %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <button type="submit">create</button>
+    <p class="message">Back to <a href="/">Home Page</a></p>
+</form>

@@ -1,0 +1,13 @@
+<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+
+<form action="/add-account" method="POST" id="form-user" target="dummyframe">
+    <input placeholder="email" type="email" name="email" id="email" value="" class="" style="width: 100%;margin-bottom: 15px;">
+    
+    <select class="js-source-states" id="role-option" style="width: 100%; margin-bottom: 15px" form="form-user">
+            <option value="super admin"> Super Admin </option>
+            <option value="admin"> Admin </option>
+    </select>
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    
+    <button class="btn btn-success" type="submit" style="width: 100%;">Add Account</button>
+</form>

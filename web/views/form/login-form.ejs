@@ -1,0 +1,13 @@
+<form action="/login" method="POST">
+    <input placeholder="email" type="email" name="email" id="email" value="<%= oldInput.email %>" class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"> 
+    <input placeholder="password" type="password" name="password" id="password" value="<%= oldInput.password %>" class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"> 
+    
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+    <button class="btn" type="submit">Login</button>
+    <!-- <p class="message" style="margin-top: 0px;">Or</p>
+    <a class="btn" href="/signup" style="border: solid 1px #43A047; width: 100%; color: #43A047;">Sign Up</a> -->
+    <p class="message">Forgot Password? <a href="/reset">Reset Password</a></p>
+    <hr>
+    <a href="/signup" class="btn" style="border: solid 1px #43A047; width: 100%; color: #43A047;" >Login as guest</a>
+</form>
