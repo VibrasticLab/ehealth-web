@@ -4,7 +4,7 @@
       <!-- Required meta tags -->
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>XRay - Responsive Bootstrap 4 Admin Dashboard Template</title>
+      <title>Sign Up</title>
       <!-- Favicon -->
       <link rel="shortcut icon" href="images/favicon.ico" />
       <!-- Bootstrap CSS -->
@@ -47,24 +47,24 @@
                     <div class="col-md-6 position-relative">
                         <div class="sign-in-from">
                             <h1 class="mb-0">Sign Up</h1>
-                            <form class="mt-4">
+                            <form class="mt-4" action='/signup?_csrf=<%= csrfToken %>' method='post'>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Your Full Name</label>
-                                    <input type="email" class="form-control mb-0" id="exampleInputEmail1" placeholder="Your Full Name">
+                                    <label for="exampleInputEmail1">User Name</label>
+                                    <input type="text" class="form-control mb-0" name="username" placeholder="User Name">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputEmail2">Email address</label>
-                                    <input type="email" class="form-control mb-0" id="exampleInputEmail2" placeholder="Enter email">
+                                    <input type="email" class="form-control mb-0" name="email" placeholder="Enter email">
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Password</label>
-                                    <input type="password" class="form-control mb-0" id="exampleInputPassword1" placeholder="Password">
+                                    <input type="password" class="form-control mb-0" name="password" placeholder="Password">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Confirm Password</label>
+                                    <input type="password" class="form-control mb-0" name="confirmPassword" placeholder="Confirm Password">
                                 </div>
                                 <div class="d-inline-block w-100">
-                                    <div class="custom-control custom-checkbox d-inline-block mt-2 pt-1">
-                                        <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                        <label class="custom-control-label" for="customCheck1">I accept <a href="#">Terms and Conditions</a></label>
-                                    </div>
                                     <button type="submit" class="btn btn-primary float-right">Sign Up</button>
                                 </div>
                                 <div class="sign-info">

@@ -8,7 +8,7 @@ const auth = require("../middlewares/auth");
 
 router.get("/signin", authController.getLogin);
 router.get("/logout", authController.getLogout);
-router.get("/signup", authController.getSignup);
+router.get("/signup", auth.isUserEmpty, authController.getSignup);
 router.get("/reset", authController.getReset);
 router.get("/reset/:token", authController.getNewPassword);
 
@@ -19,24 +19,19 @@ router.post(
       .isEmail()
       .withMessage("Please enter a valid email address.")
       .normalizeEmail(),
-    body("password", "Password has to be valid.")
-      .isLength({ min: 5 })
-      .trim(),
+    body("password", "Password has to be valid.").isLength({ min: 5 }).trim(),
   ],
   authController.postLogin
 );
 
 router.post(
   "/signup",
+  auth.isUserEmpty,
   [
     check("email")
       .isEmail()
       .withMessage("Please enter a valid email.")
       .custom((value, { req }) => {
-        // if (value === 'test@test.com') {
-        //   throw new Error('This email address if forbidden.');
-        // }
-        // return true;
         return User.findOne({ email: value }).then((userDoc) => {
           if (userDoc) {
             return Promise.reject(
@@ -46,8 +41,17 @@ router.post(
         });
       })
       .normalizeEmail(),
-    body("firstName", "firstName empty").isLength({ min: 2 }).trim(),
-    body("lastName", "lastName empty").isLength({ min: 2 }).trim(),
+    body("username", "username empty")
+      .isLength({ min: 2 })
+      .custom((value, { req }) => {
+        return User.findOne({ userName: value }).then((userDoc) => {
+          if (userDoc) {
+            return Promise.reject(
+              "Username exists already, please pick a different one."
+            );
+          }
+        });
+      }),
     body(
       "password",
       "Please enter a password with only numbers and text and at least 5 characters."

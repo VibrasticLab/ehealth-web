@@ -9,6 +9,7 @@ const doctorRoute = require("./routes/doctor");
 const patientRoute = require("./routes/patient");
 const adminRoute = require("./routes/admin");
 const authRoutes = require("./routes/auth");
+const apiRoutes = require("./routes/api");
 const errorRoutes = require("./routes/error");
 
 // import helper
@@ -31,6 +32,9 @@ app.set("views", "views");
 app.use(parse.bodyJsonHandler);
 app.use(parse.bodyParserHandler);
 app.use(express.static(path.join(rootdir, "public")));
+
+// API
+app.use(apiRoutes);
 
 // security & authentication
 app.use(db.sessionMiddleware);

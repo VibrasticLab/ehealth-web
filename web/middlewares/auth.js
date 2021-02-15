@@ -23,9 +23,30 @@ exports.checkAuth = (req, res, next) => {
 };
 
 exports.isAuth = (req, res, next) => {
+  if (!req.session.isLoggedIn) {
+    return res.redirect("/signin");
+  }
+  next();
+};
+
+exports.redirectIndex = (req, res, next) => {
+  if (!req.session.isLoggedIn) {
+    return res.redirect("/signin");
+  } else {
+    if (req.session.user.role == "admin") {
+      return res.redirect("/admin");
+    } else if (req.session.user.role == "doctor") {
+      return res.redirect("/doctor");
+    }else if (req.session.user.role == "patient") {
+      return res.redirect("/patient");
+    }
+  }
+};
+
+exports.isUserEmpty = (req, res, next) => {
   User.countDocuments({}).then((count) => {
-    if (!req.session.isLoggedIn && count > 0) {
-      return res.redirect("/login");
+    if (count > 0) {
+      return res.redirect("/signin");
     }
     next();
   });

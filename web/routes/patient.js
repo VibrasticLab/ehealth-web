@@ -6,6 +6,6 @@ const checkingRole = require("../middlewares/check-role");
 
 const router = express.Router();
 
-router.get("/patient", patientController.home);
+router.get("/patient", auth.isAuth, checkingRole.isPatient, patientController.home);
 
 module.exports = router;
