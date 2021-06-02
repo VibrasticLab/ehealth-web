@@ -26,7 +26,7 @@ services:
         env_file:
             - ./secret/.env
         command: npm run start:dev
-    mongogui:
+    mongoexpress:
         image: mongo-express
         ports:
             - "8081:8081"
