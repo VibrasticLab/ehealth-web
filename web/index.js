@@ -52,10 +52,6 @@ app.use(adminRoute);
 app.use(authRoutes);
 app.use(errorRoutes);
 
-app.get('/coba', (req, res) => {
-    res.json({"message": "coba-coba matamu ah"});
-});
-
 db.initMongoose(() => {
     const server = app.listen(8080);
 });
