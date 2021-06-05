@@ -14,9 +14,6 @@ sudo pacman -S docker docker-compose
 
 then try to run using minimum setting:
 ```
-echo "loop" | sudo tee /etc/modules-load.d/loop.conf
-sudo modprobe loop
-
 sudo groupadd -f docker
 sudo gpasswd -a $USER docker
 
