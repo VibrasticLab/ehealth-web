@@ -7,14 +7,14 @@ const iotdataSchema = new Schema(
       type: String,
       required: true,
       lowercase: true,
-      unique: true,
+      unique: false,
       trim: true,
     },
     datastring: {
       type: String,
-      required: true,
+      required: false,
       lowercase: true,
-      unique: true,
+      unique: false,
       trim: true,
     }
   },
