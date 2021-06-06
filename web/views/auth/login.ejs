@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <title>Sign In</title>
       <!-- Favicon -->
-      <link rel="shortcut icon" href="images/favicon.ico" />
+      <link rel="shortcut icon" href="images/favicon-web.png" />
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="css/bootstrap.min.css">
       <!-- Typography CSS -->
@@ -61,7 +61,8 @@
                                 <div class="d-inline-block w-100">
                                     <button type="submit" class="btn btn-primary float-right">Sign in</button>
                                 </div>
-                                <% if (totalUser == 0) { %>
+                                <%# if (totalUser == 0) { %>
+                                <% if (true) { %>
                                     <div class="sign-info">
                                         <span class="dark-color d-inline-block line-height-2">Don't have an account? <a href="/signup">Sign up</a></span>
                                     </div>

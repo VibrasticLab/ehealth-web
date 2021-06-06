@@ -46,7 +46,8 @@ exports.redirectIndex = (req, res, next) => {
 exports.isUserEmpty = (req, res, next) => {
   User.countDocuments({}).then((count) => {
     if (count > 0) {
-      return res.redirect("/signin");
+      //TODO: Remove Comment
+      //return res.redirect("/signin");
     }
     next();
   });
