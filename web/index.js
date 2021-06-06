@@ -5,6 +5,7 @@ const path = require("path");
 
 // import routing
 const generalRoute = require("./routes/general");
+const iotdataRoutes = require("./routes/iotdata");
 const doctorRoute = require("./routes/doctor");
 const patientRoute = require("./routes/patient");
 const adminRoute = require("./routes/admin");
@@ -46,6 +47,7 @@ app.use(flash());
 
 // routing request
 app.use(generalRoute);
+app.use(iotdataRoutes); //must before errorRoutes
 app.use(patientRoute);
 app.use(doctorRoute);
 app.use(adminRoute);

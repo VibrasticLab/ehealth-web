@@ -3,6 +3,7 @@ const MONGO_USERNAME    = process.env.MONGO_USERNAME;
 const MONGO_PASSWORD = process.env.MONGO_PASSWORD;
 const MONGO_PORT = process.env.MONGO_PORT;
 const MONGO_DB = process.env.MONGO_DB;
+const MONGO_DBDATA = process.env.MONGO_DBDATA;
 
 const MQTT_URI = `mqtt://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`;
 
@@ -11,8 +12,8 @@ const SECRETE_USER_API_KEY = 'somesupersecretsecretforuseronly';
 const SENDGRID_API_KEY = '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';
 const SECRETE_SESSION_KEY = process.env.SECRETE_USER_API_KEY;
 
-// const MONGODB_URI = 'mongodb+srv://wanggor:wanggor.123@elefante-power.1dhwo.mongodb.net/test?retryWrites=true&w=majority';
 const MONGODB_URI = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_SERVER}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+const MONGODB_URIDATA = `mongodb://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOST_SERVER}:${MONGO_PORT}/${MONGO_DBDATA}?authSource=admin`;
 
 
 const INIT_LAT = -7.27;
@@ -35,6 +36,7 @@ exports.SECRETE_API_KEY = SECRETE_API_KEY;
 exports.SECRETE_USER_API_KEY = SECRETE_USER_API_KEY;
 exports.SENDGRID_API_KEY = SENDGRID_API_KEY;
 exports.MONGODB_URI = MONGODB_URI;
+exports.MONGODB_URIDATA = MONGODB_URIDATA;
 exports.SECRETE_SESSION_KEY = SECRETE_SESSION_KEY;
 
 exports.INIT_LAT = INIT_LAT;
