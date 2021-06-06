@@ -5,7 +5,6 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const initParam = require('../helpers/init');
 
 const MONGODB_URI = initParam.MONGODB_URI;
-const MONGODB_URIDATA = initParam.MONGODB_URIDATA;
 
 const store = new MongoDBStore({
     uri: MONGODB_URI,
@@ -24,21 +23,6 @@ exports.sessionMiddleware = session({
 
 exports.initMongoose = (cb) => {
     mongoose.connect(MONGODB_URI, { 
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-    
-    }).then(
-        result => {
-            cb();
-        }    
-    ).catch(err => {
-        console.log(err);
-      });
-};
-
-exports.initMongoose = (cb) => {
-    mongoose.connect(MONGODB_URIDATA, { 
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,
