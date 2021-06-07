@@ -1,0 +1,121 @@
+<%- include('../includes/head.ejs') %>
+
+   </head>
+   <body>
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <%- include('../includes/navigations.ejs') %>
+         <!-- Page Content  -->
+         <div id="content-page" class="content-page">
+            <!-- TOP Nav Bar -->
+            <%- include('../includes/top-navbar.ejs') %>
+            <!-- TOP Nav Bar END -->
+            <div class="container-fluid">
+                <div class="row">
+                   <div class="col-lg-12">
+                      <div class="iq-card">
+                         <div class="iq-card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                               <h4 class="card-title">New Doctor Information</h4>
+                            </div>
+                         </div>
+                         <div class="iq-card-body">
+                            <div class="new-user-info">
+                               <form action='/create-doctor?_csrf=<%= csrfToken %>' method='post'>
+                                  <div class="row">
+                                     <div class="form-group col-md-6">
+                                        <label for="fname">First Name:</label>
+                                        <input type="text" class="form-control" name="fname" placeholder="First Name" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="lname">Last Name:</label>
+                                        <input type="text" class="form-control" name="lname" placeholder="Last Name" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="add1">Street Address 1:</label>
+                                        <input type="text" class="form-control" name="add1" placeholder="Street Address 1" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="add2">Street Address 2:</label>
+                                        <input type="text" class="form-control" name="add2" placeholder="Street Address 2" required>
+                                     </div>
+                                     <div class="form-group col-md-12">
+                                        <label for="cname">Department Name:</label>
+                                        <input type="text" class="form-control" name="cname" placeholder="Department Name" required>
+                                     </div>
+                                     <div class="form-group col-md-12">
+                                       <label>User Role:</label>
+                                       <select class="form-control" name="selectuserrole" required>
+                                          <option value="">Select</option>
+                                          <option value="Surgery">Surgery</option>
+                                          <option value="Gastroenterologist">Gastroenterologist</option>
+                                          <option value="Endocrinologist">Endocrinologist</option>
+                                          <option value="Orthopaedic surgeon">Orthopaedic surgeon</option>
+                                          <option value="Cardiologist">Cardiologist </option>
+                                       </select>
+                                    </div>
+                                     <div class="form-group col-sm-12">
+                                        <label>Country:</label>
+                                        <select class="form-control" name="selectcountry" required>
+                                           <option value="">Select Country</option>
+                                           <option value="indonesia">Indonesia</option>
+                                        </select>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="mobno">Mobile Number:</label>
+                                        <input type="text" class="form-control" name="mobno" placeholder="Mobile Number" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="altconno">Alternate Contact:</label>
+                                        <input type="text" class="form-control" name="altconno" placeholder="Alternate Contact" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                       <label for="city">Town/City:</label>
+                                       <input type="text" class="form-control" name="city" placeholder="Town/City" required>
+                                    </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="pno">Pin Code:</label>
+                                        <input type="text" class="form-control" name="pno" placeholder="Pin Code" required>
+                                     </div>
+                                     
+                                  </div>
+                                  <hr>
+                                  <h5 class="mb-3">Security</h5>
+                                  <div class="row">
+                                    <div class="form-group col-md-6">
+                                       <label for="email">Email:</label>
+                                       <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                    </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="uname">User Name:</label>
+                                        <input type="text" class="form-control" name="uname" placeholder="User Name" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="pass">Password:</label>
+                                        <input type="password" class="form-control" name="pass" placeholder="Password" required>
+                                     </div>
+                                     <div class="form-group col-md-6">
+                                        <label for="rpass">Repeat Password:</label>
+                                        <input type="password" class="form-control" name="rpass" placeholder="Repeat Password " required>
+                                     </div>
+                                  </div>
+                                  <button type="submit" class="btn btn-primary">Add New User</button>
+                               </form>
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+            <!-- Footer -->
+      <%- include('../includes/footer.ejs') %>
+      <!-- Footer END -->
+         </div>
+      </div>
+      <!-- Wrapper END -->
+      <script>
+         document.getElementById("add-device").classList.add("active"); 
+      </script>
+<%- include('../includes/end.ejs') %>
+

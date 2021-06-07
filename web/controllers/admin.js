@@ -20,12 +20,39 @@ exports.home = async (req, res, next) => {
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
     doctor : doctorData,
+  });
+};
 
+exports.device_list = async (req, res, next) => {
+  const adminData = await User.findById(req.session.user._id, {
+    doctorList: 1,
+  });
+  const totalPatient = await User.count({
+    role: "patient",
+    doctor: adminData.doctorList,
+  });
+  const doctorData = await User.find({
+    role: "doctor",
+    admin: req.session.user._id,
+  });
+  res.render("admin/device-list", {
+    pageTitle: "E-Health Dashboard",
+    role: req.session.user.role,
+    totalPatient: totalPatient,
+    totalDoctor : doctorData.length,
+    doctor : doctorData,
   });
 };
 
 exports.add_doctor = async (req, res, next) => {
   res.render("admin/add-doctor", {
+    pageTitle: "E-Health Dashboard",
+    role: req.session.user.role,
+  });
+};
+
+exports.add_device = async (req, res, next) => {
+  res.render("admin/add-device", {
     pageTitle: "E-Health Dashboard",
     role: req.session.user.role,
   });

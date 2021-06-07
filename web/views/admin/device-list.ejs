@@ -20,10 +20,23 @@
                         <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                            <div class="iq-card-body iq-bg-primary rounded">
                               <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
+                                 <div class="rounded-circle iq-card-icon bg-success"><i class="ri-cpu-line"></i></div>
                                  <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter"><%= totalDoctor %></span></h2>
-                                    <h5 class="">Doctors</h5>
+                                    <h2 class="mb-0"><span class="counter">0</span></h2>
+                                    <h5 class="">Active Device</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                           <div class="iq-card-body iq-bg-danger rounded">
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-cpu-line"></i></div>
+                                 <div class="text-right">
+                                    <h2 class="mb-0"><span class="counter">0</span></h2>
+                                    <h5 class="">Broken Devices</h5>
                                  </div>
                               </div>
                            </div>
@@ -36,46 +49,7 @@
                                  <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-women-fill"></i></div>
                                  <div class="text-right">
                                     <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Nurses</h5>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-3">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                           <div class="iq-card-body iq-bg-danger rounded">
-                              <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-group-fill"></i></div>
-                                 <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter"><%= totalPatient %></span></h2>
-                                    <h5 class="">Patients</h5>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-3">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                           <div class="iq-card-body iq-bg-info rounded">
-                              <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-info"><i class="ri-hospital-line"></i></div>
-                                 <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Pharmacists</h5>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-3">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                           <div class="iq-card-body iq-bg-danger rounded">
-                              <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-success"><i class="ri-cpu-line"></i></div>
-                                 <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Devices</h5>
+                                    <h5 class="">Inactive Devices</h5>
                                  </div>
                               </div>
                            </div>
@@ -87,7 +61,7 @@
                   <div class="iq-card">
                      <div class="iq-card-header d-flex justify-content-between">
                         <div class="iq-header-title">
-                           <h4 class="card-title">Doctor List</h4>
+                           <h4 class="card-title">Devices List</h4>
                         </div>
                      </div>
                   </div>
@@ -98,7 +72,7 @@
                   <div class="iq-card">
                      <div class="iq-card-body text-center">
                         <div class="doc-profile">
-                           <img class="rounded-circle img-fluid avatar-80" src="/images/user/13.jpg" alt="profile">
+                           <img class="rounded-circle img-fluid avatar-80" src="images/user/13.jpg" alt="profile">
                         </div>
                         <div class="iq-doc-info mt-3">
                            <h4>
@@ -141,6 +115,6 @@
    </div>
    <!-- Wrapper END -->
    <script>
-      document.getElementById("home-admin").classList.add("active");
+      document.getElementById("device-list").classList.add("active");
    </script>
    <%- include('../includes/end.ejs') %>
