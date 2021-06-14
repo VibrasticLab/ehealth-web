@@ -87,51 +87,50 @@
                   <div class="iq-card">
                      <div class="iq-card-header d-flex justify-content-between">
                         <div class="iq-header-title">
-                           <h4 class="card-title">Doctor List</h4>
+                           <h4 class="card-title">Navigation</h4>
                         </div>
                      </div>
                   </div>
                </div>
-
-               <% for(var i=0; i < doctor.length; i++) { %>
                <div class="col-sm-6 col-md-3">
                   <div class="iq-card">
                      <div class="iq-card-body text-center">
                         <div class="doc-profile">
-                           <img class="rounded-circle img-fluid avatar-80" src="/images/user/13.jpg" alt="profile">
+                           <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
                         </div>
+                        
                         <div class="iq-doc-info mt-3">
                            <h4>
-                              <%=  doctor[i].fullName.first.charAt(0).toUpperCase() + doctor[i].fullName.first.slice(1)  %>
-                              <%= doctor[i].fullName.last.charAt(0).toUpperCase() + doctor[i].fullName.last.slice(1) %>
+                              Doctor List
                            </h4>
                         </div>
                         <div class="iq-doc-description mt-2">
-                           <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor non erat
-                              non gravida. In id ipsum consequat</p>
+                           <p class="mb-0">Description</p>
                         </div>
                         <hr>
-                        <ul class="doctoe-sedual d-flex align-items-center justify-content-between p-0 mt-3 mb-3">
-                           <li class="text-center">
-                              <h6 class="text-primary">Weight</h6>
-                              <h5>60<span>kg</span></h5>
-                           </li>
-                           <li class="text-center">
-                              <h6 class="text-primary">Height</h6>
-                              <h5>170<span>cm</span></h5>
-                           </li>
-                           <li class="text-center">
-                              <h6 class="text-primary">Goal</h6>
-                              <h5 class="text-warning">55<span>kg</span></h5>
-                           </li>
-                        </ul>
-                        <hr>
-                        <a href="profile.html" class="btn btn-primary">View Profile</a>
+                        <a href="/admin/doctor-list" class="btn btn-primary">Doctor List</a>
                      </div>
                   </div>
                </div>
-               <% } %>
-
+               <div class="col-sm-6 col-md-3">
+                  <div class="iq-card">
+                     <div class="iq-card-body text-center">
+                        <div class="doc-profile">
+                           <div class="rounded-circle iq-card-icon bg-success"><i class="ri-cpu-line"></i></div>
+                        </div>
+                        <div class="iq-doc-info mt-3">
+                           <h4>
+                              Device List
+                           </h4>
+                        </div>
+                        <div class="iq-doc-description mt-2">
+                           <p class="mb-0">Description</p>
+                        </div>
+                        <hr>
+                        <a href="/admin/device-list" class="btn btn-primary">Device List</a>
+                     </div>
+                  </div>
+               </div>
             </div>
          </div>
          <!-- Footer -->

@@ -21,12 +21,21 @@
                <li id="home-admin">
                   <a href="/admin" class="iq-waves-effect"><i class="ri-home-8-fill"></i><span>Home</span></a>
                </li>
+               <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Devices</span></li>
                <li id="device-list">
                   <a href="/admin/device-list" class="iq-waves-effect"><i class="ri-cpu-line"></i><span>Device List</span></a>
                </li>
-               <li id="add-doctor">
-                  <a href="/add-doctor" class="iq-waves-effect"><i class="ri-user-add-fill"></i><span>Add Doctor</span></a>
+               <li id="add-device">
+                  <a href="/admin/add-device" class="iq-waves-effect"><i class="ri-add-fill"></i><span>Add Device</span></a>
                </li>
+               <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Doctor</span></li>
+               <li id="doctor-list">
+                  <a href="/admin/doctor-list" class="iq-waves-effect"><i class="ri-contacts-fill"></i><span>Doctor List</span></a>
+               </li>
+               <li id="add-doctor">
+                  <a href="/admin/add-doctor" class="iq-waves-effect"><i class="ri-user-add-fill"></i><span>Add Doctor</span></a>
+               </li>
+               <li class="iq-menu-title"><i class="ri-subtract-line"></i><span>Patient</span></li>
             <% } %> 
             <% if (role == "doctor") { %>
                <li id="home-doctor">

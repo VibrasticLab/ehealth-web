@@ -20,23 +20,10 @@
                         <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                            <div class="iq-card-body iq-bg-primary rounded">
                               <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-success"><i class="ri-cpu-line"></i></div>
+                                 <div class="rounded-circle iq-card-icon bg-primary"><i class="ri-user-fill"></i></div>
                                  <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Active</h5>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-3">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                           <div class="iq-card-body iq-bg-danger rounded">
-                              <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-cpu-line"></i></div>
-                                 <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Broken</h5>
+                                    <h2 class="mb-0"><span class="counter"><%= totalDoctor %></span></h2>
+                                    <h5 class="">TBA</h5>
                                  </div>
                               </div>
                            </div>
@@ -46,10 +33,10 @@
                         <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
                            <div class="iq-card-body iq-bg-warning rounded">
                               <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-cpu-line"></i></div>
+                                 <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-women-fill"></i></div>
                                  <div class="text-right">
                                     <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Inactive</h5>
+                                    <h5 class="">TBA</h5>
                                  </div>
                               </div>
                            </div>
@@ -60,15 +47,13 @@
                <div class="col-sm-12">
                   <div class="iq-card">
                      <div class="iq-card-header d-flex justify-content-between">
-                        <div class="iq-search-bar">
-                           <form action="#" class="searchbox">
-                              <input type="text" class="text search-input" placeholder="Type here to search...">
-                              <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                           </form>
+                        <div class="iq-header-title">
+                           <h4 class="card-title">Doctor List</h4>
                         </div>
                      </div>
                   </div>
                </div>
+
                <% for(var i=0; i < doctor.length; i++) { %>
                <div class="col-sm-6 col-md-3">
                   <div class="iq-card">
@@ -117,6 +102,6 @@
    </div>
    <!-- Wrapper END -->
    <script>
-      document.getElementById("device-list").classList.add("active");
+      document.getElementById("doctor-list").classList.add("active");
    </script>
    <%- include('../includes/end.ejs') %>

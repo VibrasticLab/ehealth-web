@@ -16,6 +16,29 @@ exports.home = async (req, res, next) => {
   });
   res.render("admin/home-admin", {
     pageTitle: "E-Health Dashboard",
+    pageHeader: "E-Health Dashboard",
+    role: req.session.user.role,
+    totalPatient: totalPatient,
+    totalDoctor : doctorData.length,
+    doctor : doctorData,
+  });
+};
+
+exports.doctor_list = async (req, res, next) => {
+  const adminData = await User.findById(req.session.user._id, {
+    doctorList: 1,
+  });
+  const totalPatient = await User.count({
+    role: "patient",
+    doctor: adminData.doctorList,
+  });
+  const doctorData = await User.find({
+    role: "doctor",
+    admin: req.session.user._id,
+  });
+  res.render("admin/doctor-list", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Doctor List",
     role: req.session.user.role,
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
@@ -37,6 +60,7 @@ exports.device_list = async (req, res, next) => {
   });
   res.render("admin/device-list", {
     pageTitle: "E-Health Dashboard",
+    pageHeader: "Device List",
     role: req.session.user.role,
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
@@ -47,6 +71,7 @@ exports.device_list = async (req, res, next) => {
 exports.add_doctor = async (req, res, next) => {
   res.render("admin/add-doctor", {
     pageTitle: "E-Health Dashboard",
+    pageHeader: "Add Doctor",
     role: req.session.user.role,
   });
 };
@@ -54,6 +79,7 @@ exports.add_doctor = async (req, res, next) => {
 exports.add_device = async (req, res, next) => {
   res.render("admin/add-device", {
     pageTitle: "E-Health Dashboard",
+    pageHeader: "Add Device",
     role: req.session.user.role,
   });
 };

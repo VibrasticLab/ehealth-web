@@ -235,7 +235,7 @@ exports.postNewPassword = (req, res, next) => {
       return resetUser.save();
     })
     .then((result) => {
-      res.redirect("/login");
+      res.redirect("/signin");
     })
     .catch((err) => {
       const error = new Error(err);
