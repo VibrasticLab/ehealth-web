@@ -17,7 +17,7 @@
                       <div class="iq-card">
                          <div class="iq-card-header d-flex justify-content-between">
                             <div class="iq-header-title">
-                               <h4 class="card-title">New Doctor Information</h4>
+                               <h4 class="card-title">New Device Information</h4>
                             </div>
                          </div>
                          <div class="iq-card-body">
@@ -25,82 +25,55 @@
                                <form action='/create-doctor?_csrf=<%= csrfToken %>' method='post'>
                                   <div class="row">
                                      <div class="form-group col-md-6">
-                                        <label for="fname">First Name:</label>
-                                        <input type="text" class="form-control" name="fname" placeholder="First Name" required>
+                                        <label for="deviceid">Device ID</label>
+                                        <input type="text" class="form-control" name="deviceid" placeholder="Device ID" required>
                                      </div>
                                      <div class="form-group col-md-6">
-                                        <label for="lname">Last Name:</label>
-                                        <input type="text" class="form-control" name="lname" placeholder="Last Name" required>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="add1">Street Address 1:</label>
-                                        <input type="text" class="form-control" name="add1" placeholder="Street Address 1" required>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="add2">Street Address 2:</label>
-                                        <input type="text" class="form-control" name="add2" placeholder="Street Address 2" required>
+                                        <label for="devicename">Device name</label>
+                                        <input type="text" class="form-control" name="devicename" placeholder="Device Name" required>
                                      </div>
                                      <div class="form-group col-md-12">
-                                        <label for="cname">Department Name:</label>
-                                        <input type="text" class="form-control" name="cname" placeholder="Department Name" required>
+                                        <label for="devicedesc">Device Description</label>
+                                        <input type="text" class="form-control" name="devicedesc" placeholder="Device Description" required>
                                      </div>
                                      <div class="form-group col-md-12">
-                                       <label>User Role:</label>
-                                       <select class="form-control" name="selectuserrole" required>
-                                          <option value="">Select</option>
-                                          <option value="Surgery">Surgery</option>
-                                          <option value="Gastroenterologist">Gastroenterologist</option>
-                                          <option value="Endocrinologist">Endocrinologist</option>
-                                          <option value="Orthopaedic surgeon">Orthopaedic surgeon</option>
-                                          <option value="Cardiologist">Cardiologist </option>
+                                        <label for="devicelocation">Location</label>
+                                        <input type="text" class="form-control" name="devicelocation" placeholder="Location" required>
+                                     </div>
+                                     <div class="form-group col-md-12">
+                                       <label>Device Status:</label>
+                                       <select class="form-control" name="selectDeviceStatus" required>
+                                          <option value="">Select Device Status</option>
+                                          <option value="Active">Active</option>
+                                          <option value="Inactive">Inactive</option>
+                                          <option value="Broken">Broken</option>
                                        </select>
                                     </div>
                                      <div class="form-group col-sm-12">
-                                        <label>Country:</label>
-                                        <select class="form-control" name="selectcountry" required>
-                                           <option value="">Select Country</option>
-                                           <option value="indonesia">Indonesia</option>
+                                        <label>Type:</label>
+                                        <select class="form-control" name="selectDeviceType" required>
+                                           <option value="">Select Device Type</option>
+                                           <option value="example1">Example1</option>
                                         </select>
                                      </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="mobno">Mobile Number:</label>
-                                        <input type="text" class="form-control" name="mobno" placeholder="Mobile Number" required>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="altconno">Alternate Contact:</label>
-                                        <input type="text" class="form-control" name="altconno" placeholder="Alternate Contact" required>
-                                     </div>
-                                     <div class="form-group col-md-6">
-                                       <label for="city">Town/City:</label>
-                                       <input type="text" class="form-control" name="city" placeholder="Town/City" required>
-                                    </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="pno">Pin Code:</label>
-                                        <input type="text" class="form-control" name="pno" placeholder="Pin Code" required>
-                                     </div>
-                                     
                                   </div>
                                   <hr>
-                                  <h5 class="mb-3">Security</h5>
+                                  <h5 class="mb-3">Device Credential</h5>
                                   <div class="row">
-                                    <div class="form-group col-md-6">
-                                       <label for="email">Email:</label>
-                                       <input type="email" class="form-control" name="email" placeholder="Email" required>
+                                    <div class="form-group col-md-12">
+                                       <label for="apiurl">API Get Data URL :</label>
+                                       <input type="text" class="form-control" name="apiurl" placeholder="http://10.13.40.30/streamdata" required>
                                     </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="uname">User Name:</label>
-                                        <input type="text" class="form-control" name="uname" placeholder="User Name" required>
-                                     </div>
+                                    <div class="form-group col-md-6">
+                                       <label for="username">Username:</label>
+                                       <input type="text" class="form-control" name="username" placeholder="root" required>
+                                    </div>
                                      <div class="form-group col-md-6">
                                         <label for="pass">Password:</label>
                                         <input type="password" class="form-control" name="pass" placeholder="Password" required>
                                      </div>
-                                     <div class="form-group col-md-6">
-                                        <label for="rpass">Repeat Password:</label>
-                                        <input type="password" class="form-control" name="rpass" placeholder="Repeat Password " required>
-                                     </div>
                                   </div>
-                                  <button type="submit" class="btn btn-primary">Add New User</button>
+                                  <button type="submit" class="btn btn-primary">Add New Device</button>
                                </form>
                             </div>
                          </div>

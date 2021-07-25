@@ -68,6 +68,29 @@ exports.device_list = async (req, res, next) => {
   });
 };
 
+exports.device_detail = async (req, res, next) => {
+  console.log(req.query.device_id);
+  const adminData = await User.findById(req.session.user._id, {
+    doctorList: 1,
+  });
+  const totalPatient = await User.count({
+    role: "patient",
+    doctor: adminData.doctorList,
+  });
+  const doctorData = await User.find({
+    role: "doctor",
+    admin: req.session.user._id,
+  });
+  res.render("admin/device-detail", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Device List",
+    role: req.session.user.role,
+    totalPatient: totalPatient,
+    totalDoctor : doctorData.length,
+    doctor : doctorData,
+  });
+};
+
 exports.add_doctor = async (req, res, next) => {
   res.render("admin/add-doctor", {
     pageTitle: "E-Health Dashboard",

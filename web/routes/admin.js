@@ -22,6 +22,13 @@ router.get(
   adminController.add_device
 );
 
+router.get(
+  "/admin/device-detail",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.device_detail
+);
+
 router.post(
   "/admin/create-device",
   auth.isAuth,
