@@ -22,7 +22,7 @@
                          </div>
                          <div class="iq-card-body">
                             <div class="new-user-info">
-                               <form action='/create-doctor?_csrf=<%= csrfToken %>' method='post'>
+                               <form action='/admin/create-device?_csrf=<%= csrfToken %>' method='post'>
                                   <div class="row">
                                      <div class="form-group col-md-6">
                                         <label for="deviceid">Device ID</label>
@@ -60,18 +60,22 @@
                                   <hr>
                                   <h5 class="mb-3">Device Credential</h5>
                                   <div class="row">
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
                                        <label for="apiurl">API Get Data URL :</label>
-                                       <input type="text" class="form-control" name="apiurl" placeholder="http://10.13.40.30/streamdata" required>
+                                       <input type="text" class="form-control" name="urlCred" placeholder="http://10.13.40.30/streamdata" required>
                                     </div>
                                     <div class="form-group col-md-6">
                                        <label for="username">Username:</label>
-                                       <input type="text" class="form-control" name="username" placeholder="root" required>
+                                       <input type="text" class="form-control" name="usernameCred" placeholder="root" required>
                                     </div>
                                      <div class="form-group col-md-6">
                                         <label for="pass">Password:</label>
-                                        <input type="password" class="form-control" name="pass" placeholder="Password" required>
+                                        <input type="password" class="form-control" name="passwordCred" placeholder="Password" required>
                                      </div>
+                                     <div class="form-group col-md-6">
+                                       <label for="pass">Retype Password:</label>
+                                       <input type="password" class="form-control" name="rpasswordCred" placeholder="Password" required>
+                                    </div>
                                   </div>
                                   <button type="submit" class="btn btn-primary">Add New Device</button>
                                </form>

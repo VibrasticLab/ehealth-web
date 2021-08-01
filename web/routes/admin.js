@@ -33,7 +33,7 @@ router.post(
   "/admin/create-device",
   auth.isAuth,
   checkingRole.isAdmin,
-  adminController.create_doctor
+  adminController.create_device
 );
 
 router.get(

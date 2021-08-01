@@ -1,5 +1,4 @@
 <%- include('../includes/head.ejs') %>
-
 </head>
 
 <body>
@@ -22,21 +21,8 @@
                               <div class="d-flex align-items-center justify-content-between">
                                  <div class="rounded-circle iq-card-icon bg-success"><i class="ri-cpu-line"></i></div>
                                  <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
+                                    <h2 class="mb-0"><span class="counter" id="activeCountId">0</span></h2>
                                     <h5 class="">Active</h5>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
-                     </div>
-                     <div class="col-md-6 col-lg-3">
-                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
-                           <div class="iq-card-body iq-bg-danger rounded">
-                              <div class="d-flex align-items-center justify-content-between">
-                                 <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-cpu-line"></i></div>
-                                 <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
-                                    <h5 class="">Broken</h5>
                                  </div>
                               </div>
                            </div>
@@ -48,12 +34,25 @@
                               <div class="d-flex align-items-center justify-content-between">
                                  <div class="rounded-circle iq-card-icon bg-warning"><i class="ri-cpu-line"></i></div>
                                  <div class="text-right">
-                                    <h2 class="mb-0"><span class="counter">0</span></h2>
+                                    <h2 class="mb-0"><span class="counter" id="inactiveCountId">0</span></h2>
                                     <h5 class="">Inactive</h5>
                                  </div>
                               </div>
                            </div>
                         </div>
+                     </div>
+                     <div class="col-md-6 col-lg-3">
+                        <div class="iq-card iq-card-block iq-card-stretch iq-card-height">
+                           <div class="iq-card-body iq-bg-danger rounded">
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <div class="rounded-circle iq-card-icon bg-danger"><i class="ri-cpu-line"></i></div>
+                                 <div class="text-right">
+                                    <h2 class="mb-0"><span class="counter" id="brokenCountId">0</span></h2>
+                                    <h5 class="">Broken</h5>
+                                 </div>
+                              </div>
+                           </div> 
+                        </div> 
                      </div>
                   </div>
                </div>
@@ -69,40 +68,61 @@
                      </div>
                   </div>
                </div>
-               <% for(var i=0; i < doctor.length; i++) { %>
+               <% 
+               var activeCount = 0; 
+               var inactiveCount = 0;
+               var brokenCount = 0;
+               for(var i=0; i < deviceList.length; i++) { %>
                <div class="col-sm-6 col-md-3">
                   <div class="iq-card">
                      <div class="iq-card-body text-center">
                         <div class="iq-doc-info mt-3">
                            <h4>
-                              <%=  doctor[i].fullName.first.charAt(0).toUpperCase() + doctor[i].fullName.first.slice(1)  %>
-                              <%= doctor[i].fullName.last.charAt(0).toUpperCase() + doctor[i].fullName.last.slice(1) %>
+                              <%= deviceList[i].device_name %>
                            </h4>
                         </div>
                         <div class="iq-doc-description mt-2">
-                           <p class="mb-0">Description</p>
+                           <p class="mb-0"><%= deviceList[i].description %></p>
                         </div>
                         <div class="iq-doc-description mt-2">
-                           <p class="mb-0">Lokasi : ......</p>
+                           <p class="mb-0">Lokasi : <%= deviceList[i].location %></p>
                         </div>
                         <hr>
                         <ul class="doctoe-sedual d-flex align-items-center justify-content-between p-0 mt-3 mb-3">
                            <li class="text-center">
                               <h6 class="text-primary">Status</h6>
-                              <h5 class="text-success">Active</span></h5>
+                              <% 
+                              switch (deviceList[i].status) {
+                                 case "Active": %>
+                                 <h5 class="text-success"><%= deviceList[i].status %></span></h5>
+                                 <% activeCount = activeCount + 1;
+                                 break;
+                                 case "Inactive": %>
+                                 <h5 class="text-warning"><%= deviceList[i].status %></span></h5>
+                                 <% inactiveCount = inactiveCount + 1;                                 
+                                 break;
+                                 case "Broken": %>
+                                 <h5 class="text-danger"><%= deviceList[i].status %></span></h5>
+                                 <% brokenCount = brokenCount + 1;
+                                 break;
+                              } %>
                            </li>
                            <li class="text-center">
                               <h6 class="text-primary">Type</h6>
-                              <h5>ZZ<span>cm</span></h5>
+                              <h5><%= deviceList[i].type %></h5>
                            </li>
                         </ul>
                         <hr>
-                        <a href="profile.html" class="btn btn-primary">View Detail</a>
+                        <a href="/device-detail?device_id=<%= deviceList[i].device_id %>" class="btn btn-primary">View Detail</a>
                      </div>
                   </div>
                </div>
                <% } %>
-
+               <script>
+                  document.getElementById("activeCountId").innerText = <%= activeCount %>;
+                  document.getElementById("inactiveCountId").innerText = <%= inactiveCount %>;
+                  document.getElementById("brokenCountId").innerText = <%= brokenCount %>;
+               </script>
             </div>
          </div>
          <!-- Footer -->
