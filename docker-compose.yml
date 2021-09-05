@@ -3,6 +3,7 @@ version: '3.4'
 services:
     mongo:
         image: mongo
+        container_name: mongo
         restart: always
         expose:
             - 27017
@@ -27,10 +28,12 @@ services:
             - ./secret/.env
         command: npm run start:dev
     mongoexpress:
-        image: mongo-express
+        container_name: mongo-express
+        image: mongo-express:0.54.0
         ports:
             - "8081:8081"
         env_file:
             - ./secret/.env
         depends_on:
             - mongo
+        restart: always

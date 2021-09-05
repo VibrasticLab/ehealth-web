@@ -23,10 +23,10 @@ exports.sessionMiddleware = session({
 
 exports.initMongoose = (cb) => {
     mongoose.connect(MONGODB_URI, { 
-        useNewUrlParser: true,
+        useNewUrlParser: true, 
         useUnifiedTopology: true,
         useCreateIndex: true,
-    
+        useFindAndModify: false
     }).then(
         result => {
             cb();
