@@ -39,7 +39,7 @@ app.use(apiRoutes);
 
 // security & authentication
 app.use(db.sessionMiddleware);
-app.use(csrfProtection);
+app.use(disableAPICSRF(csrf()));
 app.use(auth.clientAuth);
 
 // notification
@@ -57,3 +57,14 @@ app.use(errorRoutes);
 db.initMongoose(() => {
     const server = app.listen(8080);
 });
+
+function disableAPICSRF(fn) {
+    return function(req, res, next) {
+        console.log(JSON.stringify(req.path));
+        if (req.path === '/api/device/sendData/:device_id' && req.method === 'POST') {
+            next();
+        } else {
+            fn(req, res, next);
+        }
+    }
+}

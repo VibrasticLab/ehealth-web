@@ -32,6 +32,6 @@ exports.initMongoose = (cb) => {
             cb();
         }    
     ).catch(err => {
-        console.log(err);
+        //console.log(err);
       });
 };

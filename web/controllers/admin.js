@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Device = require("../models/device");
+const Device_Data = require("../models/device_data");
 
 const bcrypt = require("bcryptjs");
 
@@ -15,12 +16,16 @@ exports.home = async (req, res, next) => {
     role: "doctor",
     admin: req.session.user._id,
   });
+  const deviceDataList = await Device.find({
+    admin: req.session.user._id,
+  });
   res.render("admin/home-admin", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "E-Health Dashboard",
     role: req.session.user.role,
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
+    totalDevice : deviceDataList.length,
     doctor : doctorData,
   });
 };
@@ -65,10 +70,14 @@ exports.device_detail = async (req, res, next) => {
     admin: req.session.user._id,
     device_id: device_id
   });
+  const deviceData_Datas = await Device_Data.find({
+    device_id: device_id
+  });
   res.render("admin/device-detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device Detail: " + device_id,
     device : deviceData,
+    device_data : deviceData_Datas,
     role: req.session.user.role,
   });
 };

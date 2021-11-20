@@ -11,8 +11,6 @@ services:
             - ./mongodata:/data/db
         env_file:
             - ./secret/.env
-        logging:
-            driver: "none"
     web:
         build: ./web
         restart: always
