@@ -7,19 +7,28 @@ exports.sendData = async (req, res, next) => {
   console.log(req.params.device_id);
   console.log(JSON.stringify(req.body));
   console.log(Date.now());
-  const device = await Device_Data.updateOne(
-    { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
-    { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() },
-    { upsert: true } //Required
-  );
-  console.log(device);
-  if (device.upserted.length > 0) {
+  if (Object.keys(req.body).length != 0) {
+    const device = await Device_Data.updateOne(
+      { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
+      { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() },
+      { upsert: true } //Required
+    );
+    console.log(device);
+    if (device.upserted.length > 0) {
+      res.json({
+        status: "success",
+        code: 200,
+        message: "Success Insert Data",
+      });
+    }
+  } else {
     res.json({
-      status: "success",
-      code: 200,
-      message: "Success Insert Data",
+      status: "error",
+      code: 404,
+      message: "Empty Data",
     });
   }
+  
   // const email = req.body.email.trim();
   // const password = req.body.password.trim();
   // let loadedUser;

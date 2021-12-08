@@ -19,10 +19,12 @@ exports.home = async (req, res, next) => {
   const deviceDataList = await Device.find({
     admin: req.session.user._id,
   });
+  console.log(req.session.user)
   res.render("admin/home-admin", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "E-Health Dashboard",
     role: req.session.user.role,
+    userdata: req.session.user,
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
     totalDevice : deviceDataList.length,
@@ -46,6 +48,7 @@ exports.doctor_list = async (req, res, next) => {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Doctor List",
     role: req.session.user.role,
+    userdata: req.session.user,
     totalPatient: totalPatient,
     totalDoctor : doctorData.length,
     doctor : doctorData,
@@ -59,6 +62,7 @@ exports.device_list = async (req, res, next) => {
   res.render("admin/device-list", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device List",
+    userdata: req.session.user,
     deviceList: deviceDataList,
     role: req.session.user.role,
   });
@@ -76,6 +80,7 @@ exports.device_detail = async (req, res, next) => {
   res.render("admin/device-detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device Detail: " + device_id,
+    userdata: req.session.user,
     device : deviceData,
     device_data : deviceData_Datas,
     role: req.session.user.role,
@@ -87,6 +92,7 @@ exports.add_doctor = async (req, res, next) => {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Add Doctor",
     role: req.session.user.role,
+    userdata: req.session.user,
   });
 };
 
@@ -95,6 +101,7 @@ exports.add_device = async (req, res, next) => {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Add Device",
     role: req.session.user.role,
+    userdata: req.session.user,
   });
 };
 
@@ -133,27 +140,38 @@ exports.create_doctor = async (req, res, next) => {
 };
 
 exports.create_device = async (req, res, next) => {
-  if (req.body.passwordCred === req.body.rpasswordCred) {
-    const hashedPw = await bcrypt.hash(req.body.passwordCred, 12);
-    const device = await Device.updateOne(
-      { device_id: req.body.deviceid, device_name: req.body.devicename, status: req.body.selectDeviceStatus, type: req.body.selectDeviceType}, //Required
-      {
-        device_id: req.body.deviceid,
-        device_name: req.body.devicename,
-        description: req.body.devicedesc,
-        location: req.body.devicelocation,
-        status: req.body.selectDeviceStatus,
-        type: req.body.selectDeviceType,
-        credential: {url: req.body.urlCred, username: req.body.usernameCred, password: hashedPw},
-        admin: req.session.user._id,
-      },
-      { upsert: true }
-    );
-    if (device.upserted.length > 0) {
-      Device.updateOne(
-        { _id: req.session.user._id }
-      ).then((result) => {});
+  try {
+    if (req.body.passwordCred === req.body.rpasswordCred) {
+      const hashedPw = await bcrypt.hash(req.body.passwordCred, 12);
+      
+      const device = await Device.updateOne(
+        { device_id: req.body.deviceid, device_name: req.body.devicename, status: req.body.selectDeviceStatus, type: req.body.selectDeviceType}, //Required
+        {
+          device_id: req.body.deviceid,
+          device_name: req.body.devicename,
+          description: req.body.devicedesc,
+          location: req.body.devicelocation,
+          status: req.body.selectDeviceStatus,
+          type: req.body.selectDeviceType,
+          credential: {url: req.body.urlCred, username: req.body.usernameCred, password: hashedPw},
+          admin: req.session.user._id,
+        },
+        { upsert: true }
+      );
+      if (device.upserted.length > 0) {
+        Device.updateOne(
+          { _id: req.session.user._id }
+        ).then((result) => {});
+      }
     }
+    res.redirect("/add-device");
+  } catch (error) {
+    console.log(error.message);
+    res.render("error/error-catch" , {
+      pageTitle: "Error!",
+      isAuthenticated: req.session.isLoggedIn,
+      role : req.session.user ? req.session.user.role : "",
+      errorMessage: error.message
+    });
   }
-  res.redirect("/add-device");
 };

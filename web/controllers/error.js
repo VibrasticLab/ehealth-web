@@ -13,3 +13,12 @@ exports.get500 = (req, res, next) => {
     role : req.session.user ? req.session.user.role : ""
   });
 };
+
+exports.getError_catch = (req, res, next) => {
+  console.log("Get Error Catch")
+  res.render("error/error-catch" , {
+    pageTitle: "Error!",
+    isAuthenticated: req.session.isLoggedIn,
+    role : req.session.user ? req.session.user.role : ""
+  });
+};

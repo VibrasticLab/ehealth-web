@@ -60,7 +60,7 @@ db.initMongoose(() => {
 
 function disableAPICSRF(fn) {
     return function(req, res, next) {
-        console.log(JSON.stringify(req.path));
+        console.log(JSON.stringify(req.path)); //Debug Path
         if (req.path === '/api/device/sendData/:device_id' && req.method === 'POST') {
             next();
         } else {
