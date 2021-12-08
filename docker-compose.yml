@@ -11,6 +11,7 @@ services:
             - ./mongodata:/data/db
         env_file:
             - ./secret/.env
+        command: --quiet --logpath /var/log/mongodb/mongod-config.log
     web:
         build: ./web
         restart: always
