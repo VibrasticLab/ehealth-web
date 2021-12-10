@@ -1,161 +1,304 @@
 <%- include('../includes/head.ejs') %>
 
-</head>
+   </head>
 
-<body>
-   <!-- Wrapper Start -->
-   <div class="wrapper">
-      <!-- Sidebar  -->
-      <%- include('../includes/navigations.ejs') %>
-      <!-- Page Content  -->
-      <div id="content-page" class="content-page">
-         <!-- TOP Nav Bar -->
-         <%- include('../includes/top-navbar.ejs') %>
-         <!-- TOP Nav Bar END -->
-         <div class="container-fluid">
-            <div class="row">
-               <div class="col-lg-12">
-                  <div class="iq-card">
-                     <div class="iq-card-body p-0">
-                        <div class="iq-edit-list">
-                           <ul class="iq-edit-profile d-flex nav nav-pills">
-                              <li class="col-md-6 p-0">
-                                 <a class="nav-link active" data-toggle="pill" href="#overview">
-                                    Overview
-                                 </a>
-                              </li>
-                              <li class="col-md-6 p-0">
-                                 <a class="nav-link" data-toggle="pill" href="#device-data">
-                                    Device Data
-                                 </a>
-                              </li>
-                           </ul>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-lg-12">
-                  <div class="iq-edit-list-data">
-                     <div class="tab-content">
-                        <div class="tab-pane fade active show" id="overview" role="tabpanel">
+   <body>
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <%- include('../includes/navigations.ejs') %>
+            <!-- Page Content  -->
+            <div id="content-page" class="content-page">
+               <!-- TOP Nav Bar -->
+               <%- include('../includes/top-navbar.ejs') %>
+                  <!-- TOP Nav Bar END -->
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-lg-12">
                            <div class="iq-card">
-                              <div class="iq-card-header d-flex justify-content-between">
-                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Device Detail</h4>
+                              <div class="iq-card-body p-0">
+                                 <div class="iq-edit-list">
+                                    <ul class="iq-edit-profile d-flex nav nav-pills">
+                                       <li class="col-md-6 p-0">
+                                          <a class="nav-link active" data-toggle="pill" href="#overview">
+                                             Overview
+                                          </a>
+                                       </li>
+                                       <li class="col-md-6 p-0">
+                                          <a class="nav-link" data-toggle="pill" href="#device-data">
+                                             Device Data
+                                          </a>
+                                       </li>
+                                    </ul>
                                  </div>
                               </div>
-                              <div class="iq-card-body">
-                                 <form>
-                                    <div class=" row align-items-center">
-                                       <div class="form-group col-sm-6">
-                                          <label for="fname">Device Name: </label>
-                                          <input type="text" class="form-control" id="lname"
-                                             value="<%= device[0].device_name %>" disabled>
+                           </div>
+                        </div>
+                        <div class="col-lg-12">
+                           <div class="iq-edit-list-data">
+                              <div class="tab-content">
+                                 <div class="tab-pane fade active show" id="overview" role="tabpanel">
+                                    <div class="iq-card">
+                                       <div class="iq-card-header d-flex justify-content-between">
+                                          <div class="iq-header-title">
+                                             <h4 class="card-title">Device Detail</h4>
+                                          </div>
                                        </div>
-                                       <div class="form-group col-sm-6">
-                                          <label for="fname">Device Description: </label>
-                                          <input type="text" class="form-control" id="lname"
-                                             value="<%= device[0].description %>" disabled>
-                                       </div>
-                                       <div class="form-group col-sm-6">
-                                          <label for="fname">Location: </label>
-                                          <input type="text" class="form-control" id="lname"
-                                             value="<%= device[0].location %>" disabled>
-                                       </div>
-                                       <div class="form-group col-sm-6">
-                                          <label for="fname">Device Status: </label>
-                                          <input type="text" class="form-control" id="lname"
-                                             value="<%= device[0].status %>" disabled>
+                                       <div class="iq-card-body">
+                                          <form>
+                                             <div class=" row align-items-center">
+                                                <div class="form-group col-sm-6">
+                                                   <label for="fname">Device Name: </label>
+                                                   <input type="text" class="form-control" id="lname"
+                                                      value="<%= device[0].device_name %>" disabled>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                   <label for="fname">Device Description: </label>
+                                                   <input type="text" class="form-control" id="lname"
+                                                      value="<%= device[0].description %>" disabled>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                   <label for="fname">Location: </label>
+                                                   <input type="text" class="form-control" id="lname"
+                                                      value="<%= device[0].location %>" disabled>
+                                                </div>
+                                                <div class="form-group col-sm-6">
+                                                   <label for="fname">Device Status: </label>
+                                                   <input type="text" class="form-control" id="lname"
+                                                      value="<%= device[0].status %>" disabled>
+                                                </div>
+                                             </div>
+                                          </form>
                                        </div>
                                     </div>
-                                 </form>
-                              </div>
-                           </div>
-                        </div>
-                        <div class="tab-pane fade" id="device-data" role="tabpanel">
-                           <div class="iq-card">
-                              <div class="iq-card-header d-flex justify-content-between">
-                                 <div class="iq-header-title">
-                                    <h4 class="card-title">Device Data</h4>
                                  </div>
-                              </div>
-                              <div class="iq-card-body">
-                                 <div style="overflow-x:auto;">
-                                    <table style="width: 100%;">
-                                       <colgroup>
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                          <col span="1" style="width: 15%;">
-                                       </colgroup>
-                                       <tr>
-                                          <th>Time</th>
-                                          <th>A</th>
-                                          <th>B</th>
-                                          <th>C</th>
-                                          <th>D</th>
-                                          <th>E</th>
-                                          <th>F</th>
-                                       </tr>
-                                       <% function timeConverter(UNIX_timestamp) {
-                                          var a = new Date(UNIX_timestamp * 1000);
-
-                                          return a;
-                                       } %>
-                                       <% 
-               for(var i=0; i < device_data.length; i++) { 
-                  var parsedData = JSON.parse(device_data[i].device_data).data.split(","); 
-                  var dateString = device_data[i].createdAt;
-                  %>
-                                       <tr>
-                                          <td><%= dateString %></td>
-                                          <%
-                  for(var j=0; j < parsedData.length; j++) { %>
-                                          <td><%= parsedData[j] %></td>
-                                          <% }  %>
-                                       </tr> <% } %>
-                                    </table>
+                                 <div class="tab-pane fade" id="device-data" role="tabpanel">
+                                    <div class="iq-card">
+                                       <div class="iq-card-header d-flex justify-content-between">
+                                          <div class="iq-header-title">
+                                             <h4 class="card-title">Device Data</h4>
+                                          </div>
+                                       </div>
+                                       <div class="iq-card-body">
+                                          <div style="overflow-x:auto;">
+                                             <table style="width: 100%;">
+                                                <colgroup>
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                </colgroup>
+                                                <tr>
+                                                   <th>Time</th>
+                                                   <th>A</th>
+                                                   <th>B</th>
+                                                   <th>C</th>
+                                                   <th>D</th>
+                                                   <th>E</th>
+                                                   <th>F</th>
+                                                </tr>
+                                                <% function timeConverter(UNIX_timestamp) { var a=new
+                                                   Date(UNIX_timestamp * 1000); return a; } %>
+                                                   <% for(var i=0; i < device_data.length; i++) { var
+                                                      parsedData=JSON.parse(device_data[i].device_data).data.split(",");
+                                                      var dateString=device_data[i].createdAt; %>
+                                                      <tr>
+                                                         <td>
+                                                            <%= dateString %>
+                                                         </td>
+                                                         <% for(var j=0; j < parsedData.length; j++) { %>
+                                                            <td>
+                                                               <%= parsedData[j] %>
+                                                            </td>
+                                                            <% } %>
+                                                      </tr>
+                                                      <% } %>
+                                             </table>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="iq-card">
+                                       <div class="iq-card-header d-flex justify-content-between">
+                                          <div class="iq-header-title">
+                                             <h4 class="card-title">List Pasien</h4>
+                                          </div>
+                                       </div>
+                                       <div class="iq-card-body">
+                                          <div style="overflow-x:auto;">
+                                             <table style="width: 100%;">
+                                                <colgroup>
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                   <col span="1" style="width: 15%;">
+                                                </colgroup>
+                                                <tr>
+                                                   <th>Time</th>
+                                                   <th>A</th>
+                                                   <th>B</th>
+                                                   <th>C</th>
+                                                   <th>D</th>
+                                                   <th>E</th>
+                                                   <th>F</th>
+                                                </tr>
+                                                <% function timeConverter(UNIX_timestamp) { var a=new
+                                                   Date(UNIX_timestamp * 1000); return a; } %>
+                                                   <% for(var i=0; i < device_data.length; i++) { var
+                                                      parsedData=JSON.parse(device_data[i].device_data).data.split(",");
+                                                      var dateString=device_data[i].createdAt; %>
+                                                      <tr>
+                                                         <td>
+                                                            <%= dateString %>
+                                                         </td>
+                                                         <% for(var j=0; j < parsedData.length; j++) { %>
+                                                            <td>
+                                                               <%= parsedData[j] %>
+                                                            </td>
+                                                            <% } %>
+                                                      </tr>
+                                                      <% } %>
+                                             </table>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div class="iq-card">
+                                       <div class="iq-card-header d-flex justify-content-between">
+                                          <div class="iq-header-title">
+                                             <h4 class="card-title">Hasil Audiogram</h4>
+                                          </div>
+                                       </div>
+                                       <div class="iq-card-body">
+                                          <canvas id="myChart" width="400" height="200"></canvas>
+                                       </div>
+                                    </div>
                                  </div>
-
-
-
-
                               </div>
                            </div>
                         </div>
                      </div>
                   </div>
-               </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <script>
+                     const ctx = document.getElementById('myChart').getContext('2d');
+                     const myChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                           labels: [125],
+                           datasets: [{
+                              label: 'Left Ear',
+                              data: {
+                                 250: 30,
+                                 500: 25,
+                                 1000: 15,
+                                 2000: 15,
+                                 4000: 10,
+                                 8000: 15
+                              },
+                              borderColor: 'rgba(255, 99, 132, 1)',
+                              pointStyle: 'rectRounded',
+                              pointRadius: 5,
+                              pointBorderColor: 'rgb(0, 0, 0)',
+                              borderWidth: 5
+                           }, {
+                              label: 'Right Ear',
+                              data: {
+                                 250: 35,
+                                 500: 35,
+                                 1000: 25,
+                                 2000: 10,
+                                 4000: 5,
+                                 8000: 10
+                              },
+                              borderColor: 'rgba(54, 162, 235, 1)',
+                              borderWidth: 5,
+                              pointStyle: 'rectRot',
+                              pointRadius: 5,
+                              pointBorderColor: 'rgb(0, 0, 0)',
+                           }]
+                        },
+                        options: {
+                           responsive: true,
+                           scales: {
+                              x: {
+                                 display: true,
+                                 title: {
+                                    display: true,
+                                    text: 'Frequency in Hertz (Hz)',
+                                    color: '#911',
+                                    font: {
+                                       family: 'Times',
+                                       size: 20,
+                                       style: 'normal',
+                                       lineHeight: 1.2
+                                    },
+                                    padding: { top: 30, left: 0, right: 0, bottom: 15 },
+
+                                 },
+                                 position: 'top'
+                              },
+                              y: {
+                                 id: 'A',
+                                 position: 'left',
+                                 type: 'linear',
+                                 display: true,
+                                 title: {
+                                    display: true,
+                                    position: 'left',
+                                    text: 'Hearing Level in dB',
+                                    font: {
+                                       size: 20,
+                                       style: 'normal',
+                                       lineHeight: 1.2
+                                    },
+                                    padding: { top: 30, left: 0, right: 0, bottom: 15 },
+                                 },
+                                 reverse: true,
+                                 min: -10,
+                                 max: 120
+                              },
+                           },
+                           plugins: {
+                              legend: {
+                                 display: true,
+                                 align: 'center',
+                                 position: 'bottom',
+                                 usePointStyle: true,
+                              }
+                           }
+                        }
+                     });
+                  </script>
+                  <style>
+                     table {
+                        font-family: arial, sans-serif;
+                        border-collapse: collapse;
+                        width: 100%;
+                     }
+
+                     td,
+                     th {
+                        border: 1px solid #dddddd;
+                        text-align: left;
+                        padding: 8px;
+                        color: #000;
+                     }
+
+                     tr:nth-child(even) {
+                        background-color: #dddddd;
+                     }
+                  </style>
+
+                  <!-- Footer -->
+
+                  <%- include('../includes/footer.ejs') %>
+                     <!-- Footer END -->
             </div>
-         </div>
-         <style>
-            table {
-               font-family: arial, sans-serif;
-               border-collapse: collapse;
-               width: 100%;
-            }
-
-            td,
-            th {
-               border: 1px solid #dddddd;
-               text-align: left;
-               padding: 8px;
-               color: #000;
-            }
-
-            tr:nth-child(even) {
-               background-color: #dddddd;
-            }
-         </style>
-
-         <!-- Footer -->
-
-         <%- include('../includes/footer.ejs') %>
-         <!-- Footer END -->
       </div>
-   </div>
-   <!-- Wrapper END -->
-   <%- include('../includes/end.ejs') %>
+      <!-- Wrapper END -->
+      <%- include('../includes/end.ejs') %>

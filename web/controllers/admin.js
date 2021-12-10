@@ -159,12 +159,25 @@ exports.create_device = async (req, res, next) => {
         { upsert: true }
       );
       if (device.upserted.length > 0) {
-        Device.updateOne(
-          { _id: req.session.user._id }
-        ).then((result) => {});
+        const deviceDataList = await Device.find({
+          admin: req.session.user._id,
+        });
+        res.render("admin/device-list", {
+          pageTitle: "E-Health Dashboard",
+          pageHeader: "Device List",
+          userdata: req.session.user,
+          deviceList: deviceDataList,
+          role: req.session.user.role,
+        });
+      } else {
+        res.render("admin/add-device", {
+          pageTitle: "E-Health Dashboard",
+          pageHeader: "Add Device",
+          role: req.session.user.role,
+          userdata: req.session.user,
+        });
       }
     }
-    res.redirect("/add-device");
   } catch (error) {
     console.log(error.message);
     res.render("error/error-catch" , {
