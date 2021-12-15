@@ -57,4 +57,11 @@ router.post(
   adminController.create_doctor
 );
 
+router.get(
+  "/admin/coba",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.coba
+);
+
 module.exports = router;

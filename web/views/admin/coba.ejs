@@ -1,0 +1,77 @@
+<%- include('../includes/head.ejs') %>
+
+   </head>
+
+   <body>
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <%- include('../includes/navigations.ejs') %>
+            <!-- Page Content  -->
+            <div id="content-page" class="content-page">
+               <!-- TOP Nav Bar -->
+               <%- include('../includes/top-navbar.ejs') %>
+                  <!-- TOP Nav Bar END -->
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <div class="iq-card">
+                              <div class="iq-card-header d-flex justify-content-between">
+                                 <div class="iq-header-title">
+                                    <h4 class="card-title">New Device Information</h4>
+                                 </div>
+                              </div>
+                              <div class="iq-card-body">
+                                 <div class="progress progress-striped active" id="progress-bar" style="display: none;">
+                                    <div class="progress-bar progress-bar-info" style="width: 100%;"></div>
+                                </div>
+                                 <div id="waveform"></div>
+                                 <div id="wave-spectrogram"></div>
+                                 <div class="controls">
+                                    <button class="btn btn-primary" onclick="wavesurfer.playPause();">
+                                       <i class="glyphicon glyphicon-play"></i>
+                                       Play
+                                       /
+                                       <i class="glyphicon glyphicon-pause"></i>
+                                       Pause
+                                    </button>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <script src="/js/wavesurfer.js"></script>
+                  <script src="/js/wavesurfer.spectrogram.js"></script>
+                  <script>
+                     var wavesurfer = "";
+                     WaveSurfer.util.fetchFile({ url: 'https://wavesurfer-js.org/example/spectrogram/hot-colormap.json', responseType: 'json' }).on('success', colorMap => {
+                        //initAndLoadSpectrogram(colorMap); 
+                        wavesurfer = WaveSurfer.create({
+                           container: '#waveform',
+                           waveColor: 'purple',
+                           progressColor: 'blue',
+                           plugins: [
+                              WaveSurfer.spectrogram.create({
+                                 wavesurfer: wavesurfer,
+                                 container: "#wave-spectrogram",
+                                 labels: true,
+                                 colorMap: colorMap
+                              })
+                           ]
+                        });
+                        wavesurfer.load('http://localhost/uploads/b7cbeeb0c556fe195c4a246dec40da3c.mp3');
+                     });
+
+
+                  </script>
+                  <!-- Footer -->
+                  <%- include('../includes/footer.ejs') %>
+                     <!-- Footer END -->
+            </div>
+      </div>
+      <!-- Wrapper END -->
+      <script>
+         document.getElementById("add-device").classList.add("active"); 
+      </script>
+      <%- include('../includes/end.ejs') %>

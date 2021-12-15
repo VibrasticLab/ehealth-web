@@ -188,3 +188,12 @@ exports.create_device = async (req, res, next) => {
     });
   }
 };
+
+exports.coba = async (req, res, next) => {
+  res.render("admin/coba", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Coba Page",
+    userdata: req.session.user,
+    role: req.session.user.role,
+  });
+};

@@ -2,6 +2,8 @@ const express = require("express");
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const path = require("path");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 // import routing
 const generalRoute = require("./routes/general");
@@ -61,7 +63,7 @@ db.initMongoose(() => {
 function disableAPICSRF(fn) {
     return function(req, res, next) {
         console.log(JSON.stringify(req.path)); //Debug Path
-        if (req.path === '/api/device/sendData/:device_id' && req.method === 'POST') {
+        if (req.path.includes("/api/device/") && req.method === 'POST') {
             next();
         } else {
             fn(req, res, next);
