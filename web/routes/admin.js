@@ -36,6 +36,13 @@ router.post(
   adminController.create_device
 );
 
+router.post(
+  "/admin/delete-device",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.delete_device
+);
+
 router.get(
   "/admin/doctor-list",
   auth.isAuth,
