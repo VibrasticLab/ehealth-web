@@ -13,7 +13,7 @@ router.post('/api/login', apiController.login);
 
 
 //Device API
-router.post('/api/device/sendData/:device_id', apiControllerDevice.sendData);
+router.post('/api/device/sendData/:device_id', upload.any() , apiControllerDevice.sendData);
 router.post('/api/device/uploadData/:device_id', upload.any() ,apiControllerDevice.tryUpload);
 
 module.exports = router;

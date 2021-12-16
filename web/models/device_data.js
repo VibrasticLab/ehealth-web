@@ -9,13 +9,17 @@ const device_dataSchema = new Schema(
       required: true,
       trim: true,
     },
-    device_data: {
+    json_data: {
       type: String,
       required: true,
     },
-    timestamps_data: {
-      type: String,
-      required: true,
+    // file_path: {
+    //   type: String,
+    //   required: false,
+    // },
+    time: {
+      type: Date,
+      default: Date.now
     },
   },
   { timestamps: true }

@@ -7,21 +7,27 @@ const path = require("path");
 
 
 exports.sendData = async (req, res, next) => {
-  console.log(req.params.device_id);
-  console.log(JSON.stringify(req.body));
-  console.log(Date.now());
+  // console.log(req.params.device_id);
+  // console.log(JSON.stringify(req.body));
+  // console.log(req.files);
   if (Object.keys(req.body).length != 0) {
-    const device = await Device_Data.updateOne(
-      { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
-      { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() },
-      { upsert: true } //Required
-    );
-    console.log(device);
-    if (device.upserted.length > 0) {
+    let tempJsonData = req.body;
+    if (req.files.length != 0) {
+      tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
+      handleUploadFile(req.files[0], "./public/uploads/batuk/");
+    }
+    const device = await Device_Data.create({ device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData)});
+    if (device) {
       res.json({
         status: "success",
         code: 200,
         message: "Success Insert Data",
+      });
+    } else {
+      res.json({
+        status: "error",
+        code: 404,
+        message: device,
       });
     }
   } else {

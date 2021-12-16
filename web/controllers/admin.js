@@ -76,7 +76,7 @@ exports.device_detail = async (req, res, next) => {
   });
   const deviceData_Datas = await Device_Data.find({
     device_id: device_id,
-  });
+  }).sort({time: 'desc'});
   res.render("admin/device-detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device Detail: " + device_id,
