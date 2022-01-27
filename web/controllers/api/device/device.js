@@ -1,10 +1,11 @@
 const Device_Data = require("../../../models/device_data");
 const initParam = require("../../../helpers/init");
-const {handleUploadFile} = require("../../../helpers/helper_functions");
+const { handleUploadFile } = require("../../../helpers/helper_functions");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-
+let { PythonShell } = require("python-shell");
+const fs = require("fs");
 
 exports.sendData = async (req, res, next) => {
   // console.log(req.params.device_id);
@@ -14,22 +15,29 @@ exports.sendData = async (req, res, next) => {
     let tempJsonData = req.body;
     if (req.files.length != 0) {
       tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
+      console.log(tempJsonData.file_audio);
       handleUploadFile(req.files[0], "./public/uploads/batuk/");
     }
-    const device = await Device_Data.create({ device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData)});
-    if (device) {
-      res.json({
-        status: "success",
-        code: 200,
-        message: "Success Insert Data",
-      });
-    } else {
-      res.json({
-        status: "error",
-        code: 404,
-        message: device,
-      });
-    }
+  
+    PythonShell.run('./python-script/tryScript1.py', {args: [tempJsonData.file_audio]}, function (err, results) {
+      if (err) throw err;
+      console.log('results: %j', results);
+    });
+
+    // const device = await Device_Data.create({ device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData)});
+    // if (device) {
+    //   res.json({
+    //     status: "success",
+    //     code: 200,
+    //     message: "Success Insert Data",
+    //   });
+    // } else {
+    //   res.json({
+    //     status: "error",
+    //     code: 404,
+    //     message: device,
+    //   });
+    // }
   } else {
     res.json({
       status: "error",
@@ -43,7 +51,7 @@ exports.tryUpload = async (req, res, next) => {
   console.log(req.params.device_id);
   console.log(req.files);
   console.log(JSON.parse(JSON.stringify(req.body)));
-  let returnedHandle  = handleUploadFile(req.files[0], "./public/uploads/");
+  let returnedHandle = handleUploadFile(req.files[0], "./public/uploads/");
   console.log(returnedHandle);
   // console.log(JSON.stringify(req.body));
   // console.log(Date.now());
