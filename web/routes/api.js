@@ -14,6 +14,6 @@ router.post('/api/login', apiController.login);
 
 //Device API
 router.post('/api/device/sendData/:device_id', upload.any() , apiControllerDevice.sendData);
-router.post('/api/device/uploadData/:device_id', upload.any() ,apiControllerDevice.tryUpload);
+router.get('/api/device/testAPI', apiControllerDevice.testAPI);
 
 module.exports = router;

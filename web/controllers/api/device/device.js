@@ -45,6 +45,16 @@ exports.sendData = async (req, res, next) => {
       });
     });
 
+    PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+      if (err) throw err;
+      //console.log('results: %j', results);
+      var covid = results[0];
+      console.log(results[1]);
+      Device_Data.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+        console.log(result);
+      });
+    });
+
     // User.updateOne(
     //   { _id: req.session.user._id },
     //   { $push: { patient: user.upserted[0]._id } }
@@ -58,12 +68,22 @@ exports.sendData = async (req, res, next) => {
   }
 };
 
-exports.tryUpload = async (req, res, next) => {
-  console.log(req.params.device_id);
-  console.log(req.files);
-  console.log(JSON.parse(JSON.stringify(req.body)));
-  let returnedHandle = handleUploadFile(req.files[0], "./public/uploads/");
-  console.log(returnedHandle);
+exports.testAPI = async (req, res, next) => {
+  // console.log(req.params.device_id);
+  // console.log(req.files);
+  // console.log(JSON.parse(JSON.stringify(req.body)));
+  // let returnedHandle = handleUploadFile(req.files[0], "./public/uploads/");
+  // console.log(returnedHandle);
+
+  PythonShell.run("./python-script/tryScript2.py", { args: [] }, function (err, results) {
+    if (err) throw err;
+    console.log('results: %j', results);
+    res.json({
+            status: "success",
+            code: 200,
+            data: JSON.stringify(results),
+          });
+  });
   // console.log(JSON.stringify(req.body));
   // console.log(Date.now());
   // if (Object.keys(req.body).length != 0) {
