@@ -4,6 +4,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const device_dataSchema = new Schema(
   {
+    uuid: {
+      type: String,
+      required: true,
+    },
     device_id: {
       type: Number,
       required: true,
@@ -12,6 +16,14 @@ const device_dataSchema = new Schema(
     json_data: {
       type: String,
       required: true,
+    },
+    cough: {
+      type: String,
+      required: false,
+    },
+    covid: {
+      type: String,
+      required: false,
     },
     // file_path: {
     //   type: String,

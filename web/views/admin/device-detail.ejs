@@ -63,7 +63,7 @@
                                     <th>Nama</th>
                                     <th>Gender</th>
                                     <th>Umur</th>
-                                    <th>Prediction</th>
+                                    <th>Type</th>
                                     <th>Keterangan</th>
                                   </tr>
                                   <% for(var i=0; i < device_data.length; i++) { var
@@ -86,7 +86,7 @@
                                         <%= parsedData.umur %>
                                       </td>
                                       <td>
-                                        Processing...
+                                        <%= device_data[i].cough %>
                                       </td>
                                       <td>
                                         <% if(device[0].type=='audiometri' ){ %>

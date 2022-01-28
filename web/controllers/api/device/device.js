@@ -11,6 +11,8 @@ exports.sendData = async (req, res, next) => {
   // console.log(req.params.device_id);
   // console.log(JSON.stringify(req.body));
   // console.log(req.files);
+  var uniqueID = (new Date()).getTime().toString(36);
+  console.log(uniqueID);
   if (Object.keys(req.body).length != 0) {
     let tempJsonData = req.body;
     if (req.files.length != 0) {
@@ -18,26 +20,35 @@ exports.sendData = async (req, res, next) => {
       console.log(tempJsonData.file_audio);
       handleUploadFile(req.files[0], "./public/uploads/batuk/");
     }
-  
-    PythonShell.run('./python-script/tryScript1.py', {args: [tempJsonData.file_audio]}, function (err, results) {
+
+    const device = await Device_Data.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: "Processing..", covid: "Processing..." });
+    if (device) {
+      res.json({
+        status: "success",
+        code: 200,
+        message: "Success Insert Data",
+      });
+    } else {
+      res.json({
+        status: "error",
+        code: 404,
+        message: device,
+      });
+    }
+
+    PythonShell.run("./python-script/tryScript1.py", { args: [tempJsonData.file_audio] }, function (err, results) {
       if (err) throw err;
-      console.log('results: %j', results);
+      //console.log('results: %j', results);
+      var cough = results[0];
+      Device_Data.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
+        console.log(result);
+      });
     });
 
-    // const device = await Device_Data.create({ device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData)});
-    // if (device) {
-    //   res.json({
-    //     status: "success",
-    //     code: 200,
-    //     message: "Success Insert Data",
-    //   });
-    // } else {
-    //   res.json({
-    //     status: "error",
-    //     code: 404,
-    //     message: device,
-    //   });
-    // }
+    // User.updateOne(
+    //   { _id: req.session.user._id },
+    //   { $push: { patient: user.upserted[0]._id } }
+    // ).then((result) => {});
   } else {
     res.json({
       status: "error",
@@ -137,3 +148,7 @@ exports.tryUpload = async (req, res, next) => {
 //   //   // res.status(500).json({ message: "internal server error" });
 //   // }
 // };
+
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)).split("-")[0];
+}
