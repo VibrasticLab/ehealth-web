@@ -17,11 +17,10 @@ exports.sendData = async (req, res, next) => {
     let tempJsonData = req.body;
     if (req.files.length != 0) {
       tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
-      console.log(tempJsonData.file_audio);
       handleUploadFile(req.files[0], "./public/uploads/batuk/");
     }
 
-    const device = await Device_Data.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: "Processing..", covid: "Processing..." });
+    const device = await Device_Data.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: 99, covid: 99 });
     if (device) {
       res.json({
         status: "success",
@@ -36,10 +35,11 @@ exports.sendData = async (req, res, next) => {
       });
     }
 
-    PythonShell.run("./python-script/tryScript1.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+    PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
       if (err) throw err;
       //console.log('results: %j', results);
       var cough = results[0];
+      console.log(results[1]);
       Device_Data.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
         console.log(result);
       });

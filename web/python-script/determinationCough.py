@@ -25,9 +25,5 @@ images_tes = np.reshape(images_tes, (1, images_tes.shape[0], 1))
 preds = model.predict(images_tes)
 classpreds = np.argmax(preds, axis=1)
 
-if (classpreds == 0):
-        print("cough")
-elif (classpreds== 1):
-        print("talk")
-
-print("--- %s seconds ---" % (time.time() - start_time))
+print(classpreds[0])
+print("Execution Cough Script : --- %s seconds ---" % (time.time() - start_time))

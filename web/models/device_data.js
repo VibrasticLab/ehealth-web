@@ -18,11 +18,11 @@ const device_dataSchema = new Schema(
       required: true,
     },
     cough: {
-      type: String,
+      type: Number,
       required: false,
     },
     covid: {
-      type: String,
+      type: Number,
       required: false,
     },
     // file_path: {
