@@ -49,10 +49,11 @@
                               <div style="overflow-x:auto;">
                                 <table style="width: 100%;">
                                   <colgroup>
+                                    <col span="1" style="width: 4%;">
+                                    <col span="1" style="width: 15%;">
+                                    <col span="1" style="width: 20%;">
                                     <col span="1" style="width: 5%;">
-                                    <col span="1" style="width: 20%;">
-                                    <col span="1" style="width: 20%;">
-                                    <col span="1" style="width: 10%;">
+                                    <col span="1" style="width: 5%;">
                                     <col span="1" style="width: 10%;">
                                     <col span="1" style="width: 15%;">
                                     <col span="1" style="width: 20%;">
@@ -63,12 +64,14 @@
                                     <th>Nama</th>
                                     <th>Gender</th>
                                     <th>Umur</th>
-                                    <th>Prediction</th>
+                                    <th>Type</th>
+                                    <th>Jenis Batuk</th>
                                     <th>Keterangan</th>
                                   </tr>
-                                  <% for(var i=0; i < device_data.length; i++) { var
-                                    parsedData=JSON.parse(device_data[i].json_data); var
-                                    dateString=timeConverter(device_data[i].time); %>
+                                  <% for(var i=0; i < device_data.length; i++) { 
+                                    var parsedData=JSON.parse(device_data[i].json_data); 
+                                    var dateString = new Date(device_data[i].time).toLocaleString();
+                                    var dateString2=timeConverter(device_data[i].time); %>
                                     <tr>
                                       <td>
                                         <%= i+1 %>
@@ -86,7 +89,22 @@
                                         <%= parsedData.umur %>
                                       </td>
                                       <td>
-                                        Processing...
+                                        <% if(device_data[i].cough == 0 ){ %>
+                                          Batuk
+                                          <% } else if(device_data[i].cough == 1 ){ %>
+                                            Non-Batuk
+                                            <% } else if(device_data[i].cough == 99 ){ %>
+                                              Processing.....
+                                              <% } %>
+                                      </td>
+                                      <td>
+                                        <% if(device_data[i].covid == 0 ){ %>
+                                          Non-Covid
+                                          <% } else if(device_data[i].covid == 1 ){ %>
+                                            Covid
+                                            <% } else if(device_data[i].covid == 99 ){ %>
+                                              Processing.....
+                                              <% } %>
                                       </td>
                                       <td>
                                         <% if(device[0].type=='audiometri' ){ %>
@@ -300,7 +318,7 @@
                   <script>
                     var wavesurfer = "";
                     WaveSurfer.util.fetchFile({
-                      url: 'https://wavesurfer-js.org/example/spectrogram/hot-colormap.json',
+                      url: '../assets/hot-colormap.json',
                       responseType: 'json'
                     }).on('success', colorMap => {
                       //initAndLoadSpectrogram(colorMap); 
