@@ -5,6 +5,7 @@ exports.clientAuth = (req, res, next) => {
   res.locals.csrfToken = req.csrfToken();
   next();
 };
+
 exports.checkAuth = (req, res, next) => {
   if (!req.session.user) {
     return next();
@@ -30,8 +31,8 @@ exports.isAuth = (req, res, next) => {
 };
 
 exports.redirectIndex = (req, res, next) => {
-  if (!req.session.isLoggedIn) {
-    return res.redirect("/signin");
+    if (!req.session.isLoggedIn) {
+    return res.redirect("/submit-data-batuk");
   } else {
     if (req.session.user.role == "admin") {
       return res.redirect("/admin");
@@ -41,6 +42,18 @@ exports.redirectIndex = (req, res, next) => {
       return res.redirect("/patient");
     }
   }
+  
+  // if (!req.session.isLoggedIn) {
+  //   return res.redirect("/signin");
+  // } else {
+  //   if (req.session.user.role == "admin") {
+  //     return res.redirect("/admin");
+  //   } else if (req.session.user.role == "doctor") {
+  //     return res.redirect("/doctor");
+  //   }else if (req.session.user.role == "patient") {
+  //     return res.redirect("/patient");
+  //   }
+  // }
 };
 
 exports.isUserEmpty = (req, res, next) => {

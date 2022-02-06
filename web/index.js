@@ -7,12 +7,13 @@ const upload = multer({ dest: 'uploads/' })
 
 // import routing
 const generalRoute = require("./routes/general");
-const iotdataRoutes = require("./routes/iotdata");
+//const iotdataRoutes = require("./routes/iotdata");
 const doctorRoute = require("./routes/doctor");
 const patientRoute = require("./routes/patient");
 const adminRoute = require("./routes/admin");
 const authRoutes = require("./routes/auth");
 const apiRoutes = require("./routes/api");
+const formRoutes = require("./routes/form");
 const errorRoutes = require("./routes/error");
 
 // import helper
@@ -38,6 +39,7 @@ app.use(express.static(path.join(rootdir, "public")));
 
 // API
 app.use(apiRoutes);
+app.use(formRoutes);
 
 // security & authentication
 app.use(db.sessionMiddleware);
@@ -49,7 +51,7 @@ app.use(flash());
 
 // routing request
 app.use(generalRoute);
-app.use(iotdataRoutes); //must before errorRoutes
+//app.use(iotdataRoutes); //must before errorRoutes
 app.use(patientRoute);
 app.use(doctorRoute);
 app.use(adminRoute);
@@ -60,10 +62,18 @@ db.initMongoose(() => {
     const server = app.listen(8080);
 });
 
+var skipCSRFArray = ["/api/device/", "/form/"];
+
 function disableAPICSRF(fn) {
     return function(req, res, next) {
         console.log(JSON.stringify(req.path)); //Debug Path
-        if (req.path.includes("/api/device/") && req.method === 'POST') {
+        var skipCSRF = false;
+        for (let index = 0; index < skipCSRFArray.length; index++) {
+            if (req.path.includes(skipCSRFArray[index])) {
+                skipCSRF = true
+            }
+        }
+        if (skipCSRF && req.method === 'POST') {
             next();
         } else {
             fn(req, res, next);

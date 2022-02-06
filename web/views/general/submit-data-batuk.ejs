@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Submit Suara Batuk</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon-web.png" />
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <!-- Typography CSS -->
+    <link rel="stylesheet" href="css/typography.css" />
+    <!-- Style CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="css/responsive.css" />
+</head>
+
+<body>
+    <!-- loader END -->
+    <!-- Sign in Start -->
+    <section class="sign-in-page">
+        <div class="container" style="margin-bottom: 48px; margin-top: 48px">
+            <div class="row">
+                <div class="col-md-12 position-relative">
+                    <div class="sign-in-from">
+                        <h1 class="mb-0">Submit Suara Batuk</h1>
+                        <div id="after_submit" style="display: none;">
+                            <hr>
+                            <div class="alert alert-primary">
+                                <%= message %>
+                            </div>
+                        </div>
+                        <form id="before_submit" class="mt-4" action="/submit-data-batuk" method="post"
+                            enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="exampleInputEmail2">Email address</label>
+                                <input type="email" class="form-control mb-0" name="email"
+                                    placeholder="Masukan Email" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail2">Background Noise</label>
+                                <input type="number" class="form-control mb-0" name="back_noise"
+                                    placeholder="Isi 0 Jika tidak tahu" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">Pilih Metode Submit</label><br />
+                                <input type="radio" id="rekam_radio" name="method_upload"
+                                    onclick="radioSelector('rekam')" value="rekam" checked />
+                                <label for="rekam_radio">Rekam Suara Batuk</label><br />
+                                <input type="radio" id="upload_radio" name="method_upload"
+                                    onclick="radioSelector('upload')" value="upload" />
+                                <label for="upload_radio">Upload Suara Batuk</label><br />
+                            </div>
+                            <hr />
+                            <div class="form-group" id="rekam_div">
+                                <div id="before_record_div">
+                                    <label for="exampleInputPassword1">Rekam Suara Batuk</label><br />
+                                    <section class="main-controls">
+                                        <div id="buttons">
+                                            <button type="button" class="btn btn-primary record">Record</button>
+                                            <button type="button" class="btn btn-danger stop">Stop</button>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div id="after_record_div" style="display: none">
+                                    <label for="exampleInputPassword1">Hasil Rekaman Suara Batuk</label><br />
+                                    <section class="sound-clips"></section>
+                                </div>
+                                <input type="file" name="fileToUpload_rekam" id="fileToUpload_rekam"
+                                    style="display: none;" />
+                            </div>
+                            <div class="form-group" id="upload_div" style="display: none">
+                                <label for="exampleInputPassword1">File Suara Batuk</label><br />
+                                <input type="file" name="fileToUpload_upload" id="fileToUpload_upload"
+                                    onchange="uploadPreview(this)" />
+                                <section class="sound-clips" style="margin-top: 10px">
+                                    <article class="clip">
+                                        <audio style="display: none;" id="audio_preview_upload" controls=""
+                                            src=""></audio>
+                                    </article>
+                                </section>
+                            </div>
+                            <input id="uniqueID_div" type="hidden" name="uniqueID" value="">
+                            <div class="d-inline-block w-100">
+                                <button type="submit" class="btn btn-primary float-right">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%
+    if (message !== '') { %>
+    <script>
+        document.getElementById("after_submit").style.display = "";
+        document.getElementById("before_submit").style.display = "none";
+        setTimeout(function () {
+            window.location = "/submit-data-batuk";
+        }, 2000);
+    </script>
+    <% } %>
+    <script>
+        var uniqueID = new Date().getTime().toString(36);
+        document.getElementById("uniqueID_div").value = uniqueID;
+        var blobAudio;
+
+        const record = document.querySelector(".record");
+        const stop = document.querySelector(".stop");
+        const soundClips = document.querySelector(".sound-clips");
+        const mainSection = document.querySelector(".main-controls");
+
+        stop.disabled = true;
+
+        if (navigator.mediaDevices.getUserMedia) {
+            console.log("getUserMedia supported.");
+            const constraints = {
+                audio: true,
+            };
+            let chunks = [];
+            let onSuccess = function (stream) {
+                const mediaRecorder = new MediaRecorder(stream, {
+                    audioBitsPerSecond: 44100
+                });
+
+                record.onclick = function () {
+                    mediaRecorder.start();
+                    console.log(mediaRecorder.state);
+                    console.log("recorder started");
+                    stop.disabled = false;
+                    record.disabled = true;
+                };
+
+                stop.onclick = function () {
+                    mediaRecorder.stop();
+                    console.log(mediaRecorder.state);
+                    console.log("recorder stopped");
+                    stop.disabled = true;
+                    record.disabled = false;
+                };
+
+                mediaRecorder.onstop = function (e) {
+                    console.log("data available after MediaRecorder.stop() called.");
+                    document.getElementById("before_record_div").style.display = "none";
+                    document.getElementById("after_record_div").style.display = "";
+                    const clipName = uniqueID;
+                    const clipContainer = document.createElement("article");
+                    const audio = document.createElement("audio");
+
+                    clipContainer.classList.add("clip");
+                    audio.setAttribute("controls", "");
+
+                    clipContainer.appendChild(audio);
+                    soundClips.appendChild(clipContainer);
+
+                    audio.controls = true;
+                    const blob = new Blob(chunks, {
+                        type: "audio/wav; codecs=0",
+                    });
+                    chunks = [];
+                    const audioURL = window.URL.createObjectURL(blob);
+                    audio.src = audioURL;
+                    console.log("recorder stopped");
+
+                    let file = new File([blob], uniqueID + ".wav", {
+                        type: "audio/wav",
+                        lastModified: new Date().getTime()
+                    });
+
+                    let container = new DataTransfer();
+                    container.items.add(file);
+                    document.getElementById("fileToUpload_rekam").files = container.files;
+                };
+
+                mediaRecorder.ondataavailable = function (e) {
+                    chunks.push(e.data);
+                };
+            };
+
+            let onError = function (err) {
+                console.log("The following error occured: " + err);
+            };
+
+            navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
+        } else {
+            console.log("getUserMedia not supported on your browser!");
+            alert("Not Support");
+        }
+
+        function radioSelector(type) {
+            if (type == "rekam") {
+                document.getElementById("rekam_div").style.display = "";
+                document.getElementById("upload_div").style.display = "none";
+            } else if (type == "upload") {
+                document.getElementById("rekam_div").style.display = "none";
+                document.getElementById("upload_div").style.display = "";
+            }
+        }
+
+        function uploadPreview(handleFiles) {
+            var files = event.target.files;
+            if (files.length > 0) {
+                document.getElementById("audio_preview_upload").style.display = "";
+                document.getElementById("audio_preview_upload").src = URL.createObjectURL(files[0]);
+                document.getElementById("audio_preview_upload").load();
+            } else if (files.length == 0) {
+                document.getElementById("audio_preview_upload").style.display = "none";
+            }
+        }
+    </script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Appear JavaScript -->
+    <script src="js/jquery.appear.js"></script>
+    <!-- Countdown JavaScript -->
+    <script src="js/countdown.min.js"></script>
+    <!-- Counterup JavaScript -->
+    <script src="js/waypoints.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <!-- Wow JavaScript -->
+    <script src="js/wow.min.js"></script>
+    <!-- Apexcharts JavaScript -->
+    <script src="js/apexcharts.js"></script>
+    <!-- Slick JavaScript -->
+    <script src="js/slick.min.js"></script>
+    <!-- Select2 JavaScript -->
+    <script src="js/select2.min.js"></script>
+    <!-- Owl Carousel JavaScript -->
+    <script src="js/owl.carousel.min.js"></script>
+    <!-- Magnific Popup JavaScript -->
+    <script src="js/jquery.magnific-popup.min.js"></script>
+    <!-- Smooth Scrollbar JavaScript -->
+    <script src="js/smooth-scrollbar.js"></script>
+    <!-- Chart Custom JavaScript -->
+    <script src="js/chart-custom.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="js/custom.js"></script>
+</body>
+
+</html>
