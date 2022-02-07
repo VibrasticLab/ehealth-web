@@ -1,6 +1,13 @@
+const json2csv = require("json2csv").parse;
+const path = require("path");
+const fs = require("fs");
+const { readdirSync } = require("fs");
+const child_process = require('child_process');
+
 const User = require("../models/user");
 const Device = require("../models/device");
 const Device_Data = require("../models/device_data");
+const Batuk_Data = require("../models/batuk_data");
 
 const bcrypt = require("bcryptjs");
 
@@ -76,7 +83,7 @@ exports.device_detail = async (req, res, next) => {
   });
   const deviceData_Datas = await Device_Data.find({
     device_id: device_id,
-  }).sort({time: 'desc'});
+  }).sort({ time: "desc" });
   res.render("admin/device-detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device Detail: " + device_id,
@@ -103,6 +110,77 @@ exports.add_device = async (req, res, next) => {
     role: req.session.user.role,
     userdata: req.session.user,
   });
+};
+
+exports.data_batuk = async (req, res, next) => {
+  const resultsPerPage = 25;
+  let page = req.query.page >= 1 ? req.query.page : 1;
+  var query = (req.query.search != undefined && req.query.search) ? {email: req.query.search} : {};
+  var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
+
+  const batukData_count = await Batuk_Data.countDocuments(query)
+  const batukData = await Batuk_Data.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
+
+    console.log(resultsPerPage * page);
+
+  // var hola = readdirSync("./public", { withFileTypes: true })
+  //   .filter((dirent) => dirent.isDirectory())
+  //   .map((dirent) => dirent.name);
+
+  res.render("admin/data-batuk", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Data Batuk",
+    userdata: req.session.user,
+    batukData: batukData,
+    currentPage: page, 
+    pages: Math.ceil(batukData_count / resultsPerPage), 
+    searchVal: searchVal,
+    lastIndex: resultsPerPage * (page - 1),
+    totalCount: batukData_count,
+    role: req.session.user.role,
+  });
+};
+
+exports.data_batuk_export = async (req, res, next) => {
+  const dateTime = new Date().toISOString().slice(-24).replace(/\D/g, "").slice(0, 14);
+  let csv;
+  const filePath = path.join(__dirname, "../", "temp", "csv-" + dateTime + ".csv");
+  const batukArray = await Batuk_Data.find();
+  const fields = ["id", "uuid", "email", "background_noise", "submit_method", "filename", "time"];
+  try {
+    csv = json2csv(batukArray, { fields });
+  } catch (err) {
+    console.log(err);
+  }
+
+  fs.writeFile(filePath, csv, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      setTimeout(function () {
+        fs.unlink(filePath, function (err) {
+          if (err) {
+            console.error(err);
+          }
+          console.log("File has been Deleted");
+        });
+      }, 30000);
+      res.download(filePath);
+    }
+  });
+};
+
+exports.data_batuk_export_sound = async (req, res, next) => {
+  var folderpath = './public/uploads/batuk_primer'
+
+  child_process.execSync(`zip -r archive *`, {
+    cwd: folderpath
+  });
+
+  res.download(folderpath + '/archive.zip');
 };
 
 exports.create_doctor = async (req, res, next) => {
@@ -190,10 +268,10 @@ exports.create_device = async (req, res, next) => {
 };
 
 exports.delete_device = async (req, res, next) => {
-  console.log(req.body.device_id)
+  console.log(req.body.device_id);
   try {
     const device = await Device.deleteOne(
-      { device_id: req.body.device_id}, //Required
+      { device_id: req.body.device_id } //Required
     );
     const deviceDataList = await Device.find({
       admin: req.session.user._id,

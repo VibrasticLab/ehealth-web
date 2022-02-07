@@ -1,0 +1,246 @@
+<%- include('../includes/head.ejs') %>
+<% function timeConverter(UNIX_timestamp) { var a=new Date(UNIX_timestamp * 1000).toLocaleString(); return a; } %>
+
+</head>
+
+<body>
+  <!-- Wrapper Start -->
+  <div class="wrapper">
+    <!-- Sidebar  -->
+    <%- include('../includes/navigations.ejs') %>
+    <!-- Page Content  -->
+    <div id="content-page" class="content-page">
+      <!-- TOP Nav Bar -->
+      <%- include('../includes/top-navbar.ejs') %>
+      <!-- TOP Nav Bar END -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="iq-edit-list-data">
+              <div class="tab-content">
+                <div class="tab-pane fade active show" id="device-data" role="tabpanel">
+                  <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                      <div class="iq-header-title">
+                        <h4 class="card-title">List Data Batuk Primer</h4>
+                      </div>
+                      <button class="btn btn-primary " onclick="window.location.assign('/admin/data-batuk-export');">
+                        Download CSV
+                      </button>
+                    </div>
+                    <div class="iq-card-body">
+                      <div class="d-flex justify-content-space-around">
+                        <input type="text" style="margin-bottom: 10px;" id="input_search" placeholder="Masukan Email..">
+                        <button class="btn btn-primary " onclick="searchFunction()"
+                          style="margin-left: 10px;margin-bottom: 10px;">
+                          Search
+                        </button>
+                      </div>
+                      <div style="overflow-x:auto;">
+                        <table style="width: 100%;">
+                          <colgroup>
+                            <col span="1" style="width: 4%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 20%;">
+                          </colgroup>
+                          <tr>
+                            <th>No</th>
+                            <th>Time</th>
+                            <th>Email</th>
+                            <th>Background Noise</th>
+                            <th>Method</th>
+                            <th>Keterangan</th>
+                          </tr>
+                          <% 
+                          for(var i=0; i < batukData.length; i++) { 
+                          var dateString = moment(new Date(batukData[i].time)).format("DD-MM-YYYY"); %>
+                          <tr>
+                            <td>
+                              <%= lastIndex + i + 1 %>
+                            </td>
+                            <td>
+                              <%= dateString %>
+                            </td>
+                            <td>
+                              <%= batukData[i].email %>
+                            </td>
+                            <td>
+                              <%= batukData[i].background_noise %>
+                            </td>
+                            <td>
+                              <%= batukData[i].submit_method.charAt(0).toUpperCase() + batukData[i].submit_method.slice(1).toLowerCase() %>
+                            </td>
+                            <td>
+                              <button class="btn btn-primary" onclick="cekSuaraBatuk('<%= batukData[i].filename %>');">
+                                Cek Suara Batuk
+                              </button>
+                            </td>
+                          </tr>
+                          <% } %>
+                        </table>
+                      </div>
+                      <div class="results">
+                        <p style="margin-bottom: 0px;">Displaying Total <span><%= totalCount %></span> Results</p>
+                        <p>
+                          Page
+                          <span><%= currentPage %></span>
+                          of
+                          <span><%= pages %></span>
+                        </p>
+                      </div>
+                      <!-- PAGINATION -->
+                      <div class="shop-pagination">
+                        <div class="pagination">
+                          <% if (currentPage == 1 && pages > 1) { %>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>" <span>
+                            Page <%=  parseInt(currentPage) + 1 %>
+                            <i class="icon ion-ios-arrow-forward"></i>
+                            </span>
+                          </a>
+                          <% } else if (currentPage < pages) { %>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                              <i class="icon ion-ios-arrow-back"></i>
+                              Page <%= parseInt(currentPage) - 1 %>
+                            </span>
+                          </a>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>"><span>
+                              Page <%= parseInt(currentPage) + 1 %>
+                              <i class="icon ion-ios-arrow-forward"></i>
+                            </span>
+                          </a>
+                          <% } else if (currentPage == pages && pages > 1) { %>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                              <i class="icon ion-ios-arrow-back"></i>Page
+                              <%=parseInt(currentPage) - 1 %>
+                            </span>
+                          </a>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="iq-card" id="hasilbatuk_div" style="display: none;">
+                      <div class="iq-card-header d-flex justify-content-between">
+                        <div class="iq-header-title">
+                          <h4 class="card-title">Hasil Suara Batuk</h4>
+                        </div>
+                      </div>
+                      <div class="iq-card-body">
+                        <div id="waveform" style="margin-bottom: 10px;"></div>
+                        <div class="container">
+                          <div class="row">
+                            <div class="col text-center">
+                              <div class="controls">
+                                <button class="btn btn-primary" onclick="wavesurfer.playPause();"
+                                  style="margin-bottom: 10px;">
+                                  <i class="glyphicon glyphicon-play"></i>
+                                  Play
+                                  /
+                                  <i class="glyphicon glyphicon-pause"></i>
+                                  Pause
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div id="wave-spectrogram" style="margin-bottom: 10px;"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+          integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/js/wavesurfer.js"></script>
+        <script src="/js/wavesurfer.spectrogram.js"></script>
+
+        <script>
+          function searchFunction() {
+            var inputSearch = document.getElementById('input_search').value;
+            window.location.assign(addQueryParamsToUrl(window.location.href, {
+              search: inputSearch
+            }));
+          }
+
+          function addQueryParamsToUrl(url, params) {
+            var fakeBase = !url.startsWith('http') ? 'http://fake-base.com' : undefined;
+            var modifiedUrl = new URL(url || '', fakeBase);
+
+            // add/update params
+            Object.keys(params).forEach(function (key) {
+              if (modifiedUrl.searchParams.has(key)) {
+                modifiedUrl.searchParams.set(key, params[key]);
+              } else {
+                modifiedUrl.searchParams.append(key, params[key]);
+              }
+            });
+
+            // return as string (remove fake base if present)
+            return modifiedUrl.toString().replace(fakeBase, '');
+          }
+        </script>
+        <script>
+          var wavesurfer = "";
+          WaveSurfer.util.fetchFile({
+            url: '../assets/hot-colormap.json',
+            responseType: 'json'
+          }).on('success', colorMap => {
+            //initAndLoadSpectrogram(colorMap); 
+            wavesurfer = WaveSurfer.create({
+              container: '#waveform',
+              waveColor: 'purple',
+              progressColor: 'blue',
+              plugins: [
+                WaveSurfer.spectrogram.create({
+                  wavesurfer: wavesurfer,
+                  container: "#wave-spectrogram",
+                  labels: true,
+                  colorMap: colorMap
+                })
+              ]
+            });
+
+          });
+        </script>
+        <script>
+          function cekSuaraBatuk(filebatuk) {
+            document.getElementById("hasilbatuk_div").style.display = "";
+            wavesurfer.load('/uploads/batuk_primer/' + filebatuk);
+          }
+        </script>
+        <style>
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+
+          td,
+          th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            color: #000;
+          }
+
+          tr:nth-child(even) {
+            background-color: #dddddd;
+          }
+        </style>
+
+        <!-- Footer -->
+
+        <%- include('../includes/footer.ejs') %>
+        <!-- Footer END -->
+      </div>
+    </div>
+    <!-- Wrapper END -->
+    <%- include('../includes/end.ejs') %>

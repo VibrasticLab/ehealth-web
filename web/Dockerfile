@@ -1,7 +1,7 @@
 FROM tensorflow/tensorflow
 
 RUN apt-get update -yq \
-    && apt-get -yq install curl gnupg ca-certificates \
+    && apt-get -yq install curl gnupg ca-certificates zip \
     && curl -L https://deb.nodesource.com/setup_12.x | bash \
     && apt-get update -yq \
     && apt-get install -yq \

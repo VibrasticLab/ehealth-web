@@ -44,6 +44,27 @@ router.post(
 );
 
 router.get(
+  "/admin/data-batuk",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk
+);
+
+router.get(
+  "/admin/data-batuk-export",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_export
+);
+
+router.get(
+  "/admin/data-batuk-export-sound",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_export_sound
+);
+
+router.get(
   "/admin/doctor-list",
   auth.isAuth,
   checkingRole.isAdmin,

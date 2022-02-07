@@ -4,6 +4,7 @@ const flash = require("connect-flash");
 const path = require("path");
 const multer  = require('multer')
 const upload = multer({ dest: 'uploads/' })
+var moment = require('moment');
 
 // import routing
 const generalRoute = require("./routes/general");
@@ -31,6 +32,7 @@ const csrfProtection = csrf();
 // set template engine
 app.set("view engine", "ejs");
 app.set("views", "views");
+app.locals.moment = require('moment');
 
 // parsing body/file and expose public dir
 app.use(parse.bodyJsonHandler);
