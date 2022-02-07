@@ -61,7 +61,7 @@
                                     <section class="main-controls">
                                         <div id="buttons">
                                             <button type="button" class="btn btn-primary record">Record</button>
-                                            <button type="button" class="btn btn-danger stop">Stop</button>
+                                            <button type="button" class="btn btn-danger stop" style="display: none;">Stop</button>
                                         </div>
                                     </section>
                                 </div>
@@ -123,7 +123,8 @@
             let chunks = [];
             let onSuccess = function (stream) {
                 const mediaRecorder = new MediaRecorder(stream, {
-                    audioBitsPerSecond: 44100
+                    audioBitsPerSecond: 2822400,
+                    
                 });
 
                 record.onclick = function () {
@@ -131,6 +132,8 @@
                     console.log(mediaRecorder.state);
                     console.log("recorder started");
                     stop.disabled = false;
+                    stop.style.display = "";
+                    record.innerHTML = "Recording...";
                     record.disabled = true;
                 };
 
@@ -158,7 +161,7 @@
 
                     audio.controls = true;
                     const blob = new Blob(chunks, {
-                        type: "audio/wav; codecs=0",
+                        type: "audio/wav; codecs=MS_PCM",
                     });
                     chunks = [];
                     const audioURL = window.URL.createObjectURL(blob);
