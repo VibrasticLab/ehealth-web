@@ -122,10 +122,7 @@
             };
             let chunks = [];
             let onSuccess = function (stream) {
-                const mediaRecorder = new MediaRecorder(stream, {
-                    audioBitsPerSecond: 2822400,
-                    
-                });
+                const mediaRecorder = new MediaRecorder(stream);
 
                 record.onclick = function () {
                     mediaRecorder.start();
