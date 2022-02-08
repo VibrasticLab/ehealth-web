@@ -262,7 +262,7 @@
                 }
                 document.getElementById("before_record_div").style.display = "none";
                 document.getElementById("info_otherError").style.display = "";
-                document.getElementById("info_otherError").innerText = "Detail Error: " + err.message + ".Silahkan Hubungi Admin/CP untuk mendapat bantuan";
+                document.getElementById("info_otherError").innerHTML = "Detail Error: " + err.message + "<br>Silahkan Hubungi Admin/CP untuk mendapat bantuan";
             };
 
             navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
