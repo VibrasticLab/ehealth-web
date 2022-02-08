@@ -135,46 +135,46 @@
 
         stop.disabled = true;
 
-        navigator.permissions.query({
-            name: 'microphone'
-        }).then(function (result) {
-            if (result.state == 'granted') {
-                document.getElementById("info_permDenied").style.display = "none";
-                document.getElementById("info_notSupport").style.display = "none";
-                document.getElementById("info_permAsking").style.display = "none";
-                document.getElementById("before_record_div").style.display = "";
-            } else if (result.state == 'prompt') {
-                document.getElementById("info_permDenied").style.display = "none";
-                document.getElementById("info_notSupport").style.display = "none";
-                document.getElementById("info_permAsking").style.display = "";
-                document.getElementById("before_record_div").style.display = "none";
-            } else if (result.state == 'denied') {
-                document.getElementById("info_permDenied").style.display = "";
-                document.getElementById("info_notSupport").style.display = "none";
-                document.getElementById("info_permAsking").style.display = "none";
-                document.getElementById("before_record_div").style.display = "none";
-            }
+        // navigator.permissions.query({
+        //     name: 'microphone'
+        // }).then(function (result) {
+        //     if (result.state == 'granted') {
+        //         document.getElementById("info_permDenied").style.display = "none";
+        //         document.getElementById("info_notSupport").style.display = "none";
+        //         document.getElementById("info_permAsking").style.display = "none";
+        //         document.getElementById("before_record_div").style.display = "";
+        //     } else if (result.state == 'prompt') {
+        //         document.getElementById("info_permDenied").style.display = "none";
+        //         document.getElementById("info_notSupport").style.display = "none";
+        //         document.getElementById("info_permAsking").style.display = "";
+        //         document.getElementById("before_record_div").style.display = "none";
+        //     } else if (result.state == 'denied') {
+        //         document.getElementById("info_permDenied").style.display = "";
+        //         document.getElementById("info_notSupport").style.display = "none";
+        //         document.getElementById("info_permAsking").style.display = "none";
+        //         document.getElementById("before_record_div").style.display = "none";
+        //     }
 
-            result.onchange = function () {
-                if (result.state == 'granted') {
-                    document.getElementById("info_permDenied").style.display = "none";
-                    document.getElementById("info_notSupport").style.display = "none";
-                    document.getElementById("info_permAsking").style.display = "none";
-                    document.getElementById("before_record_div").style.display = "";
-                } else if (result.state == 'prompt') {
-                    document.getElementById("info_permDenied").style.display = "none";
-                    document.getElementById("info_notSupport").style.display = "none";
-                    document.getElementById("info_permAsking").style.display = "";
-                    document.getElementById("before_record_div").style.display = "none";
-                } else if (result.state == 'denied') {
-                    document.getElementById("info_permDenied").style.display = "";
-                    document.getElementById("info_notSupport").style.display = "none";
-                    document.getElementById("info_permAsking").style.display = "none";
-                    document.getElementById("before_record_div").style.display = "none";
-                }
-                window.location.href = window.location.pathname + window.location.search + window.location.hash;
-            };
-        });
+        //     result.onchange = function () {
+        //         if (result.state == 'granted') {
+        //             document.getElementById("info_permDenied").style.display = "none";
+        //             document.getElementById("info_notSupport").style.display = "none";
+        //             document.getElementById("info_permAsking").style.display = "none";
+        //             document.getElementById("before_record_div").style.display = "";
+        //         } else if (result.state == 'prompt') {
+        //             document.getElementById("info_permDenied").style.display = "none";
+        //             document.getElementById("info_notSupport").style.display = "none";
+        //             document.getElementById("info_permAsking").style.display = "";
+        //             document.getElementById("before_record_div").style.display = "none";
+        //         } else if (result.state == 'denied') {
+        //             document.getElementById("info_permDenied").style.display = "";
+        //             document.getElementById("info_notSupport").style.display = "none";
+        //             document.getElementById("info_permAsking").style.display = "none";
+        //             document.getElementById("before_record_div").style.display = "none";
+        //         }
+        //         window.location.href = window.location.pathname + window.location.search + window.location.hash;
+        //     };
+        // });
 
         if (navigator.mediaDevices.getUserMedia) {
             console.log("getUserMedia supported.");
