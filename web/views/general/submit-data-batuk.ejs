@@ -186,6 +186,10 @@
                 document.getElementById("before_record_div").style.display = "";
                 document.getElementById("info_otherError").style.display = "none";
 
+                document.getElementById("info_permDenied").style.display = "none";
+                document.getElementById("info_notSupport").style.display = "none";
+                document.getElementById("info_permAsking").style.display = "none";
+
                 const mediaRecorder = new MediaRecorder(stream);
 
                 record.onclick = function () {
