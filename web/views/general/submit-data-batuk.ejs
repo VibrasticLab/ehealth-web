@@ -86,7 +86,6 @@
                                     </div>
                                     <div id="info_otherError" class="alert alert-danger"
                                         style="margin-top: 10px;display: none;">
-                                        Detail Error: <span id="errorMessage" style="margin-left: 5px;"></span>. Silahkan Hubungi Admin/CP untuk mendapat bantuan
                                     </div>
                                 </div>
                                 <input type="file" name="fileToUpload_rekam" id="fileToUpload_rekam"
@@ -263,7 +262,7 @@
                 }
                 document.getElementById("before_record_div").style.display = "none";
                 document.getElementById("info_otherError").style.display = "";
-                document.getElementById("errorMessage").innerText = err.message;
+                document.getElementById("info_otherError").innerText = "Detail Error: " + err.message + ".Silahkan Hubungi Admin/CP untuk mendapat bantuan";
             };
 
             navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
