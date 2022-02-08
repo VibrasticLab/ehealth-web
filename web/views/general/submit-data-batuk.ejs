@@ -185,7 +185,7 @@
             let onSuccess = function (stream) {
                 document.getElementById("before_record_div").style.display = "";
                 document.getElementById("info_otherError").style.display = "none";
-                
+
                 const mediaRecorder = new MediaRecorder(stream);
 
                 record.onclick = function () {
@@ -246,9 +246,20 @@
 
             let onError = function (err) {
                 console.log("The following error occured: " + err);
-                // document.getElementById("before_record_div").style.display = "none";
-                // document.getElementById("info_otherError").style.display = "";
-                // document.getElementById("errorMessage").innerText = err.message;
+                if (err.message == 'Permission denied') {
+                    document.getElementById("info_permDenied").style.display = "";
+                    document.getElementById("info_notSupport").style.display = "none";
+                    document.getElementById("info_permAsking").style.display = "none";
+                    document.getElementById("before_record_div").style.display = "none";
+                } else if (err.message == 'Permission dismissed') {
+                    document.getElementById("info_permDenied").style.display = "none";
+                    document.getElementById("info_notSupport").style.display = "none";
+                    document.getElementById("info_permAsking").style.display = "";
+                    document.getElementById("before_record_div").style.display = "none";
+                }
+                document.getElementById("before_record_div").style.display = "none";
+                document.getElementById("info_otherError").style.display = "";
+                document.getElementById("errorMessage").innerText = err.message;
             };
 
             navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
