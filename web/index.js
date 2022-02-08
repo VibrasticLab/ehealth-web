@@ -64,7 +64,7 @@ db.initMongoose(() => {
     const server = app.listen(8080);
 });
 
-var skipCSRFArray = ["/api/device/", "/form/"];
+var skipCSRFArray = ["/api/device/", "/form/", "/submit-data-batuk"];
 
 function disableAPICSRF(fn) {
     return function(req, res, next) {
