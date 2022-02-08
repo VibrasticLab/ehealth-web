@@ -12,7 +12,7 @@ exports.sendData = async (req, res, next) => {
   // console.log(JSON.stringify(req.body));
   // console.log(req.files);
   var uniqueID = (new Date()).getTime().toString(36);
-  console.log(uniqueID);
+  //console.log(uniqueID);
   if (Object.keys(req.body).length != 0) {
     let tempJsonData = req.body;
     if (req.files.length != 0) {

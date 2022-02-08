@@ -124,8 +124,6 @@ exports.data_batuk = async (req, res, next) => {
     .limit(resultsPerPage)
     .skip(resultsPerPage * (page - 1));
 
-    console.log(resultsPerPage * page);
-
   // var hola = readdirSync("./public", { withFileTypes: true })
   //   .filter((dirent) => dirent.isDirectory())
   //   .map((dirent) => dirent.name);
