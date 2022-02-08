@@ -246,11 +246,13 @@
 
             let onError = function (err) {
                 console.log("The following error occured: " + err);
-                document.getElementById("before_record_div").style.display = "none";
-                document.getElementById("info_otherError").style.display = "";
-                document.getElementById("errorMessage").innerText = err.message;
+                // document.getElementById("before_record_div").style.display = "none";
+                // document.getElementById("info_otherError").style.display = "";
+                // document.getElementById("errorMessage").innerText = err.message;
             };
+
             navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
+
         } else {
             document.getElementById("before_record_div").style.display = "none";
             document.getElementById("info_notSupport").style.display = "";
