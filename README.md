@@ -64,3 +64,8 @@ and if need to run as background daemon
 docker-compose down
 docker-compose up -d --build
 ~~~
+
+log server
+~~~
+docker-compose logs -f
+~~~
