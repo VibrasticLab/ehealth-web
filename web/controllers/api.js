@@ -6,6 +6,8 @@ const initParam = require("../helpers/init");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const { handleUploadFile } = require("../helpers/helper_functions");
+
 exports.login = async (req, res, next) => {
   const email = req.body.email.trim();
   const password = req.body.password.trim();
@@ -86,7 +88,7 @@ exports.data_batuk = async (req, res, next) => {
 
     // http://localhost/uploads/batuk_primer/5b7897cd2284caca26569c19eff469ad.wav
     for (let index = 0; index < batukData.length; index++) {
-      batukData[index].filename = 'https://elbicare.my.id/uploads/batuk_primer/' + batukData[index].filename;
+      batukData[index].filename = "https://elbicare.my.id/uploads/batuk_primer/" + batukData[index].filename;
     }
 
     res.status(200).json({
@@ -159,7 +161,7 @@ exports.device_detail = async (req, res, next) => {
 
     for (let index = 0; index < deviceData_Datas.length; index++) {
       var JsonData = JSON.parse(deviceData_Datas[index].json_data);
-      JsonData.file_audio = 'https://elbicare.my.id/uploads/batuk/' + JsonData.file_audio;
+      JsonData.file_audio = "https://elbicare.my.id/uploads/batuk/" + JsonData.file_audio;
       deviceData_Datas[index].json_data = JSON.stringify(JsonData);
     }
     // http://localhost/uploads/batuk/5b7897cd2284caca26569c19eff469ad.wav
@@ -179,9 +181,47 @@ exports.device_detail = async (req, res, next) => {
   }
 };
 
-
 exports.submit_data_batuk = async (req, res, next) => {
   try {
+    if (Object.keys(req.body).length != 0) {
+      let tempJsonData = req.body;
+
+      if (req.files.length != 0) {
+        var splitdotArray = req.files[0].originalname.split(".");
+        tempJsonData.file_audio = req.files[0].filename + "." + splitdotArray[splitdotArray.length - 1];
+        handleUploadFile(req.files[0], "./public/uploads/batuk_primer/");
+      }
+
+      var uniqueID = new Date().getTime().toString(36);
+
+      const batuk = await Batuk_Data.create({
+        uuid: uniqueID,
+        email: req.body.email,
+        background_noise: req.body.back_noise,
+        submit_method: req.body.method_upload,
+        filename: tempJsonData.file_audio,
+      });
+
+      if (batuk) {
+        res.status(200).json({
+          code: 200,
+          success: true,
+          message: "Success Upload Data Batuk",
+        });
+      } else {
+        res.status(500).json({
+          code: 500,
+          success: false,
+          message: "Error Input Data",
+        });
+      }
+    } else {
+      res.status(400).json({
+        code: 400,
+        success: false,
+        message: "Empty Data",
+      });
+    }
     // const resultsPerPage = 10;
     // let page = req.body.page >= 1 ? req.body.page : 1;
 

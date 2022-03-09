@@ -22,6 +22,6 @@ router.post('/api/device/sendData/:device_id', upload.any() , apiControllerDevic
 router.get('/api/device/testAPI', apiControllerDevice.testAPI);
 
 //General Api
-router.post('/api/submit-data-batuk', isAuthApi ,apiController.submit_data_batuk);
+router.post('/api/submit-data-batuk', isAuthApi ,  upload.any() , apiController.submit_data_batuk);
 
 module.exports = router;
