@@ -1,0 +1,26 @@
+List API yg dibutuhkan:
+
+untuk Akses All User
+- Login
+- GetUser
+
+Untuk akses Admin
+Halaman Home:
+- Home (isinya berapa Doctors, Nurses, Patiens, Pharmacists, Devices) @Done
+Halaman Data Batuk:
+- List Data Batuk (bisa filter by email, kalau bisa pakai pagination agar loadnya tidak berat) @Done
+- Detail Data Batuk (isinya url ke file suara batuk) @Done
+Halaman Device:
+- List Device (bisa filter by name device, dan filter by status: Active, Inactive, Broken) (pakai pagination) @Done
+- Device Data (isinya list data yg pernah direkam device) (pakai pagination) 
+- Detail Device Data (isinya url ke file suara batuk)  @Done
+- Add Device
+- Delete Device
+Halaman Doctor:
+- List Doctor
+- Detail Doctor
+
+Untuk akses nonAdmin
+API ini diperlukan untuk mendiagnosa batuk user, jadi mekanismenya user merekam data batuk lalu menguploadnya ke server, kemudian server mengolah dan keluar hasilnya negatif atau positif
+- Upload Data Batuk
+- Get Status (API ini diperlukan karena khawatir proses pengolahan data oleh server memakan waktu cukup lama dan dikira server not responding)

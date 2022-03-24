@@ -1,4 +1,5 @@
-const Device_Data = require("../../../models/device_data");
+const Device_Data_Cough = require("../../../models/device_data_cough");
+const Device_Data_Audiometri = require("../../../models/device_data_audiometri");
 const initParam = require("../../../helpers/init");
 const { handleUploadFile } = require("../../../helpers/helper_functions");
 const bcrypt = require("bcryptjs");
@@ -11,49 +12,71 @@ exports.sendData = async (req, res, next) => {
   // console.log(req.params.device_id);
   // console.log(JSON.stringify(req.body));
   // console.log(req.files);
-  var uniqueID = (new Date()).getTime().toString(36);
+  var uniqueID = new Date().getTime().toString(36);
   //console.log(uniqueID);
   if (Object.keys(req.body).length != 0) {
     let tempJsonData = req.body;
-    if (req.files.length != 0) {
+    if (req.files.length != 0 && !Object.hasOwn(req.body, "audiogram")) {
       tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
       handleUploadFile(req.files[0], "./public/uploads/batuk/");
-    }
 
-    const device = await Device_Data.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: 99, covid: 99 });
-    if (device) {
-      res.json({
-        status: "success",
-        code: 200,
-        message: "Success Insert Data",
+      const device = await Device_Data_Cough.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: 99, covid: 99 });
+      if (device) {
+        res.json({
+          status: "success",
+          code: 200,
+          message: "Success Insert Data",
+        });
+      } else {
+        res.json({
+          status: "error",
+          code: 404,
+          message: device,
+        });
+      }
+
+      PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+        if (err) throw err;
+        //console.log('results: %j', results);
+        var cough = results[0];
+        console.log(results[1]);
+        Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
+          console.log(result);
+        });
       });
+
+      PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+        if (err) throw err;
+        //console.log('results: %j', results);
+        var covid = results[0];
+        console.log(results[1]);
+        Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+          console.log(result);
+        });
+      });
+    } else if (req.files.length != 0 && Object.hasOwn(req.body, "audiogram")) {
+      console.log(tempJsonData)
+      const device = await Device_Data_Audiometri.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData) });
+      if (device) {
+        res.json({
+          status: "success",
+          code: 200,
+          message: "Success Insert Data",
+        });
+      } else {
+        res.json({
+          status: "error",
+          code: 404,
+          message: device,
+        });
+      }
     } else {
       res.json({
         status: "error",
-        code: 404,
-        message: device,
+        code: 400,
+        message: "Empty Request",
       });
     }
-
-    PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-      if (err) throw err;
-      //console.log('results: %j', results);
-      var cough = results[0];
-      console.log(results[1]);
-      Device_Data.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
-        console.log(result);
-      });
-    });
-
-    PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-      if (err) throw err;
-      //console.log('results: %j', results);
-      var covid = results[0];
-      console.log(results[1]);
-      Device_Data.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
-        console.log(result);
-      });
-    });
 
     // User.updateOne(
     //   { _id: req.session.user._id },
@@ -77,19 +100,19 @@ exports.testAPI = async (req, res, next) => {
 
   PythonShell.run("./python-script/tryScript2.py", { args: [] }, function (err, results) {
     if (err) throw err;
-    console.log('results: %j', results);
+    console.log("results: %j", results);
     res.json({
-            status: "success",
-            code: 200,
-            data: JSON.stringify(results),
-          });
+      status: "success",
+      code: 200,
+      data: JSON.stringify(results),
+    });
   });
   // console.log(JSON.stringify(req.body));
   // console.log(Date.now());
   // if (Object.keys(req.body).length != 0) {
-  //   const device = await Device_Data.updateOne(
-  //     { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
-  //     { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() },
+  //   const device = await Device_Data_Cough.updateOne(
+  //     { device_id: req.params.device_id, Device_Data_Cough: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
+  //     { device_id: req.params.device_id, Device_Data_Cough: JSON.stringify(req.body), timestamps_data: Date.now() },
   //     { upsert: true } //Required
   //   );
   //   console.log(device);
@@ -110,9 +133,9 @@ exports.testAPI = async (req, res, next) => {
 //   console.log(JSON.stringify(req.body));
 //   console.log(Date.now());
 //   if (Object.keys(req.body).length != 0) {
-//     const device = await Device_Data.updateOne(
-//       { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
-//       { device_id: req.params.device_id, device_data: JSON.stringify(req.body), timestamps_data: Date.now() },
+//     const device = await Device_Data_Cough.updateOne(
+//       { device_id: req.params.device_id, Device_Data_Cough: JSON.stringify(req.body), timestamps_data: Date.now() }, //Required
+//       { device_id: req.params.device_id, Device_Data_Cough: JSON.stringify(req.body), timestamps_data: Date.now() },
 //       { upsert: true } //Required
 //     );
 //     console.log(device);

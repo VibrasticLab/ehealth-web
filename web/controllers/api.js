@@ -1,6 +1,6 @@
 const User = require("../models/user");
 const Device = require("../models/device");
-const Device_Data = require("../models/device_data");
+const Device_Data_Cough = require("../models/device_data_cough");
 const Batuk_Data = require("../models/batuk_data");
 const initParam = require("../helpers/init");
 const bcrypt = require("bcryptjs");
@@ -150,7 +150,7 @@ exports.device_detail = async (req, res, next) => {
       device_id: req.body.device_id,
     });
 
-    const deviceData_Datas = await Device_Data.find({
+    const deviceData_Datas = await Device_Data_Cough.find({
       device_id: req.body.device_id,
     })
       .limit(resultsPerPage)

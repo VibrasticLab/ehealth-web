@@ -2,7 +2,7 @@ const { Number } = require("mongoose");
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const device_dataSchema = new Schema(
+const device_data_coughSchema = new Schema(
   {
     uuid: {
       type: String,
@@ -37,4 +37,4 @@ const device_dataSchema = new Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Device_Data", device_dataSchema);
+module.exports = mongoose.model("Device_Data_Cough", device_data_coughSchema);
