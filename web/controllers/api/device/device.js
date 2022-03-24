@@ -18,7 +18,7 @@ exports.sendData = async (req, res, next) => {
   if (Object.keys(req.body).length != 0) {
     console.log(tempJsonData)
     if (req.files) {
-      if (req.files.length != 0 && !Object.hasOwn(req.body, "audiogram")) {
+      if (req.files.length != 0 && !Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
         tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
         handleUploadFile(req.files[0], "./public/uploads/batuk/");
   
@@ -57,7 +57,7 @@ exports.sendData = async (req, res, next) => {
           });
         });
       }
-    } else if (Object.hasOwn(req.body, "audiogram")) {
+    } else if (Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
       console.log(tempJsonData)
       const device = await Device_Data_Audiometri.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData) });
       if (device) {
