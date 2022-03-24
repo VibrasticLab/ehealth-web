@@ -16,45 +16,48 @@ exports.sendData = async (req, res, next) => {
   //console.log(uniqueID);
   if (Object.keys(req.body).length != 0) {
     let tempJsonData = req.body;
-    if (req.files.length != 0 && !Object.hasOwn(req.body, "audiogram")) {
-      tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
-      handleUploadFile(req.files[0], "./public/uploads/batuk/");
-
-      const device = await Device_Data_Cough.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: 99, covid: 99 });
-      if (device) {
-        res.json({
-          status: "success",
-          code: 200,
-          message: "Success Insert Data",
+    console.log(tempJsonData)
+    if (req.files) {
+      if (req.files.length != 0 && !Object.hasOwn(req.body, "audiogram")) {
+        tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
+        handleUploadFile(req.files[0], "./public/uploads/batuk/");
+  
+        const device = await Device_Data_Cough.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough: 99, covid: 99 });
+        if (device) {
+          res.json({
+            status: "success",
+            code: 200,
+            message: "Success Insert Data",
+          });
+        } else {
+          res.json({
+            status: "error",
+            code: 404,
+            message: device,
+          });
+        }
+  
+        PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+          if (err) throw err;
+          //console.log('results: %j', results);
+          var cough = results[0];
+          console.log(results[1]);
+          Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
+            console.log(result);
+          });
         });
-      } else {
-        res.json({
-          status: "error",
-          code: 404,
-          message: device,
+  
+        PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+          if (err) throw err;
+          //console.log('results: %j', results);
+          var covid = results[0];
+          console.log(results[1]);
+          Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+            console.log(result);
+          });
         });
       }
-
-      PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-        if (err) throw err;
-        //console.log('results: %j', results);
-        var cough = results[0];
-        console.log(results[1]);
-        Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
-          console.log(result);
-        });
-      });
-
-      PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-        if (err) throw err;
-        //console.log('results: %j', results);
-        var covid = results[0];
-        console.log(results[1]);
-        Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
-          console.log(result);
-        });
-      });
-    } else if (req.files.length != 0 && Object.hasOwn(req.body, "audiogram")) {
+    } else if (Object.hasOwn(req.body, "audiogram")) {
       console.log(tempJsonData)
       const device = await Device_Data_Audiometri.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData) });
       if (device) {
