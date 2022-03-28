@@ -7,6 +7,7 @@ const child_process = require('child_process');
 const User = require("../models/user");
 const Device = require("../models/device");
 const Device_Data_Cough = require("../models/device_data_cough");
+const Device_Data_Audiometri = require("../models/device_data_audiometri");
 const Batuk_Data = require("../models/batuk_data");
 
 const bcrypt = require("bcryptjs");
@@ -77,13 +78,20 @@ exports.device_list = async (req, res, next) => {
 
 exports.device_detail = async (req, res, next) => {
   var device_id = req.query.device_id;
+  var deviceData_Datas = {};
   const deviceData = await Device.find({
     admin: req.session.user._id,
     device_id: device_id,
   });
-  const deviceData_Datas = await Device_Data_Cough.find({
-    device_id: device_id,
-  }).sort({ time: "desc" });
+  if (deviceData[0].type == 'audiometri') {
+    deviceData_Datas = await Device_Data_Audiometri.find({
+      device_id: device_id,
+    }).sort({ time: "desc" });
+  } else if (deviceData[0].type == 'cough') {
+    deviceData_Datas = await Device_Data_Cough.find({
+      device_id: device_id,
+    }).sort({ time: "desc" });
+  }
   res.render("admin/device-detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Device Detail: " + device_id,
