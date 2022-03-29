@@ -180,7 +180,12 @@
                       </div>
                     </div>
                     <div class="iq-card-body">
-                      <canvas id="myChart" width="400" height="200"></canvas>
+                      <h4 class="card-title">Audiogram Kuping Kiri</h4>
+                      <canvas id="myChart1" width="400" height="200"></canvas>
+                      <hr>
+                      <br>
+                      <h4 class="card-title">Audiogram Kuping Kanan</h4>
+                      <canvas id="myChart2" width="400" height="200"></canvas>
                     </div>
                   </div>
                   <% } else if(device[0].type=='cough' ){ %>
@@ -296,14 +301,17 @@
         }
 
         function cekAudiogram(dataObject) {
-          let chartStatus = Chart.getChart("myChart"); // <canvas> id
+          var chartStatus = Chart.getChart("myChart1"); // <canvas> id
+          if (chartStatus != undefined) {
+            chartStatus.destroy();
+          }
+          var chartStatus = Chart.getChart("myChart2"); // <canvas> id
           if (chartStatus != undefined) {
             chartStatus.destroy();
           }
           document.getElementById("hasilaudiogram_div").style.display = "";
           var dataParsed = JSON.parse(dataObject)
-          const ctx = document.getElementById('myChart').getContext('2d');
-          var myChart = new Chart(ctx, {
+          var myChart1 = new Chart(document.getElementById('myChart1').getContext('2d'), {
             type: 'line',
             data: {
               labels: [], //125, 250, 500, 1000, 2000, 4000, 8000
@@ -322,7 +330,15 @@
                 pointStyle: 'circle',
                 pointRadius: 5,
                 borderWidth: 5
-              }, {
+              }]
+            },
+            options: AUDIOGRAM_CHART_OPTIONS
+          });
+          var myChart2 = new Chart(document.getElementById('myChart2').getContext('2d'), {
+            type: 'line',
+            data: {
+              labels: [], //125, 250, 500, 1000, 2000, 4000, 8000
+              datasets: [{
                 label: 'Right Ear',
                 data: {
                   0: null,
