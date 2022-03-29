@@ -27,7 +27,7 @@ exports.home = async (req, res, next) => {
   const deviceDataList = await Device.find({
     admin: req.session.user._id,
   });
-  console.log(req.session.user);
+  //console.log(req.session.user);
   res.render("admin/home-admin", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "E-Health Dashboard",
