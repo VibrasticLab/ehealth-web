@@ -310,11 +310,12 @@
               datasets: [{
                 label: 'Left Ear',
                 data: {
-                  250: null,
+                  0: null,
                   500: dataParsed['ch_0']['freq_0']['ampl'],
                   1000: dataParsed['ch_0']['freq_1']['ampl'],
                   2000: dataParsed['ch_0']['freq_2']['ampl'],
                   4000: null,
+                  8000: null,
                 },
                 borderColor: 'rgba(255, 99, 132, 1)',
                 pointBorderColor: 'rgb(0, 0, 0)',
@@ -324,11 +325,12 @@
               }, {
                 label: 'Right Ear',
                 data: {
-                  250: null,
+                  0: null,
                   500: dataParsed['ch_1']['freq_0']['ampl'],
                   1000: dataParsed['ch_1']['freq_1']['ampl'],
                   2000: dataParsed['ch_1']['freq_2']['ampl'],
                   4000: null,
+                  8000: null,
                 },
                 borderColor: 'rgba(54, 162, 235, 1)',
                 pointBorderColor: 'rgb(0, 0, 0)',
@@ -375,7 +377,7 @@
               title: {
                 display: true,
                 position: 'left',
-                text: 'Hearing Level in dB', //Hearing Level in dB
+                text: 'dB HL', //Hearing Level in dB
                 font: {
                   size: 20,
                   style: 'normal',
