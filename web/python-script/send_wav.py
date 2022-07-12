@@ -9,7 +9,7 @@ import sys
 import requests
 
 wavrecfile = sys.argv[1]
-servertarget = "http://103.147.32.143"
+servertarget = "http://103.179.56.79"
 recserver = servertarget + "/api/device/sendData/303"
 
 if os.path.exists(wavrecfile):

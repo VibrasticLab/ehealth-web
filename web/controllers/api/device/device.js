@@ -39,9 +39,8 @@ exports.sendData = async (req, res, next) => {
         PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
           if (err) throw err;
           //console.log('results: %j', results);
-          console.log(results);
-          var cough = results[0];
-          console.log(results[1]);
+          var cough = results[1];
+          console.log(results[2]);
           Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
             console.log(result);
           });
@@ -50,9 +49,8 @@ exports.sendData = async (req, res, next) => {
         PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
           if (err) throw err;
           //console.log('results: %j', results);
-          console.log(results);
-          var covid = results[0];
-          console.log(results[1]);
+          var covid = results[1];
+          console.log(results[2]);
           Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
             console.log(result);
           });
