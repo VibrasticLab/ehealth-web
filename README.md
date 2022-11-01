@@ -69,3 +69,8 @@ log server
 ~~~
 docker-compose logs -f
 ~~~
+
+kill all docker
+~~~
+sudo docker kill $(sudo docker ps -q)
+~~~
