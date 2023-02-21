@@ -28,7 +28,7 @@ services:
         command: npm run start:dev
     mongoexpress:
         container_name: mongo-express
-        image: mongo-express
+        image: mongo-express:0.49.0
         ports:
             - "8081:8081"
         env_file:
