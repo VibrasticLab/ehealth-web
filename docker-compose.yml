@@ -35,6 +35,6 @@ services:
             - ./secret/.env
         depends_on:
             - mongo
-         links:
+        links:
             - mongo
         restart: always
