@@ -15,7 +15,7 @@ RUN pip install tensorflow
 RUN pip install numpy
 RUN pip install matplotlib
 RUN pip install seaborn
-RUN pip install librosa=0.9.2
+RUN pip install librosa==0.9.2
 
 WORKDIR /usr/src/app
 
