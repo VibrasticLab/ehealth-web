@@ -1,0 +1,191 @@
+<%- include('../../includes/head.ejs') %>
+<% function timeConverter(UNIX_timestamp) { var a=new Date(UNIX_timestamp * 1000).toLocaleString(); return a; } %>
+
+</head>
+
+<body>
+  <!-- Wrapper Start -->
+  <div class="wrapper">
+    <!-- Sidebar  -->
+    <%- include('../../includes/navigations.ejs') %>
+    <!-- Page Content  -->
+    <div id="content-page" class="content-page">
+      <!-- TOP Nav Bar -->
+      <%- include('../../includes/top-navbar.ejs') %>
+      <!-- TOP Nav Bar END -->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="iq-edit-list-data">
+              <div class="tab-content">
+                <div class="tab-pane fade active show" id="device-data" role="tabpanel">
+                  <div class="iq-card">
+                    <div class="iq-card-header d-flex justify-content-between">
+                      <div class="iq-header-title">
+                        <h4 class="card-title">List User Vibio</h4>
+                      </div>
+                      <button class="btn btn-primary " onclick="window.location.assign('/admin/vibio/user-add');">
+                        Tambah Pasien
+                      </button>
+                    </div>
+                    <div class="iq-card-body">
+                      <div class="d-flex justify-content-space-around">
+                        <input type="text" style="margin-bottom: 10px;" id="input_search" placeholder="Masukan Nomer HP..">
+                        <button class="btn btn-primary " onclick="searchFunction()"
+                          style="margin-left: 10px;margin-bottom: 10px;">
+                          Search
+                        </button>
+                      </div>
+                      <div style="overflow-x:auto;">
+                        <table style="width: 100%;">
+                          <colgroup>
+                            <col span="1" style="width: 4%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 15%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 10%;">
+                            <col span="1" style="width: 20%;">
+                          </colgroup>
+                          <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Tanggal lahir</th>
+                            <th>Nomer HP</th>
+                            <th>Terdaftar</th>
+                            <th>Method</th>
+                          </tr>
+                          <% 
+                          for(var i=0; i < user_list.length; i++) { 
+                          var dateString = moment(new Date(user_list[i].tanggal_lahir)).format("YYYY-MM-DD"); %>
+                          <tr>
+                            <td>
+                              <%= lastIndex + i + 1 %>
+                            </td>
+                            <td>
+                              <%= user_list[i].fullname %>
+                            </td>
+                            <td>
+                              <%= dateString %>
+                            </td>
+                            <td>
+                              <%= user_list[i].uuid %>
+                            </td>
+                            <td>
+                              <%= user_list[i].createdAt %>
+                            </td>
+                            <td>
+                              <a class="btn btn-primary" href="/admin/vibio/terapi-list/<%= user_list[i].uuid %>">
+                                 Data Terapi
+                               </a>
+                              <button class="btn btn-danger" onclick="deleteUserSubmit('<%= user_list[i].uuid %>');">
+                                Hapus
+                              </button>
+                            </td>
+                          </tr>
+                          <% } %>
+                        </table>
+                      </div>
+                      <form action='/admin/vibio/delete-user?_csrf=<%= csrfToken %>' method='post' style="display: none;" id="form_delete">
+                        <input type="hidden" name="uuid_user" id="uuid_user">
+                      </form>
+                      <!-- PAGINATION -->
+                      <div class="shop-pagination">
+                        <div class="pagination">
+                          <% if (currentPage == 1 && pages > 1) { %>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>" <span>
+                            Page <%=  parseInt(currentPage) + 1 %>
+                            <i class="icon ion-ios-arrow-forward"></i>
+                            </span>
+                          </a>
+                          <% } else if (currentPage < pages) { %>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                              <i class="icon ion-ios-arrow-back"></i>
+                              Page <%= parseInt(currentPage) - 1 %>
+                            </span>
+                          </a>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>"><span>
+                              Page <%= parseInt(currentPage) + 1 %>
+                              <i class="icon ion-ios-arrow-forward"></i>
+                            </span>
+                          </a>
+                          <% } else if (currentPage == pages && pages > 1) { %>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                              <i class="icon ion-ios-arrow-back"></i>Page
+                              <%=parseInt(currentPage) - 1 %>
+                            </span>
+                          </a>
+                          <% } %>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+          integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/js/wavesurfer.js"></script>
+        <script src="/js/wavesurfer.spectrogram.js"></script>
+
+        <script>
+         function deleteUserSubmit(uuid_user) {
+            document.getElementById("uuid_user").value = uuid_user;
+            document.getElementById("form_delete").submit();
+         }
+          function searchFunction() {
+            var inputSearch = document.getElementById('input_search').value;
+            window.location.assign(addQueryParamsToUrl(window.location.href, {
+              search: inputSearch
+            }));
+          }
+
+          function addQueryParamsToUrl(url, params) {
+            var fakeBase = !url.startsWith('http') ? 'http://fake-base.com' : undefined;
+            var modifiedUrl = new URL(url || '', fakeBase);
+
+            // add/update params
+            Object.keys(params).forEach(function (key) {
+              if (modifiedUrl.searchParams.has(key)) {
+                modifiedUrl.searchParams.set(key, params[key]);
+              } else {
+                modifiedUrl.searchParams.append(key, params[key]);
+              }
+            });
+
+            // return as string (remove fake base if present)
+            return modifiedUrl.toString().replace(fakeBase, '');
+          }
+        </script>
+        <style>
+          table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+          }
+
+          td,
+          th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+            color: #000;
+          }
+
+          tr:nth-child(even) {
+            background-color: #dddddd;
+          }
+        </style>
+
+        <!-- Footer -->
+
+        <%- include('../../includes/footer.ejs') %>
+        <!-- Footer END -->
+      </div>
+    </div>
+    <!-- Wrapper END -->
+    <%- include('../../includes/end.ejs') %>

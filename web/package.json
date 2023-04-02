@@ -30,7 +30,8 @@
     "mongoose": "~5.10.5",
     "multer": "^1.4.4",
     "python-shell": "^3.0.1",
-    "read-excel-file": "~4.0.7"
+    "read-excel-file": "~4.0.7",
+    "cors": "^2.8.5"
   },
   "devDependencies": {
     "nodemon": "~2.0.4"

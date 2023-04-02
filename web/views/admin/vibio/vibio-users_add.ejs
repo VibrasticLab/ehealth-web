@@ -1,0 +1,63 @@
+<%- include('../../includes/head.ejs') %>
+
+   </head>
+
+   <body>
+      <!-- Wrapper Start -->
+      <div class="wrapper">
+         <!-- Sidebar  -->
+         <%- include('../../includes/navigations.ejs') %>
+            <!-- Page Content  -->
+            <div id="content-page" class="content-page">
+               <!-- TOP Nav Bar -->
+               <%- include('../../includes/top-navbar.ejs') %>
+                  <!-- TOP Nav Bar END -->
+                  <div class="container-fluid">
+                     <div class="row">
+                        <div class="col-lg-12">
+                           <div class="iq-card">
+                              <div class="iq-card-header d-flex justify-content-between">
+                                 <div class="iq-header-title">
+                                    <h4 class="card-title">Buat Akun Pasien Baru</h4>
+                                 </div>
+                              </div>
+                              <div class="iq-card-body">
+                                 <div class="new-user-info">
+                                    <form action='/admin/vibio/create-user?_csrf=<%= csrfToken %>' method='post'>
+                                       <div class="row">
+                                          <div class="form-group col-md-12">
+                                             <label for="full_name">Nama Lengkap</label>
+                                             <input type="text" class="form-control" name="full_name"
+                                                placeholder="Nama Lengkap" required>
+                                          </div>
+                                          <div class="form-group col-md-12">
+                                             <label for="birthday">Tanggal Lahir</label>
+                                             <input type="text" class="form-control" name="birthday"
+                                                placeholder="2000-04-14" required>
+                                             <label for="birthday">Tahun-Bulan-Tanggal</label>
+                                          </div>
+                                          <div class="form-group col-md-12">
+                                             <label for="birthday">Nomer HP</label>
+                                             <input type="text" class="form-control" name="no_hp"
+                                                placeholder="Nomer Handphone ex. 08578338573" required>
+                                             <label for="birthday">ex. 08578338573</label>
+                                          </div>
+                                       </div>
+                                       <button type="submit" class="btn btn-primary">Tambah Pasien</button>
+                                    </form>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- Footer -->
+                  <%- include('../../includes/footer.ejs') %>
+                     <!-- Footer END -->
+            </div>
+      </div>
+      <!-- Wrapper END -->
+      <script>
+         document.getElementById("add-device").classList.add("active"); 
+      </script>
+      <%- include('../../includes/end.ejs') %>
