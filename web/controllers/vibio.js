@@ -113,6 +113,8 @@ exports.terapi_detail = async (req, res, next) => {
   const terapiData = await Vibio_terapi.find(query).sort({ time: "desc" }).limit(resultsPerPage)
   .skip(resultsPerPage * (page - 1));
 
+  const FullterapiData = await Vibio_terapi.find({ uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi}).sort({ time: "desc" });
+
   res.render("admin/vibio/vibio-terapis_detail", {
     pageTitle: "E-Health Dashboard",
     pageHeader: "List Terapi",
@@ -126,6 +128,7 @@ exports.terapi_detail = async (req, res, next) => {
     searchVal: searchVal,
     lastIndex: resultsPerPage * (page - 1),
     totalCount: terapiData_count,
+    FullterapiData: JSON.stringify(FullterapiData),
   });
 };
 

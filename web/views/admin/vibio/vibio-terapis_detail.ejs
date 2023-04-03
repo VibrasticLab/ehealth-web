@@ -19,6 +19,16 @@
             <div class="iq-edit-list-data">
               <div class="tab-content">
                 <div class="tab-pane fade active show" id="device-data" role="tabpanel">
+                  <div class="iq-card" id="chartData">
+                    <div class="iq-card-header d-flex justify-content-between">
+                      <div class="iq-header-title">
+                        <h4 class="card-title">Chart Terapi</h4>
+                      </div>
+                    </div>
+                    <div class="iq-card-body">
+                      <canvas id="myChart1" width="400" height="200"></canvas>
+                    </div>
+                  </div>
                   <div class="iq-card">
                     <div class="iq-card-header d-flex justify-content-between">
                       <div class="iq-header-title">
@@ -46,10 +56,10 @@
                             <th>Tanggal</th>
                             <th>Kategori</th>
                             <% if(jenis_terapi==0 ){ %>
-                                <th>Jumlah Dengar</th>
+                            <th>Jumlah Dengar</th>
                             <% } else if(jenis_terapi==1 || jenis_terapi==2 ){ %>
-                                <th>Jumlah Benar</th>
-                                <th>Jumlah Salah</th>
+                            <th>Jumlah Benar</th>
+                            <th>Jumlah Salah</th>
                             <% } %>
                           </tr>
                           <% 
@@ -67,18 +77,18 @@
                             </td>
                             <td>
                               <%= nowData.kategori %>
-                            </td> 
+                            </td>
                             <% if(jenis_terapi==0 ){ %>
-                                <td>
-                                    <%= nowData.jumlah_dengar %>
-                                </td>
+                            <td>
+                              <%= nowData.jumlah_dengar %>
+                            </td>
                             <% } else if(jenis_terapi==1 || jenis_terapi==2 ){ %>
-                                <td>
-                                    <%= nowData.jumlah_benar %>
-                                </td>
-                                <td>
-                                    <%= nowData.jumlah_salah %>
-                                </td>
+                            <td>
+                              <%= nowData.jumlah_benar %>
+                            </td>
+                            <td>
+                              <%= nowData.jumlah_salah %>
+                            </td>
                             <% } %>
 
                           </tr>
@@ -125,18 +135,19 @@
           </div>
         </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
-          integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
-          crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@^3"></script>
+        <script src="https://cdn.jsdelivr.net/npm/luxon@^2"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@^1"></script>
         <script src="/js/wavesurfer.js"></script>
         <script src="/js/wavesurfer.spectrogram.js"></script>
 
         <script>
-         function deleteUserSubmit(uuid_user) {
+          function deleteUserSubmit(uuid_user) {
             document.getElementById("uuid_user").value = uuid_user;
             document.getElementById("form_delete").submit();
-         }
+          }
+
           function searchFunction() {
             var inputSearch = document.getElementById('input_search').value;
             window.location.assign(addQueryParamsToUrl(window.location.href, {
@@ -149,7 +160,7 @@
             var modifiedUrl = new URL(url || '', fakeBase);
 
             // add/update params
-            Object.keys(params).forEach(function (key) {
+            Object.keys(params).forEach(function(key) {
               if (modifiedUrl.searchParams.has(key)) {
                 modifiedUrl.searchParams.set(key, params[key]);
               } else {
@@ -160,6 +171,68 @@
             // return as string (remove fake base if present)
             return modifiedUrl.toString().replace(fakeBase, '');
           }
+        </script>
+        <script>
+          var terapiDataRaw = <%- FullterapiData %>;
+          var chartData = [];
+
+          terapiDataRaw.forEach((item) => {
+            var jsonData = JSON.parse(JSON.parse(item.json_data));
+            chartData.push({
+              x: Math.round(jsonData.timestamp),
+              y: jsonData.jumlah_dengar
+            });
+          });
+
+          console.log(chartData)
+
+          // Step 3: Create Chart.js chart instance
+          const ctx = document.getElementById('myChart1').getContext('2d');
+          var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: 'Tanggal',
+              datasets: [{
+                label: 'Jumlah Dengar',
+                data: chartData,
+                borderColor: 'rgb(255, 99, 132)',
+                fill: false
+              }]
+            },
+            options: {
+              scales: {
+                x: {
+                  type: 'time',
+                  time: {
+                    unit: 'week',
+                    displayFormats: {
+                      'millisecond': 'MMM DD',
+                      'second': 'MMM DD',
+                      'minute': 'MMM DD',
+                      'hour': 'MMM DD',
+                      'day': 'dd MMM',
+                      'week': 'dd MMM',
+                      'month': 'MMMM YYYY',
+                      'quarter': 'MMM DD',
+                      'year': 'MMM DD',
+                    },
+                    
+                  },
+                  title: {
+                    display: true,
+                    text: 'Date'
+                  },
+                  min: chartData[0].x
+                },
+                y: {
+                  title: {
+                    display: true,
+                    text: 'value'
+                  }
+                }
+              }
+            }
+          });
         </script>
         <style>
           table {
@@ -180,6 +253,7 @@
             background-color: #dddddd;
           }
         </style>
+
 
         <!-- Footer -->
 
