@@ -189,6 +189,32 @@ exports.data_batuk_export_sound = async (req, res, next) => {
   res.download(folderpath + '/archive.zip');
 };
 
+exports.data_batuk_naracoba = async (req, res, next) => { 
+  const resultsPerPage = 25;
+  let page = req.query.page >= 1 ? req.query.page : 1;
+  var query = (req.query.search != undefined && req.query.search) ? {device_id: req.query.search} : {};
+  var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
+
+  const batukData_count = await Device_Data_Cough_Naracoba.countDocuments(query)
+  const batukData = await Device_Data_Cough_Naracoba.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
+
+  res.render("admin/data-batuk_naracoba", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Data Batuk",
+    userdata: req.session.user,
+    batukData: batukData,
+    currentPage: page, 
+    pages: Math.ceil(batukData_count / resultsPerPage), 
+    searchVal: searchVal,
+    lastIndex: resultsPerPage * (page - 1),
+    totalCount: batukData_count,
+    role: req.session.user.role,
+  });
+};
+
 exports.create_doctor = async (req, res, next) => {
   if (req.body.pass === req.body.rpass) {
     const hashedPw = await bcrypt.hash(req.body.pass, 12);

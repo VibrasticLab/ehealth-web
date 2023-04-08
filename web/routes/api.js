@@ -20,6 +20,7 @@ router.post('/api/admin/device-detail', isAuthApi ,apiController.device_detail);
 
 //Device API
 router.post('/api/device/sendData/:device_id', upload.any() , apiControllerDevice.sendData);
+router.post('/api/device/sendData_Naracoba/:device_id', upload.any() , apiControllerDevice.sendData_Naracoba);
 router.get('/api/device/testAPI', apiControllerDevice.testAPI);
 
 // Vibio

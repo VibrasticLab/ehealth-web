@@ -65,6 +65,13 @@ router.get(
 );
 
 router.get(
+  "/admin/data-batuk-naracoba",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_naracoba
+);
+
+router.get(
   "/admin/doctor-list",
   auth.isAuth,
   checkingRole.isAdmin,
