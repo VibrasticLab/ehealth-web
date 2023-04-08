@@ -8,6 +8,7 @@ const User = require("../models/user");
 const Device = require("../models/device");
 const Device_Data_Cough = require("../models/device_data_cough");
 const Device_Data_Audiometri = require("../models/device_data_audiometri");
+const Device_Data_Naracoba = require("../models/device_data_cough_naracoba");
 const Batuk_Data = require("../models/batuk_data");
 
 const bcrypt = require("bcryptjs");
@@ -195,8 +196,8 @@ exports.data_batuk_naracoba = async (req, res, next) => {
   var query = (req.query.search != undefined && req.query.search) ? {device_id: req.query.search} : {};
   var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
 
-  const batukData_count = await Device_Data_Cough_Naracoba.countDocuments(query)
-  const batukData = await Device_Data_Cough_Naracoba.find(query)
+  const batukData_count = await Device_Data_Naracoba.countDocuments(query)
+  const batukData = await Device_Data_Naracoba.find(query)
     .sort({ time: "desc" })
     .limit(resultsPerPage)
     .skip(resultsPerPage * (page - 1));
