@@ -8,9 +8,29 @@ const batuk_dataSchema = new Schema(
       type: String,
       required: true,
     },
+    consent: {
+      type: String,
+      required: true,
+    },
+    nama: {
+      type: String,
+      required: true,
+    },
+    no_hp: {
+      type: String,
+      required: true,
+    },
+    alamat: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
+    },
+    hasil_swab: {
+      type: String,
+      required: false,
     },
     background_noise: {
       type: Number,
@@ -20,7 +40,15 @@ const batuk_dataSchema = new Schema(
       type: String,
       required: true,
     },
-    filename: {
+    file_identitas: {
+      type: String,
+      required: false,
+    },
+    file_swab: {
+      type: String,
+      required: false,
+    },
+    file_audio: {
       type: String,
       required: true,
     },

@@ -31,41 +31,95 @@ exports.account_setting = async (req, res, next) => {
 exports.submit_data_batuk = async (req, res, next) => {
   res.render("general/submit-data-batuk", {
     pageTitle: "E-Health Dashboard",
-    pageHeader: "Account Setting",
+    pageHeader: "Submit Data batuk",
+    message: "",
+  });
+};
+
+exports.inform_consent = async (req, res, next) => {
+  res.render("general/inform-conset", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Inform Consent",
     message: "",
   });
 };
 
 exports.post_submit_data_batuk = async (req, res, next) => {
   if (Object.keys(req.body).length != 0) {
-    let tempJsonData = req.body;
-    if (req.files.length != 0) {
-      var splitdotArray = req.files[0].originalname.split(".");
-      tempJsonData.file_audio = req.files[0].filename + "." + splitdotArray[splitdotArray.length - 1];
-      handleUploadFile(req.files[0], "./public/uploads/batuk_primer/");
+    var fileArray = [];
+    for (let index = 0; index < req.files.length; index++) {
+      var splitdotArray = req.files[index].originalname.split(".");
+      fileArray[req.files[index].fieldname] = req.files[index].filename + "." + splitdotArray[splitdotArray.length - 1];
     }
-    const batuk = await Batuk_Data.create({
-      uuid: req.body.uniqueID,
-      email: req.body.email,
-      background_noise: req.body.back_noise,
-      submit_method: req.body.method_upload,
-      filename: tempJsonData.file_audio,
-    });
-    if (batuk) {
-      res.render("general/submit-data-batuk", {
-        success: true,
-        message: "Berhasil Input Data",
-      });
-    } else {
+    if (req.body.consent == "tidak") {
       res.render("general/submit-data-batuk", {
         success: false,
-        message: "Error Input Data",
+        message: "Anda Harus Menyetujui Inform Consent Yang Ada",
       });
+    } else if (req.body.consent == "ya") {
+      if (typeof fileArray['batuk_primer'] !== 'undefined') {
+        try {
+          for (let index = 0; index < req.files.length; index++) {
+            handleUploadFile(req.files[index], "./public/uploads/" + req.files[index].fieldname + "/");
+          }
+
+          const batuk = await Batuk_Data.create({
+            uuid: req.body.uniqueID,
+            consent: req.body.consent,
+            nama: req.body.nama,
+            no_hp: req.body.no_hp,
+            alamat: req.body.alamat,
+            email: req.body.email,
+            hasil_swab: req.body.hasil_swab,
+            background_noise: req.body.back_noise,
+            submit_method: req.body.method_upload,
+            file_identitas: ((typeof fileArray['file_identitas'] !== 'undefined') ? fileArray['file_identitas'] : ''),
+            file_swab: ((typeof fileArray['file_swab'] !== 'undefined') ? fileArray['file_swab'] : ''),
+            file_audio: fileArray['batuk_primer'],
+          });
+          if (batuk) {
+            res.render("general/submit-data-batuk", {
+              success: true,
+              message: "Berhasil Input Data, Halaman akan dimuat ulang otomatis.....",
+            });
+          } else {
+            console.log(req.files);
+            console.log({
+              uuid: req.body.uniqueID,
+              consent: req.body.consent,
+              nama: req.body.nama,
+              no_hp: req.body.no_hp,
+              alamat: req.body.alamat,
+              email: req.body.email,
+              hasil_swab: req.body.hasil_swab,
+              background_noise: req.body.back_noise,
+              submit_method: req.body.method_upload,
+              file_identitas: fileArray['file_identitas'],
+              file_swab: fileArray['file_swab'],
+              file_audio: fileArray['batuk_primer'],
+            });
+            res.render("general/submit-data-batuk", {
+              success: false,
+              message: "Error Input Data : Silahkan Hubungi Administrator",
+            });
+          }
+        } catch (error) {
+          res.render("general/submit-data-batuk", {
+            success: false,
+            message: "Error Input Data : " + error.toString(),
+          });
+        }
+      } else {
+        res.render("general/submit-data-batuk", {
+          success: false,
+          message: "Error Input Data : Silahkan Isi Form Dengan Lengkap",
+        });
+      }
     }
   } else {
     res.render("general/submit-data-batuk", {
       success: false,
-      message: "Empty Data",
+      message: "Empty Data, Silahkan Isi Form Dengan Lengkap",
     });
   }
 };

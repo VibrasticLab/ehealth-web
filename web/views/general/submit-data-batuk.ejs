@@ -33,79 +33,113 @@
                                 <%= message %>
                             </div>
                         </div>
-                        <form id="before_submit" class="mt-4" action="/submit-data-batuk" method="post"
-                            enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="exampleInputEmail2">Email address</label>
-                                <input type="text" class="form-control mb-0" name="email" placeholder="Masukan Email" />
+                        <form id="before_submit" class="mt-4" action="/submit-data-batuk" method="post" enctype="multipart/form-data">
+                            <div class="alert alert-primary" style="margin-top: 10px;">
+                                Pertanyaan terkait dengan penelitian ini bisa ditanyakan melalui contact person berikut:<br>
+                                dr. Alfiyan Nur Rosyid (0813-5012-5649)<br>
+                                sdr. Ammar (0823-3028-6752)
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail2">Background Noise</label>
-                                <input type="number" class="form-control mb-0" name="back_noise"
-                                    placeholder="Isi 0 Jika tidak tahu" />
+                                <label for="exampleInputEmail2">Apakah Anda bersedia menjadi naracoba penelitian ini berdasarkan inform consent yang ada di link
+                                    <a href="https://elbicare.my.id/general/inform-consent" target=”_blank” > https://elbicare.my.id/general/inform-consent</a></label><br>
+                                <input type="radio" name="consent" value="ya" onclick="showConsent(true)">
+                                <label for="html">Ya</label><br>
+                                <input type="radio" name="consent" value="tidak" onclick="showConsent(false)">
+                                <label for="css">Tidak</label><br>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleInputPassword1">Pilih Metode Submit</label><br />
-                                <input type="radio" id="rekam_radio" name="method_upload"
-                                    onclick="radioSelector('rekam')" value="rekam" checked />
-                                <label for="rekam_radio">Rekam Suara Batuk</label><br />
-                                <input type="radio" id="upload_radio" name="method_upload"
-                                    onclick="radioSelector('upload')" value="upload" />
-                                <label for="upload_radio">Upload Suara Batuk</label><br />
-                            </div>
-                            <hr />
-                            <div class="form-group" id="rekam_div">
-                                <div id="before_record_div">
-                                    <label for="exampleInputPassword1">Rekam Suara Batuk</label><br />
-                                    <section class="main-controls">
-                                        <div id="buttons">
-                                            <button type="button" class="btn btn-primary record">Record</button>
-                                            <button type="button" class="btn btn-danger stop"
-                                                style="display: none;">Stop</button>
+                            <div id="consent_yes" style="display: none;">
+                                <div class="form-group">
+                                    <label for="exampleInputname">Nama</label>
+                                    <input type="text" class="form-control mb-0" name="nama" placeholder="Masukan Nama Anda" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Nomer Handphone</label>
+                                    <input type="text" class="form-control mb-0" name="no_hp" placeholder="Masukan Nomer Handphone Anda" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Alamat</label>
+                                    <input type="text" class="form-control mb-0" name="alamat" placeholder="Masukan Alamat Anda" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Email address</label>
+                                    <input type="text" class="form-control mb-0" name="email" placeholder="Masukan Email" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="file_identitas">Upload Foto Kartu Identitas</label><br />
+                                    <input type="file" name="file_identitas" />
+                                    <!-- <input name="userfile" type="file" accept="application/pdf, application/vnd.ms-excel" /> -->
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Hasil Swab Terakhir</label><br>
+                                    <input type="radio" name="hasil_swab" value="positif">
+                                    <label for="html">Positif</label><br>
+                                    <input type="radio" name="hasil_swab" value="negatif">
+                                    <label for="css">Negatif</label><br>
+                                </div>
+                                <div class="form-group">
+                                    <label for="file_swab">Upload Sertifikat Hasil Tes Swab Terakhir</label><br />
+                                    <input type="file" name="file_swab" />
+                                    <!-- <input name="userfile" type="file" accept="application/pdf, application/vnd.ms-excel" /> -->
+                                </div>
+                                <hr />
+                                <div class="form-group">
+                                    <label for="exampleInputEmail2">Background Noise</label>
+                                    <input type="number" class="form-control mb-0" name="back_noise" placeholder="Isi 0 Jika tidak tahu" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputPassword1">Pilih Metode Submit</label><br />
+                                    <input type="radio" id="rekam_radio" name="method_upload" onclick="radioSelector('rekam')" value="rekam" checked />
+                                    <label for="rekam_radio">Rekam Suara Batuk</label><br />
+                                    <input type="radio" id="upload_radio" name="method_upload" onclick="radioSelector('upload')" value="upload" />
+                                    <label for="upload_radio">Upload Suara Batuk</label><br />
+                                </div>
+                                <hr />
+                                <div class="form-group" id="rekam_div">
+                                    <div id="before_record_div">
+                                        <label for="exampleInputPassword1">Rekam Suara Batuk</label><br />
+                                        <section class="main-controls">
+                                            <div id="buttons">
+                                                <button type="button" class="btn btn-primary record">Record</button>
+                                                <button type="button" class="btn btn-danger stop" style="display: none;">Stop</button>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div id="after_record_div" style="display: none">
+                                        <label for="exampleInputPassword1">Hasil Rekaman Suara Batuk</label><br />
+                                        <section class="sound-clips"></section>
+                                    </div>
+                                    <div id="information_record_div">
+                                        <div id="info_permAsking" class="alert alert-warning" style="margin-top: 10px;display: none;">
+                                            Silahkan Ijinkan penggunaan microphone Terlebih dahulu sebelum menggunakan fitur
+                                            Rekam. Jika Sudah Silahkan Muat Ulang Halaman ini
                                         </div>
+                                        <div id="info_permDenied" class="alert alert-danger" style="margin-top: 10px;display: none;">
+                                            Akses Merekam Tidak Diijinkan Oleh Perangkat, Silahkan Ijinkan Penggunaan
+                                            Microphone Terlebih dahulu sebelum menggunakan fitur ini. Jika Sudah Silahkan Muat Ulang Halaman ini
+                                        </div>
+                                        <div id="info_notSupport" class="alert alert-danger" style="margin-top: 10px;display: none;">
+                                            Fitur Perekaman Tidak Didukung Oleh Perangkat Ini. Silahkan gunakan perangkat lain / Browser Lain
+                                        </div>
+                                        <div id="info_otherError" class="alert alert-danger" style="margin-top: 10px;display: none;">
+                                        </div>
+                                    </div>
+                                    <input type="file" name="batuk_primer" id="fileToUpload_rekam" style="display: none;" />
+                                </div>
+                                <div class="form-group" id="upload_div" style="display: none">
+                                    <label for="exampleInputPassword1">File Suara Batuk</label><br />
+                                    <input type="file" name="batuk_primer" id="fileToUpload_upload" onchange="uploadPreview(this)" />
+                                    <section class="sound-clips" style="margin-top: 10px">
+                                        <article class="clip">
+                                            <audio style="display: none;" id="audio_preview_upload" controls="" src=""></audio>
+                                        </article>
                                     </section>
                                 </div>
-                                <div id="after_record_div" style="display: none">
-                                    <label for="exampleInputPassword1">Hasil Rekaman Suara Batuk</label><br />
-                                    <section class="sound-clips"></section>
+                                <input id="uniqueID_div" type="hidden" name="uniqueID" value="">
+                                <div class="d-inline-block w-100">
+                                    <button type="submit" class="btn btn-primary float-right">Submit</button>
                                 </div>
-                                <div id="information_record_div">
-                                    <div id="info_permAsking" class="alert alert-warning"
-                                        style="margin-top: 10px;display: none;">
-                                        Silahkan Ijinkan penggunaan microphone Terlebih dahulu sebelum menggunakan fitur
-                                        Rekam. Jika Sudah Silahkan Muat Ulang Halaman ini
-                                    </div>
-                                    <div id="info_permDenied" class="alert alert-danger"
-                                        style="margin-top: 10px;display: none;">
-                                        Akses Merekam Tidak Diijinkan Oleh Perangkat, Silahkan Ijinkan Penggunaan
-                                        Microphone Terlebih dahulu sebelum menggunakan fitur ini. Jika Sudah Silahkan Muat Ulang Halaman ini
-                                    </div>
-                                    <div id="info_notSupport" class="alert alert-danger"
-                                        style="margin-top: 10px;display: none;">
-                                        Fitur Perekaman Tidak Didukung Oleh Perangkat Ini. Silahkan gunakan perangkat lain / Browser Lain
-                                    </div>
-                                    <div id="info_otherError" class="alert alert-danger"
-                                        style="margin-top: 10px;display: none;">
-                                    </div>
-                                </div>
-                                <input type="file" name="fileToUpload_rekam" id="fileToUpload_rekam"
-                                    style="display: none;" />
                             </div>
-                            <div class="form-group" id="upload_div" style="display: none">
-                                <label for="exampleInputPassword1">File Suara Batuk</label><br />
-                                <input type="file" name="fileToUpload_upload" id="fileToUpload_upload"
-                                    onchange="uploadPreview(this)" />
-                                <section class="sound-clips" style="margin-top: 10px">
-                                    <article class="clip">
-                                        <audio style="display: none;" id="audio_preview_upload" controls=""
-                                            src=""></audio>
-                                    </article>
-                                </section>
-                            </div>
-                            <input id="uniqueID_div" type="hidden" name="uniqueID" value="">
-                            <div class="d-inline-block w-100">
-                                <button type="submit" class="btn btn-primary float-right">Submit</button>
-                            </div>
+
                         </form>
                     </div>
                 </div>
@@ -119,7 +153,7 @@
         document.getElementById("before_submit").style.display = "none";
         setTimeout(function () {
             window.location = "/submit-data-batuk";
-        }, 2000);
+        }, 5000);
     </script>
     <% } %>
     <script>
@@ -180,7 +214,7 @@
             const constraints = {
                 audio: true,
             };
-            
+
             let chunks = [];
             let onSuccess = function (stream) {
                 document.getElementById("before_record_div").style.display = "";
@@ -263,7 +297,8 @@
                 }
                 document.getElementById("before_record_div").style.display = "none";
                 document.getElementById("info_otherError").style.display = "";
-                document.getElementById("info_otherError").innerHTML = "Detail Error: " + err.message + "<br>Silahkan Hubungi Admin/CP untuk mendapat bantuan";
+                document.getElementById("info_otherError").innerHTML = "Detail Error: " + err.message +
+                    "<br>Silahkan Hubungi Admin/CP untuk mendapat bantuan";
             };
 
             navigator.mediaDevices.getUserMedia(constraints).then(onSuccess, onError);
@@ -281,6 +316,14 @@
             } else if (type == "upload") {
                 document.getElementById("rekam_div").style.display = "none";
                 document.getElementById("upload_div").style.display = "";
+            }
+        }
+
+        function showConsent(isShow) {
+            if (isShow) {
+                document.getElementById("consent_yes").style.display = "";
+            } else {
+                document.getElementById("consent_yes").style.display = "none";
             }
         }
 

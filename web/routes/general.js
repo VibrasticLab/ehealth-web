@@ -9,6 +9,7 @@ const checkingRole = require("../middlewares/check-role");
 const router = express.Router();
 router.get("/", auth.redirectIndex);
 router.get("/submit-data-batuk", generalController.submit_data_batuk);
+router.get("/general/inform-consent", generalController.inform_consent);
 router.get("/edit-profile", auth.isAuth, generalController.edit_profile);
 router.get("/account-setting", auth.isAuth, generalController.account_setting);
 
