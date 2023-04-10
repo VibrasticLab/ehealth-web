@@ -217,7 +217,7 @@ exports.data_batuk_naracoba = async (req, res, next) => {
 };
 
 exports.data_batuk_naracoba_edit = async (req, res, next) => { 
-  const batukData = await Device_Data_Naracoba.find({uuid: req.params.uuid});
+  const batukData = await Device_Data_Naracoba.find({uuid: req.query.uuid});
 
   res.render("admin/data-batuk_naracoba_edit", {
     pageTitle: "E-Health Dashboard",
