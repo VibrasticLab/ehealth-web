@@ -23,6 +23,7 @@
               </div>
               <div class="iq-card-body">
                 <div class="new-user-info">
+                  <%= JSON.Stringify(batukData) %>
                   <% var parsedData=JSON.parse(batukData[0].json_data); %>
                   <form action='/admin/data-batuk-naracoba-post?_csrf=<%= csrfToken %>' method='post'>
                     <div class="row">
