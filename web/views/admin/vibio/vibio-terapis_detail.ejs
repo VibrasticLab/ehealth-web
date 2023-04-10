@@ -177,7 +177,7 @@
           var chartData = [];
 
           terapiDataRaw.forEach((item) => {
-            var jsonData = JSON.parse(JSON.parse(item.json_data));
+            var jsonData = JSON.parse(item.json_data);
             chartData.push({
               x: Math.round(jsonData.timestamp),
               y: jsonData.jumlah_dengar
