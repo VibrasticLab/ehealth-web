@@ -72,6 +72,27 @@ router.get(
 );
 
 router.get(
+  "/admin/data-batuk-naracoba-edit",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_naracoba_edit
+);
+
+router.get(
+  "/admin/data-batuk-naracoba-edit",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_naracoba_edit
+);
+
+router.post(
+  "/admin/data-batuk-naracoba-post",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_naracoba_edit_post
+);
+
+router.get(
   "/admin/doctor-list",
   auth.isAuth,
   checkingRole.isAdmin,

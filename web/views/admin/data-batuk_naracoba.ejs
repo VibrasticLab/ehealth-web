@@ -49,6 +49,9 @@
                             <th>No</th>
                             <th>Time</th>
                             <th>UUID</th>
+                            <th>Nama</th>
+                            <th>Gender</th>
+                            <th>Umur</th>
                             <th>Device</th>
                             <th>Action</th>
                           </tr>
@@ -69,11 +72,23 @@
                               <%= batukData[i].uuid %>
                             </td>
                             <td>
+                              <%= parsedData.nama %>
+                            </td>
+                            <td>
+                              <%= parsedData.gender %>
+                            </td>
+                            <td>
+                              <%= parsedData.umur %>
+                            </td>
+                            <td>
                               <%= batukData[i].device_id %>
                             </td>
                             <td>
                               <button class="btn btn-primary" onclick="cekSuaraBatuk('<%= parsedData.file_audio %>');">
                                 Cek Suara Batuk
+                              </button>
+                              <button class="btn btn-primary" onclick="cekSuaraBatuk('<%= parsedData.file_audio %>');">
+                                Edit Data
                               </button>
                             </td>
                           </tr>

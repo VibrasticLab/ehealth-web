@@ -216,6 +216,56 @@ exports.data_batuk_naracoba = async (req, res, next) => {
   });
 };
 
+exports.data_batuk_naracoba_edit = async (req, res, next) => { 
+  const batukData = await Device_Data_Naracoba.find({uuid: req.params.uuid});
+
+  res.render("admin/data-batuk_naracoba_edit", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Edit Data Naracoba",
+    batukData: batukData,
+    role: req.session.user.role,
+  });
+};
+
+exports.data_batuk_naracoba_edit_post = async (req, res, next) => { 
+  var nowbatukData = await Device_Data_Naracoba.find({uuid: req.body.uuid });
+  var data_json = JSON.parse(nowbatukData[0].json_data);
+  data_json['nama'] = req.body.full_name;
+  data_json['gender'] = req.body.gender;
+  data_json['umur'] = req.body.umur;
+  
+  const user = await User.update(
+    { uuid: req.body.uuid },
+    {
+      json_data: JSON.stringify(data_json)
+    },
+  );
+
+  const resultsPerPage = 25;
+  let page = req.query.page >= 1 ? req.query.page : 1;
+  var query = (req.query.search != undefined && req.query.search) ? {device_id: req.query.search} : {};
+  var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
+
+  var batukData_count = await Device_Data_Naracoba.countDocuments(query)
+  var batukData = await Device_Data_Naracoba.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
+
+  res.render("admin/data-batuk_naracoba", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Data Batuk",
+    userdata: req.session.user,
+    batukData: batukData,
+    currentPage: page, 
+    pages: Math.ceil(batukData_count / resultsPerPage), 
+    searchVal: searchVal,
+    lastIndex: resultsPerPage * (page - 1),
+    totalCount: batukData_count,
+    role: req.session.user.role,
+  });
+};
+
 exports.create_doctor = async (req, res, next) => {
   if (req.body.pass === req.body.rpass) {
     const hashedPw = await bcrypt.hash(req.body.pass, 12);
