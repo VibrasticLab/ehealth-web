@@ -53,6 +53,7 @@
                             <th>Gender</th>
                             <th>Umur</th>
                             <th>Device</th>
+                            <th>Filename</th>
                             <th>Action</th>
                           </tr>
                           <% 
@@ -79,6 +80,9 @@
                             </td>
                             <td>
                               <%= parsedData.umur %>
+                            </td>
+                            <td>
+                              <%= parsedData.file_audio %>
                             </td>
                             <td>
                               <%= batukData[i].device_id %>
