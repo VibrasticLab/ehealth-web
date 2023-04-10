@@ -235,36 +235,14 @@ exports.data_batuk_naracoba_edit_post = async (req, res, next) => {
   data_json['gender'] = req.body.gender;
   data_json['umur'] = req.body.umur;
   
-  const user = await User.update(
+  const user = await Device_Data_Naracoba.update(
     { uuid: req.body.uuid },
     {
       json_data: JSON.stringify(data_json)
     },
   );
 
-  const resultsPerPage = 25;
-  let page = req.query.page >= 1 ? req.query.page : 1;
-  var query = (req.query.search != undefined && req.query.search) ? {device_id: req.query.search} : {};
-  var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
-
-  var batukData_count = await Device_Data_Naracoba.countDocuments(query)
-  var batukData = await Device_Data_Naracoba.find(query)
-    .sort({ time: "desc" })
-    .limit(resultsPerPage)
-    .skip(resultsPerPage * (page - 1));
-
-  res.render("admin/data-batuk_naracoba", {
-    pageTitle: "E-Health Dashboard",
-    pageHeader: "Data Batuk",
-    userdata: req.session.user,
-    batukData: batukData,
-    currentPage: page, 
-    pages: Math.ceil(batukData_count / resultsPerPage), 
-    searchVal: searchVal,
-    lastIndex: resultsPerPage * (page - 1),
-    totalCount: batukData_count,
-    role: req.session.user.role,
-  });
+  res.redirect("/admin/data-batuk-naracoba");
 };
 
 exports.create_doctor = async (req, res, next) => {
