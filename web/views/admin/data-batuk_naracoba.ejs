@@ -87,9 +87,9 @@
                               <button class="btn btn-primary" onclick="cekSuaraBatuk('<%= parsedData.file_audio %>');">
                                 Cek Suara Batuk
                               </button>
-                              <button class="btn btn-primary" onclick="cekSuaraBatuk('<%= parsedData.file_audio %>');">
+                              <a class="btn btn-primary" href="https://elbicare.my.id/admin/data-batuk-naracoba-edit?uuid=<%= batukData[i].uuid %>" onclick="cekSuaraBatuk('<%= parsedData.file_audio %>');">
                                 Edit Data
-                              </button>
+                              </a>
                             </td>
                           </tr>
                           <% } %>
