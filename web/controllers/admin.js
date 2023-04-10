@@ -223,6 +223,7 @@ exports.data_batuk_naracoba_edit = async (req, res, next) => {
     pageTitle: "E-Health Dashboard",
     pageHeader: "Edit Data Naracoba",
     batukData: batukData,
+    userdata: req.session.user,
     role: req.session.user.role,
   });
 };
