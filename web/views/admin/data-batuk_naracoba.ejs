@@ -237,6 +237,10 @@
             if (searchParams != null) {
               document.getElementById('input_search').value = searchParams;
             }
+
+            setTimeout(function(){
+              window.location.reload(1);
+            }, 10000);
           });
         </script>
         <script>
