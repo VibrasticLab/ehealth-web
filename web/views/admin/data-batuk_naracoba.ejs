@@ -231,7 +231,7 @@
 
           });
 
-          $(document).ready(function(){
+          document.addEventListener("DOMContentLoaded", function(event) { 
             var url = new URL(window.location.href);
             var searchParams = new URLSearchParams(url.search);
             if (searchParams != null) {
