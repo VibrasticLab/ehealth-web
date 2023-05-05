@@ -245,6 +245,35 @@ exports.data_batuk_naracoba_edit_post = async (req, res, next) => {
   res.redirect("/admin/data-batuk-naracoba");
 };
 
+exports.data_batuk_naracoba_export = async (req, res, next) => {
+  const dateTime = new Date().toISOString().slice(-24).replace(/\D/g, "").slice(0, 14);
+  let csv;
+  const filePath = path.join(__dirname, "../", "temp", "csv-" + dateTime + ".csv");
+  const batukArray = await Device_Data_Naracoba.find();
+  const fields = ["time", "uuid", "device_id", "json_data",  "filename"];
+  try {
+    csv = json2csv(batukArray, { fields });
+  } catch (err) {
+    console.log(err);
+  }
+
+  fs.writeFile(filePath, csv, function (err) {
+    if (err) {
+      console.log(err);
+    } else {
+      setTimeout(function () {
+        fs.unlink(filePath, function (err) {
+          if (err) {
+            console.error(err);
+          }
+          console.log("File has been Deleted");
+        });
+      }, 30000);
+      res.download(filePath);
+    }
+  });
+};
+
 exports.create_doctor = async (req, res, next) => {
   if (req.body.pass === req.body.rpass) {
     const hashedPw = await bcrypt.hash(req.body.pass, 12);

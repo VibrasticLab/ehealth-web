@@ -93,6 +93,13 @@ router.post(
 );
 
 router.get(
+  "/admin/data-batuk-naracoba-export",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_naracoba_export
+);
+
+router.get(
   "/admin/doctor-list",
   auth.isAuth,
   checkingRole.isAdmin,
