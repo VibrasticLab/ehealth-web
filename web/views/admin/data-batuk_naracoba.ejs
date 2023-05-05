@@ -233,7 +233,7 @@
 
           document.addEventListener("DOMContentLoaded", function(event) { 
             var url = new URL(window.location.href);
-            var searchParams = new URLSearchParams(url.search);
+            var searchParams = new URLSearchParams(url.search).get('search');
             if (searchParams != null) {
               document.getElementById('input_search').value = searchParams;
             }
