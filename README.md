@@ -90,3 +90,11 @@ kill all docker:
 ~~~sh
 sudo docker kill $(sudo docker ps -q)
 ~~~
+
+### WAV collection folder
+
+```sh
+ls -l public/uploads/batuk_naracoba/*.wav
+
+firefox http://localhost/admin/data-batuk-naracoba
+```

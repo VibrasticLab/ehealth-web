@@ -60,9 +60,9 @@
                             <th>Device</th>
                             <th>Action</th>
                           </tr>
-                          <% 
-                          for(var i=0; i < batukData.length; i++) { 
-                            var parsedData=JSON.parse(batukData[i].json_data); 
+                          <%
+                          for(var i=0; i < batukData.length; i++) {
+                            var parsedData=JSON.parse(batukData[i].json_data);
                             var dateString = new Date(batukData[i].time).toLocaleString();
                             var dateString2=timeConverter(batukData[i].time);
                             var dateString3 = moment(new Date(batukData[i].time)).format("DD-MM-YYYY"); %>
@@ -214,7 +214,7 @@
             url: '../assets/hot-colormap.json',
             responseType: 'json'
           }).on('success', colorMap => {
-            //initAndLoadSpectrogram(colorMap); 
+            //initAndLoadSpectrogram(colorMap);
             wavesurfer = WaveSurfer.create({
               container: '#waveform',
               waveColor: 'purple',
@@ -231,16 +231,16 @@
 
           });
 
-          document.addEventListener("DOMContentLoaded", function(event) { 
+          document.addEventListener("DOMContentLoaded", function(event) {
             var url = new URL(window.location.href);
             var searchParams = new URLSearchParams(url.search).get('search');
             if (searchParams != null) {
               document.getElementById('input_search').value = searchParams;
             }
 
-            setTimeout(function(){
-              window.location.reload(1);
-            }, 10000);
+//            setTimeout(function(){
+//              window.location.reload(1);
+//            }, 10000);
           });
         </script>
         <script>
