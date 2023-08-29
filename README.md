@@ -91,6 +91,12 @@ kill all docker:
 sudo docker kill $(sudo docker ps -q)
 ~~~
 
+### Check Logs
+To check log
+~~~sh
+sudo docker-compose logs -f
+~~~
+
 ### WAV collection folder
 
 ```sh
