@@ -16,6 +16,7 @@ exports.sendData = async (req, res, next) => {
   var uniqueID = new Date().getTime().toString(36);
   //console.log(uniqueID);
   let tempJsonData = JSON.parse(JSON.stringify(req.body));
+  console.log(req.body);
   if (Object.keys(req.body).length != 0) {
     if (req.files) {
       if (req.files.length != 0 && !Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
