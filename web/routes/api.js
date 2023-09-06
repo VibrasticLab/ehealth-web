@@ -5,6 +5,7 @@ const upload = multer({ dest: './temp/' })
 const apiController = require("../controllers/api");
 const apiControllerDevice = require("../controllers/api/device/device");
 const apiTerapiController = require("../controllers/api/vibio/terapi");
+const apiVibioRecognitionController = require("../controllers/api/vibio/recognition");
 const isAuthApi = require('../middlewares/is-aut-user-api');
 
 const router = express.Router();
@@ -25,6 +26,7 @@ router.get('/api/device/testAPI', apiControllerDevice.testAPI);
 
 // Vibio
 router.post('/api/vibio/insert_terapi/:uuid_user', upload.any() , apiTerapiController.terapiData);
+router.post('/api/vibio/recognition', upload.any() , apiVibioRecognitionController.recognitionSoundData);
 
 //General Api
 router.post('/api/submit-data-batuk', isAuthApi ,  upload.any() , apiController.submit_data_batuk);
