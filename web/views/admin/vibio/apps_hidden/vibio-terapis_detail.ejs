@@ -1,4 +1,4 @@
-<%- include('../../includes/head.ejs') %>
+<%- include('../../../includes/head.ejs') %>
 <% function timeConverter(UNIX_timestamp) { var a=new Date(UNIX_timestamp * 1000).toLocaleString(); return a; } %>
 
 </head>
@@ -6,12 +6,8 @@
 <body>
   <!-- Wrapper Start -->
   <div class="wrapper">
-    <!-- Sidebar  -->
-    <%- include('../../includes/navigations.ejs') %>
     <!-- Page Content  -->
-    <div id="content-page" class="content-page">
-      <!-- TOP Nav Bar -->
-      <%- include('../../includes/top-navbar.ejs') %>
+    <div id="content-page" class="content-page" style="margin-left: 10px;padding: 15px 15px 0;min-height: 10vh;">
       <!-- TOP Nav Bar END -->
       <div class="container-fluid">
         <div class="row">
@@ -411,9 +407,9 @@
 
         <!-- Footer -->
 
-        <%- include('../../includes/footer.ejs') %>
+        <%- include('../../../includes/footer.ejs') %>
         <!-- Footer END -->
       </div>
     </div>
     <!-- Wrapper END -->
-    <%- include('../../includes/end.ejs') %>
+    <%- include('../../../includes/end.ejs') %>

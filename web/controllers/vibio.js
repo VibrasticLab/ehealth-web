@@ -10,11 +10,12 @@ const Vibio_terapi = require("../models/vibio_terapi");
 const Vibio_user = require("../models/vibio_user");
 
 const bcrypt = require("bcryptjs");
+var CryptoJS = require("crypto-js");
 
 exports.user_list = async (req, res, next) => {
   const resultsPerPage = 25;
   let page = req.query.page >= 1 ? req.query.page : 1;
-  var query = req.query.search != undefined && req.query.search ? { uuid: req.query.search, admin: req.session.user._id } : {admin: req.session.user._id};
+  var query = req.query.search != undefined && req.query.search ? { uuid: req.query.search, admin: req.session.user._id } : { admin: req.session.user._id };
   var searchVal = req.query.search != undefined && req.query.search ? req.query.search : "";
 
   const userData_count = await Vibio_user.countDocuments(query);
@@ -29,8 +30,8 @@ exports.user_list = async (req, res, next) => {
     userdata: req.session.user,
     role: req.session.user.role,
     user_list: userkData,
-    currentPage: page, 
-    pages: Math.ceil(userData_count / resultsPerPage), 
+    currentPage: page,
+    pages: Math.ceil(userData_count / resultsPerPage),
     searchVal: searchVal,
     lastIndex: resultsPerPage * (page - 1),
     totalCount: userData_count,
@@ -83,15 +84,15 @@ exports.delete_user = async (req, res, next) => {
 };
 
 exports.terapi_list = async (req, res, next) => {
-  var dengarkanTerapi_count = await Vibio_terapi.countDocuments({ uuid_user: req.params.user_uuid, terapi: 0});
+  var dengarkanTerapi_count = await Vibio_terapi.countDocuments({ uuid_user: req.params.user_uuid, terapi: 0 });
   var dengarkanMengeja_count = await Vibio_terapi.countDocuments({ uuid_user: req.params.user_uuid, terapi: 1 });
   var dengarkanTebak_count = await Vibio_terapi.countDocuments({ uuid_user: req.params.user_uuid, terapi: 2 });
 
   var countData = {
     dengarkanTerapi_count: dengarkanTerapi_count,
     dengarkanMengeja_count: dengarkanMengeja_count,
-    dengarkanTebak_count: dengarkanTebak_count
-  }
+    dengarkanTebak_count: dengarkanTebak_count,
+  };
 
   res.render("admin/vibio/vibio-terapi", {
     pageTitle: "E-Health Dashboard",
@@ -103,17 +104,22 @@ exports.terapi_list = async (req, res, next) => {
   });
 };
 
-exports.terapi_detail = async (req, res, next) => { 
+exports.terapi_detail = async (req, res, next) => {
   const resultsPerPage = 25;
   let page = req.query.page >= 1 ? req.query.page : 1;
-  var query = req.query.search != undefined && req.query.search ? { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi} : { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi};
+  var query =
+    req.query.search != undefined && req.query.search
+      ? { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi }
+      : { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi };
   var searchVal = req.query.search != undefined && req.query.search ? req.query.search : "";
 
   const terapiData_count = await Vibio_user.countDocuments(query);
-  const terapiData = await Vibio_terapi.find(query).sort({ time: "desc" }).limit(resultsPerPage)
-  .skip(resultsPerPage * (page - 1));
+  const terapiData = await Vibio_terapi.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
 
-  const FullterapiData = await Vibio_terapi.find({ uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi}).sort({ time: "desc" });
+  const FullterapiData = await Vibio_terapi.find({ uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi }).sort({ time: "desc" });
 
   res.render("admin/vibio/vibio-terapis_detail", {
     pageTitle: "E-Health Dashboard",
@@ -123,8 +129,83 @@ exports.terapi_detail = async (req, res, next) => {
     terapiData: terapiData,
     userdata: req.session.user,
     role: req.session.user.role,
-    currentPage: page, 
-    pages: Math.ceil(terapiData_count / resultsPerPage), 
+    currentPage: page,
+    pages: Math.ceil(terapiData_count / resultsPerPage),
+    searchVal: searchVal,
+    lastIndex: resultsPerPage * (page - 1),
+    totalCount: terapiData_count,
+    FullterapiData: JSON.stringify(FullterapiData),
+  });
+};
+
+// ----------------------------------------------- Secret Vibio
+
+const vibio_scretk_key = process.env.VIBIO_SECRET;
+
+exports.terapi_list_secret = async (req, res, next) => {
+  // U2FsdGVkX1+HkYs5FVDGqKp3OhnEtejAAjICYZ70Vr4=
+
+  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid), vibio_scretk_key);
+  var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
+  const userData_count = await Vibio_user.countDocuments({ uuid: decoded_user_uuid });
+
+  if (userData_count == 0) {
+    res.status(401).render("error/401", {
+      pageTitle: "Error!",
+    });
+    return;
+  }
+
+  var dengarkanTerapi_count = await Vibio_terapi.countDocuments({ uuid_user: decoded_user_uuid, terapi: 0 });
+  var dengarkanMengeja_count = await Vibio_terapi.countDocuments({ uuid_user: decoded_user_uuid, terapi: 1 });
+  var dengarkanTebak_count = await Vibio_terapi.countDocuments({ uuid_user: decoded_user_uuid, terapi: 2 });
+
+  var countData = {
+    dengarkanTerapi_count: dengarkanTerapi_count,
+    dengarkanMengeja_count: dengarkanMengeja_count,
+    dengarkanTebak_count: dengarkanTebak_count,
+  };
+
+  res.render("admin/vibio/apps_hidden/vibio-terapi", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "List Terapi",
+    user_uuid: req.params.secret_user_uuid,
+    countData: countData,
+    userdata: req.session.user,
+    role: req.session.user.role,
+  });
+};
+
+exports.terapi_detail_secret = async (req, res, next) => {
+  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid), vibio_scretk_key);
+  var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
+
+  const resultsPerPage = 25;
+  let page = req.query.page >= 1 ? req.query.page : 1;
+  var query =
+    req.query.search != undefined && req.query.search
+      ? { uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi }
+      : { uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi };
+  var searchVal = req.query.search != undefined && req.query.search ? req.query.search : "";
+
+  const terapiData_count = await Vibio_user.countDocuments(query);
+  const terapiData = await Vibio_terapi.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
+
+  const FullterapiData = await Vibio_terapi.find({ uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi }).sort({ time: "desc" });
+
+  res.render("admin/vibio/apps_hidden/vibio-terapis_detail", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "List Terapi",
+    user_uuid: decoded_user_uuid,
+    jenis_terapi: req.params.jenis_terapi,
+    terapiData: terapiData,
+    userdata: req.session.user,
+    role: req.session.user.role,
+    currentPage: page,
+    pages: Math.ceil(terapiData_count / resultsPerPage),
     searchVal: searchVal,
     lastIndex: resultsPerPage * (page - 1),
     totalCount: terapiData_count,

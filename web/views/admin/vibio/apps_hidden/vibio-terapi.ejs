@@ -1,0 +1,112 @@
+<%- include('../../../includes/head.ejs') %>
+    </head>
+
+    <body>
+        <!-- Wrapper Start -->
+        <div class="wrapper">
+            <!-- Sidebar  -->
+                <!-- Page Content  -->
+                <div id="content-page" class="content-page" style="margin-left: 10px;padding: 15px 15px 0;min-height: 10vh;">
+                    <!-- TOP Nav Bar -->
+                        <!-- TOP Nav Bar END -->
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="iq-card">
+                                        <div class="iq-card-body text-center">
+                                            <div class="iq-doc-info mt-3">
+                                                <h4>
+                                                    Dengarkan Gambar
+                                                </h4>
+                                            </div>
+                                            <div class="iq-doc-description mt-2">
+                                                <p class="mb-0">Deksripsi</p>
+                                            </div>
+                                            <hr>
+                                            <ul
+                                                class="doctoe-sedual d-flex align-items-center justify-content-between p-0 mt-3 mb-3">
+                                                <li class="text-center">
+                                                    <h6 class="text-primary">Status</h6>
+                                                    <h5 class="text-success">TBA</span></h5>
+                                                </li>
+                                                <li class="text-center">
+                                                    <h6 class="text-primary">Terapi</h6>
+                                                    <h5>
+                                                        <%= countData.dengarkanTerapi_count %>x
+                                                    </h5>
+                                                </li>
+                                            </ul>
+                                            <hr>
+                                            <a href="/vibio_hidden/terapi-detail/0/<%= user_uuid %>"
+                                                class="btn btn-primary">View Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="iq-card">
+                                        <div class="iq-card-body text-center">
+                                            <div class="iq-doc-info mt-3">
+                                                <h4>
+                                                    Mengeja Gambar
+                                                </h4>
+                                            </div>
+                                            <div class="iq-doc-description mt-2">
+                                                <p class="mb-0">Deksripsi</p>
+                                            </div>
+                                            <hr>
+                                            <ul
+                                                class="doctoe-sedual d-flex align-items-center justify-content-between p-0 mt-3 mb-3">
+                                                <li class="text-center">
+                                                    <h6 class="text-primary">Status</h6>
+                                                    <h5 class="text-success">TBA</span></h5>
+                                                </li>
+                                                <li class="text-center">
+                                                    <h6 class="text-primary">Terapi</h6>
+                                                    <h5>
+                                                        <%= countData.dengarkanMengeja_count %>x
+                                                    </h5>
+                                                </li>
+                                            </ul>
+                                            <hr>
+                                            <a href="/vibio_hidden/terapi-detail/1/<%= user_uuid %>"
+                                                class="btn btn-primary">View Detail</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="iq-card">
+                                       <div class="iq-card-body text-center">
+                                          <div class="iq-doc-info mt-3">
+                                             <h4>
+                                                Tebak Gambar
+                                             </h4>
+                                          </div>
+                                          <div class="iq-doc-description mt-2">
+                                             <p class="mb-0">Deksripsi</p>
+                                          </div>
+                                          <hr>
+                                          <ul class="doctoe-sedual d-flex align-items-center justify-content-between p-0 mt-3 mb-3">
+                                             <li class="text-center">
+                                                <h6 class="text-primary">Status</h6>
+                                                <h5 class="text-success">TBA</span></h5>
+                                             </li>
+                                             <li class="text-center">
+                                                <h6 class="text-primary">Terapi</h6>
+                                                <h5><%= countData.dengarkanTebak_count %>x</h5>
+                                             </li>
+                                          </ul> 
+                                          <hr>
+                                          <a href="/vibio_hidden/terapi-detail/2/<%= user_uuid %>" class="btn btn-primary">View Detail</a>
+                                       </div>
+                                    </div>
+                            </div>
+                        </div>
+                </div>
+        </div>
+        <!-- Footer -->
+        <%- include('../../../includes/footer.ejs') %>
+            <!-- Footer END -->
+            </div>
+            </div>
+            <!-- Wrapper END -->
+            <%- include('../../../includes/end.ejs') %>
