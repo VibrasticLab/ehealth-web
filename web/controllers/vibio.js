@@ -145,7 +145,8 @@ const vibio_scretk_key = process.env.VIBIO_SECRET;
 exports.terapi_list_secret = async (req, res, next) => {
   // U2FsdGVkX1+HkYs5FVDGqKp3OhnEtejAAjICYZ70Vr4=
 
-  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid), vibio_scretk_key);
+  // https://stackoverflow.com/questions/43399093/encrypt-cryptojs-without-special-characters
+  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid.replace('Por21Ld', '/')), vibio_scretk_key);
   var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
   const userData_count = await Vibio_user.countDocuments({ uuid: decoded_user_uuid });
 
