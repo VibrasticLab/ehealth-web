@@ -172,8 +172,6 @@ exports.terapi_list_secret = async (req, res, next) => {
     pageHeader: "List Terapi",
     user_uuid: req.params.secret_user_uuid,
     countData: countData,
-    userdata: req.session.user,
-    role: req.session.user.role,
   });
 };
 
@@ -203,8 +201,6 @@ exports.terapi_detail_secret = async (req, res, next) => {
     user_uuid: decoded_user_uuid,
     jenis_terapi: req.params.jenis_terapi,
     terapiData: terapiData,
-    userdata: req.session.user,
-    role: req.session.user.role,
     currentPage: page,
     pages: Math.ceil(terapiData_count / resultsPerPage),
     searchVal: searchVal,
