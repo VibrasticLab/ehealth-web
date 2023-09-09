@@ -146,8 +146,9 @@ exports.terapi_list_secret = async (req, res, next) => {
   // U2FsdGVkX1+HkYs5FVDGqKp3OhnEtejAAjICYZ70Vr4=
 
   // https://stackoverflow.com/questions/43399093/encrypt-cryptojs-without-special-characters
-  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid.replace('Por21Ld', '/')), vibio_scretk_key);
+  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid.replace('Por21Ld', '/').replace('Por21Ld', '/')), vibio_scretk_key);
   var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
+  console.log(decoded_user_uuid)
   const userData_count = await Vibio_user.countDocuments({ uuid: decoded_user_uuid });
 
   if (userData_count == 0) {
@@ -176,7 +177,7 @@ exports.terapi_list_secret = async (req, res, next) => {
 };
 
 exports.terapi_detail_secret = async (req, res, next) => {
-  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid), vibio_scretk_key);
+  var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid.replace('Por21Ld', '/').replace('Por21Ld', '/')), vibio_scretk_key);
   var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
 
   const resultsPerPage = 25;
