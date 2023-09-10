@@ -125,6 +125,15 @@
                           <% } %>
                         </table>
                       </div>
+                      <div class="results">
+                        <p style="margin-bottom: 0px;">Displaying Total <span><%= totalCount %></span> Results</p>
+                        <p>
+                          Page
+                          <span><%= currentPage %></span>
+                          of
+                          <span><%= pages %></span>
+                        </p>
+                      </div>
                       <form action='/admin/vibio/delete-user?_csrf=<%= csrfToken %>' method='post' style="display: none;" id="form_delete">
                         <input type="hidden" name="uuid_user" id="uuid_user">
                       </form>
@@ -132,24 +141,27 @@
                       <div class="shop-pagination">
                         <div class="pagination">
                           <% if (currentPage == 1 && pages > 1) { %>
-                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>" <span>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>"><span>
                             Page <%=  parseInt(currentPage) + 1 %>
                             <i class="icon ion-ios-arrow-forward"></i>
                             </span>
                           </a>
                           <% } else if (currentPage < pages) { %>
-                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>"><span>
                               <i class="icon ion-ios-arrow-back"></i>
                               Page <%= parseInt(currentPage) - 1 %>
                             </span>
                           </a>
-                          <a href="?page=<%= parseInt(currentPage) + 1 %>&search=<%=searchVal%>"><span>
+                          <span>
+                            &nbsp; || &nbsp;
+                          </span>
+                          <a href="?page=<%= parseInt(currentPage) + 1 %>"><span>
                               Page <%= parseInt(currentPage) + 1 %>
                               <i class="icon ion-ios-arrow-forward"></i>
                             </span>
                           </a>
                           <% } else if (currentPage == pages && pages > 1) { %>
-                          <a href="?page=<%= parseInt(currentPage) - 1 %>&search=<%=searchVal%>"><span>
+                          <a href="?page=<%= parseInt(currentPage) - 1 %>"><span>
                               <i class="icon ion-ios-arrow-back"></i>Page
                               <%=parseInt(currentPage) - 1 %>
                             </span>

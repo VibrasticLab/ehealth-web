@@ -8,6 +8,7 @@ const User = require("../models/user");
 const Device = require("../models/device");
 const Vibio_terapi = require("../models/vibio_terapi");
 const Vibio_user = require("../models/vibio_user");
+const Settings = require("../models/settings");
 
 const bcrypt = require("bcryptjs");
 var CryptoJS = require("crypto-js");
@@ -105,16 +106,12 @@ exports.terapi_list = async (req, res, next) => {
 };
 
 exports.terapi_detail = async (req, res, next) => {
-  const resultsPerPage = 25;
+  const resultsPerPage = 10;
   let page = req.query.page >= 1 ? req.query.page : 1;
-  var query =
-    req.query.search != undefined && req.query.search
-      ? { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi }
-      : { uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi };
-  var searchVal = req.query.search != undefined && req.query.search ? req.query.search : "";
 
-  const terapiData_count = await Vibio_user.countDocuments(query);
-  const terapiData = await Vibio_terapi.find(query)
+  const terapiData_count = await Vibio_terapi.countDocuments({ uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi });
+  console.log(terapiData_count)
+  const terapiData = await Vibio_terapi.find({ uuid_user: req.params.user_uuid, terapi: req.params.jenis_terapi })
     .sort({ time: "desc" })
     .limit(resultsPerPage)
     .skip(resultsPerPage * (page - 1));
@@ -131,7 +128,6 @@ exports.terapi_detail = async (req, res, next) => {
     role: req.session.user.role,
     currentPage: page,
     pages: Math.ceil(terapiData_count / resultsPerPage),
-    searchVal: searchVal,
     lastIndex: resultsPerPage * (page - 1),
     totalCount: terapiData_count,
     FullterapiData: JSON.stringify(FullterapiData),
@@ -180,16 +176,11 @@ exports.terapi_detail_secret = async (req, res, next) => {
   var bytes = CryptoJS.AES.decrypt(decodeURI(req.params.secret_user_uuid.replace('Por21Ld', '/').replace('Por21Ld', '/')), vibio_scretk_key);
   var decoded_user_uuid = bytes.toString(CryptoJS.enc.Utf8);
 
-  const resultsPerPage = 25;
+  const resultsPerPage = 10;
   let page = req.query.page >= 1 ? req.query.page : 1;
-  var query =
-    req.query.search != undefined && req.query.search
-      ? { uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi }
-      : { uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi };
-  var searchVal = req.query.search != undefined && req.query.search ? req.query.search : "";
 
-  const terapiData_count = await Vibio_user.countDocuments(query);
-  const terapiData = await Vibio_terapi.find(query)
+  const terapiData_count = await Vibio_user.countDocuments({ uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi });
+  const terapiData = await Vibio_terapi.find({ uuid_user: decoded_user_uuid, terapi: req.params.jenis_terapi })
     .sort({ time: "desc" })
     .limit(resultsPerPage)
     .skip(resultsPerPage * (page - 1));
@@ -204,7 +195,6 @@ exports.terapi_detail_secret = async (req, res, next) => {
     terapiData: terapiData,
     currentPage: page,
     pages: Math.ceil(terapiData_count / resultsPerPage),
-    searchVal: searchVal,
     lastIndex: resultsPerPage * (page - 1),
     totalCount: terapiData_count,
     FullterapiData: JSON.stringify(FullterapiData),
