@@ -19,7 +19,7 @@ exports.setRecognitionServer = async (req, res, next) => {
     { upsert: true }
   );
 
-  if (update_setting.upserted.length > 0) {
+  if (update_setting.ok > 0) {
     res.json({
       status: "success",
       code: 200,
