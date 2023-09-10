@@ -29,6 +29,7 @@ router.post('/api/vibio/insert_terapi/:uuid_user', upload.any() , apiTerapiContr
 router.post('/api/vibio/recognition', upload.any() , apiVibioRecognitionController.recognitionSoundData);
 
 router.post('/api/vibio/set_recognitionServer', apiVibioRecognitionController.setRecognitionServer);
+router.post('/api/vibio/check_recognitionServer', apiVibioRecognitionController.checkRecognitionServer);
 
 //General Api
 router.post('/api/submit-data-batuk', isAuthApi ,  upload.any() , apiController.submit_data_batuk);
