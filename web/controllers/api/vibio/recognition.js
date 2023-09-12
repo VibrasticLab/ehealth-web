@@ -36,8 +36,7 @@ exports.setRecognitionServer = async (req, res, next) => {
 
 exports.checkRecognitionServer = async (req, res, next) => {
   const recog_server = await Settings.findOne({ key: "vibio_recognition_server" });
-  console.log(recog_server)
-  if (!recog_server) {
+  if (recog_server.value == '') {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
     return;
