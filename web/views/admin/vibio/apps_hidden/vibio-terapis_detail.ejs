@@ -82,6 +82,7 @@
                             <th>Tanggal</th>
                             <th>Kategori</th>
                             <% if(jenis_terapi==0 ){ %>
+                            <th>Jenis Benda</th>
                             <th>Jumlah Dengar</th>
                             <% } else if(jenis_terapi==1 || jenis_terapi==2 ){ %>
                             <th>Jumlah Benar</th>
@@ -105,6 +106,9 @@
                               <%= nowData.kategori %>
                             </td>
                             <% if(jenis_terapi==0 ){ %>
+                            <td>
+                              <%= nowData.jenis_benda %>
+                            </td>
                             <td>
                               <%= nowData.jumlah_dengar %>
                             </td>
