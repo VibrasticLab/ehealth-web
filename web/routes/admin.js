@@ -93,6 +93,20 @@ router.post(
 );
 
 router.get(
+  "/admin/data-batuk-device-edit",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_device_edit
+);
+
+router.post(
+  "/admin/data-batuk-device-post",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_device_edit_post
+);
+
+router.get(
   "/admin/data-batuk-naracoba-export",
   auth.isAuth,
   checkingRole.isAdmin,

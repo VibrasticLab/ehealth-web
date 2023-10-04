@@ -245,6 +245,35 @@ exports.data_batuk_naracoba_edit_post = async (req, res, next) => {
   res.redirect("/admin/data-batuk-naracoba");
 };
 
+exports.data_batuk_device_edit = async (req, res, next) => { 
+  const batukData = await Device_Data_Cough.find({uuid: req.query.uuid});
+
+  res.render("admin/data-batuk_device_edit", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Edit Data Batuk",
+    batukData: batukData,
+    userdata: req.session.user,
+    role: req.session.user.role,
+  });
+};
+
+exports.data_batuk_device_edit_post = async (req, res, next) => { 
+  var nowbatukData = await Device_Data_Cough.find({uuid: req.body.uuid });
+  var data_json = JSON.parse(nowbatukData[0].json_data);
+  data_json['nama'] = req.body.full_name;
+  data_json['gender'] = req.body.gender;
+  data_json['umur'] = req.body.umur;
+  
+  const user = await Device_Data_Cough.update(
+    { uuid: req.body.uuid },
+    {
+      json_data: JSON.stringify(data_json)
+    },
+  );
+
+  res.redirect("/admin/data-batuk-naracoba");
+};
+
 exports.data_batuk_naracoba_export = async (req, res, next) => {
   const dateTime = new Date().toISOString().slice(-24).replace(/\D/g, "").slice(0, 14);
   let csv;
