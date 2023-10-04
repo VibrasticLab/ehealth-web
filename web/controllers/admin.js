@@ -271,7 +271,7 @@ exports.data_batuk_device_edit_post = async (req, res, next) => {
     },
   );
 
-  res.redirect("/admin/data-batuk-naracoba");
+  res.redirect('back');
 };
 
 exports.data_batuk_naracoba_export = async (req, res, next) => {
