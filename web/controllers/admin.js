@@ -271,7 +271,7 @@ exports.data_batuk_device_edit_post = async (req, res, next) => {
     },
   );
 
-  res.redirect('back');
+  res.redirect("/admin/device-detail?device_id=" + nowbatukData[0].device_id);
 };
 
 exports.data_batuk_naracoba_export = async (req, res, next) => {
