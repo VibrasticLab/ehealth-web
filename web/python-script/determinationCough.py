@@ -5,9 +5,6 @@ from tensorflow import keras
 import time
 import sys
 
-import os
-os.environ[ 'NUMBA_CACHE_DIR' ] = '/tmp/'
-
 start_time = time.time()
 # Folder Web = /usr/src/app/
 

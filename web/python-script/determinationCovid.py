@@ -20,9 +20,6 @@ import tensorflow as tf
 
 import sys
 
-import os
-os.environ[ 'NUMBA_CACHE_DIR' ] = '/tmp/'
-
 start_time = time.time()
 
 def extract_feature(file_name):
