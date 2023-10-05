@@ -5,7 +5,7 @@ RUN apt-get update -yq \
     && curl -L https://deb.nodesource.com/setup_16.x | bash \
     && apt-get update -yq \
     && apt-get install -yq \
-        dh-autoreconf=19 \
+        dh-autoreconf=20 \
         nodejs build-essential gcc libsndfile1
 
 RUN if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi
