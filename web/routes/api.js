@@ -24,6 +24,9 @@ router.post('/api/device/sendData/:device_id', upload.any() , apiControllerDevic
 router.post('/api/device/sendData_Naracoba/:device_id', upload.any() , apiControllerDevice.sendData_Naracoba);
 router.get('/api/device/testAPI', apiControllerDevice.testAPI);
 
+router.post('/api/device/set_recognitionServer', apiVibioRecognitionController.setRecognitionServer);
+router.post('/api/device/check_recognitionServer', apiVibioRecognitionController.checkRecognitionServer);
+
 // Vibio
 router.post('/api/vibio/insert_terapi/:uuid_user', upload.any() , apiTerapiController.terapiData);
 router.post('/api/vibio/recognition', upload.any() , apiVibioRecognitionController.recognitionSoundData);

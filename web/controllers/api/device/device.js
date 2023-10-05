@@ -1,6 +1,7 @@
 const Device_Data_Cough = require("../../../models/device_data_cough");
 const Device_Data_Audiometri = require("../../../models/device_data_audiometri");
 const Device_Data_Cough_Naracoba = require("../../../models/device_data_cough_naracoba");
+const Settings = require("../../../models/settings");
 const initParam = require("../../../helpers/init");
 const { handleUploadFile } = require("../../../helpers/helper_functions");
 const bcrypt = require("bcryptjs");
@@ -47,16 +48,41 @@ exports.sendData = async (req, res, next) => {
             console.log(result);
           });
         });
-  
-        PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-          if (err) throw err;
-          //console.log('results: %j', results);
-          var covid = results[1];
-          console.log(results[2]);
-          Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
-            console.log(result);
+
+        
+        const recog_server = await Settings.findOne({ key: "batuk_recognition_server" });
+        if (!recog_server) {
+          console.log(error);
+          res.status(500).json({ error: "Internal Server Error" });
+          return;
+        }
+      
+        try {
+          const formData = new FormData();
+          formData.append("file_audio", fs.createReadStream(req.files[0].path));
+      
+          const response = await axios.post(recog_server.value + "/recognition", formData, {
+            headers: {
+              ...formData.getHeaders(),
+              "Ngrok-Skip-Browser-Warning": "true",
+            },
           });
-        });
+    
+          const response_ngrok = response.data;  
+          console.log(response_ngrok)
+        } catch (error) {
+          console.log(error);
+        }
+
+        // PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+        //   if (err) throw err;
+        //   //console.log('results: %j', results);
+        //   var covid = results[1];
+        //   console.log(results[2]);
+        //   Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+        //     console.log(result);
+        //   });
+        // });
       }
     } else if (Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
       console.log(tempJsonData)
@@ -148,6 +174,53 @@ exports.sendData_Naracoba = async (req, res, next) => {
       code: 404,
       message: "Empty Data",
     });
+  }
+};
+
+exports.setRecognitionServer = async (req, res, next) => {
+  const update_setting = await Settings.updateOne(
+    { key: req.body.key_setting },
+    {
+      value: req.body.value_setting,
+    },
+    { upsert: true }
+  );
+
+  if (update_setting.ok > 0) {
+    res.json({
+      status: "success",
+      code: 200,
+      message: "Success Insert/Update Data",
+    });
+  } else {
+    res.json({
+      status: "error",
+      code: 404,
+      message: "Failure Insert/Update Data",
+    });
+  }
+};
+
+exports.checkRecognitionServer = async (req, res, next) => {
+  const recog_server = await Settings.findOne({ key: "batuk_recognition_server" });
+  if (recog_server.value == '') {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+    return;
+  }
+
+  try {
+    const response = await axios.get(recog_server.value, {
+      headers: {
+        "Ngrok-Skip-Browser-Warning": "true",
+      },
+    });
+
+    const response_ngrok = response.data;
+
+    res.json(response_ngrok);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
