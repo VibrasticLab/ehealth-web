@@ -18,6 +18,9 @@ RUN pip install seaborn
 RUN pip install librosa==0.9.2
 
 ENV NUMBA_CACHE_DIR=/tmp/
+RUN mkdir -m 777 /tmp/NUMBA_CACHE_DIR /tmp/MPLCONFIGDIR
+ENV NUMBA_CACHE_DIR=/tmp/NUMBA_CACHE_DIR/
+ENV MPLCONFIGDIR=/tmp/MPLCONFIGDIR/
 
 WORKDIR /usr/src/app
 
