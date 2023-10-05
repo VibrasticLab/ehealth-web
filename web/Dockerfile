@@ -17,6 +17,8 @@ RUN pip install matplotlib
 RUN pip install seaborn
 RUN pip install librosa==0.9.2
 
+ENV NUMBA_CACHE_DIR=/tmp/
+
 WORKDIR /usr/src/app
 
 COPY package*.json ./
