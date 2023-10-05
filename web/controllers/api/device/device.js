@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 const path = require("path");
 let { PythonShell } = require("python-shell");
 const fs = require("fs");
+const FormData = require("form-data");
 
 exports.sendData = async (req, res, next) => {
   // console.log(req.params.device_id);
@@ -82,7 +83,7 @@ exports.sendData = async (req, res, next) => {
           console.log(response_ngrok)
         } catch (error) {
           console.log(error);
-        }
+        }                               
       }
     } else if (Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
       console.log(tempJsonData)
