@@ -10,6 +10,7 @@ const path = require("path");
 let { PythonShell } = require("python-shell");
 const fs = require("fs");
 const FormData = require("form-data");
+const axios = require("axios");
 
 exports.sendData = async (req, res, next) => {
   // console.log(req.params.device_id);
