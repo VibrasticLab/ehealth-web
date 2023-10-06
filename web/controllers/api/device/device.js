@@ -41,50 +41,50 @@ exports.sendData = async (req, res, next) => {
           });
         }
   
-        PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-          if (err) throw err;
-          //console.log('results: %j', results);
-          var cough = results[1];
-          console.log(results[2]);
-          Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
-            console.log(result);
-          });
-        });
+        // PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+        //   if (err) throw err;
+        //   //console.log('results: %j', results);
+        //   var cough = results[1];
+        //   console.log(results[2]);
+        //   Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
+        //     console.log(result);
+        //   });
+        // });
 
-        PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-          if (err) throw err;
-          //console.log('results: %j', results);
-          var covid = results[1];
-          console.log(results[2]);
-          Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
-            console.log(result);
-          });
-        });
+        // PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+        //   if (err) throw err;
+        //   //console.log('results: %j', results);
+        //   var covid = results[1];
+        //   console.log(results[2]);
+        //   Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+        //     console.log(result);
+        //   });
+        // });
 
         
-        const recog_server = await Settings.findOne({ key: "batuk_recognition_server" });
-        if (!recog_server) {
-          console.log(error);
-          res.status(500).json({ error: "Internal Server Error" });
-          return;
-        }
+        // const recog_server = await Settings.findOne({ key: "batuk_recognition_server" });
+        // if (!recog_server) {
+        //   console.log(error);
+        //   res.status(500).json({ error: "Internal Server Error" });
+        //   return;
+        // }
       
-        try {
-          const formData = new FormData();
-          formData.append("file_audio", fs.createReadStream(req.files[0].path));
+        // try {
+        //   const formData = new FormData();
+        //   formData.append("file_audio", fs.createReadStream(req.files[0].path));
       
-          const response = await axios.post(recog_server.value + "/recognition", formData, {
-            headers: {
-              ...formData.getHeaders(),
-              "Ngrok-Skip-Browser-Warning": "true",
-            },
-          });
+        //   const response = await axios.post(recog_server.value + "/recognition", formData, {
+        //     headers: {
+        //       ...formData.getHeaders(),
+        //       "Ngrok-Skip-Browser-Warning": "true",
+        //     },
+        //   });
     
-          const response_ngrok = response.data;  
-          console.log(response_ngrok)
-        } catch (error) {
-          console.log(error);
-        }                               
+        //   const response_ngrok = response.data;  
+        //   console.log(response_ngrok)
+        // } catch (error) {
+        //   console.log(error);
+        // }                               
       }
     } else if (Object.prototype.hasOwnProperty.call(req.body, "audiogram")) {
       console.log(tempJsonData)
