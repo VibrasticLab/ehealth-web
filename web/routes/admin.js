@@ -114,6 +114,13 @@ router.get(
 );
 
 router.get(
+  "/admin/data-batuk-device-export",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_device_export
+);
+
+router.get(
   "/admin/doctor-list",
   auth.isAuth,
   checkingRole.isAdmin,

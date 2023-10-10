@@ -16,6 +16,8 @@ RUN pip install numpy
 RUN pip install matplotlib
 RUN pip install seaborn
 RUN pip install librosa==0.9.2
+#RUN pip install numba==0.48.0
+
 
 ENV NUMBA_CACHE_DIR=/tmp/
 RUN mkdir -m 777 /tmp/NUMBA_CACHE_DIR /tmp/MPLCONFIGDIR
