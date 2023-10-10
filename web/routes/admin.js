@@ -58,10 +58,17 @@ router.get(
 );
 
 router.get(
-  "/admin/data-batuk-export-sound",
+  "/admin/data-batuk-export-sound-batuk-primer",
   auth.isAuth,
   checkingRole.isAdmin,
-  adminController.data_batuk_export_sound
+  adminController.data_batuk_export_sound_batuk_primer
+);
+
+router.get(
+  "/admin/data-batuk-export-sound-batuk",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_export_sound_batuk
 );
 
 router.get(

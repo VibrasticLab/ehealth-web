@@ -180,8 +180,18 @@ exports.data_batuk_export = async (req, res, next) => {
   });
 };
 
-exports.data_batuk_export_sound = async (req, res, next) => {
+exports.data_batuk_export_sound_batuk_primer = async (req, res, next) => {
   var folderpath = './public/uploads/batuk_primer'
+
+  child_process.execSync(`zip -r archive *`, {
+    cwd: folderpath
+  });
+
+  res.download(folderpath + '/archive.zip');
+};
+
+exports.data_batuk_export_sound_batuk = async (req, res, next) => {
+  var folderpath = './public/uploads/batuk'
 
   child_process.execSync(`zip -r archive *`, {
     cwd: folderpath
