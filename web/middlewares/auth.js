@@ -2,7 +2,15 @@ const User = require("../models/user");
 
 exports.clientAuth = (req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
+  try {
+    if (typeof req.csrfToken === 'function') {
+      res.locals.csrfToken = req.csrfToken();
+    } else {
+      res.locals.csrfToken = null;
+    }
+  } catch (err) {
+    res.locals.csrfToken = null;
+  }
   next();
 };
 

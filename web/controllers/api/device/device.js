@@ -1,6 +1,8 @@
 const Device_Data_Cough = require("../../../models/device_data_cough");
 const Device_Data_Audiometri = require("../../../models/device_data_audiometri");
 const Device_Data_Cough_Naracoba = require("../../../models/device_data_cough_naracoba");
+const device_data_coughTBPrimerSchema = require("../../../models/device_data_cough_tbprimer");
+
 const Settings = require("../../../models/settings");
 const initParam = require("../../../helpers/init");
 const { handleUploadFile } = require("../../../helpers/helper_functions");
@@ -41,25 +43,25 @@ exports.sendData = async (req, res, next) => {
           });
         }
   
-        // PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-        //   if (err) throw err;
-        //   //console.log('results: %j', results);
-        //   var cough = results[1];
-        //   console.log(results[2]);
-        //   Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
-        //     console.log(result);
-        //   });
-        // });
+        PythonShell.run("./python-script/determinationCough.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+          if (err) throw err;
+          //console.log('results: %j', results);
+          var cough = results[1];
+          console.log(results[2]);
+          Device_Data_Cough.updateOne({ uuid: uniqueID }, { cough: cough }).then((result) => {
+            console.log(result);
+          });
+        });
 
-        // PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
-        //   if (err) throw err;
-        //   //console.log('results: %j', results);
-        //   var covid = results[1];
-        //   console.log(results[2]);
-        //   Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
-        //     console.log(result);
-        //   });
-        // });
+        PythonShell.run("./python-script/determinationCovid.py", { args: [tempJsonData.file_audio] }, function (err, results) {
+          if (err) throw err;
+          //console.log('results: %j', results);
+          var covid = results[1];
+          console.log(results[2]);
+          Device_Data_Cough.updateOne({ uuid: uniqueID }, { covid: covid }).then((result) => {
+            console.log(result);
+          });
+        });
 
         
         // const recog_server = await Settings.findOne({ key: "batuk_recognition_server" });
@@ -162,6 +164,47 @@ exports.sendData_Naracoba = async (req, res, next) => {
           code: 404,
           message: device,
         });
+      }
+    } else {
+      res.json({
+        status: "error",
+        code: 400,
+        message: "Empty Request",
+      });
+    }
+  } else {
+    res.json({
+      status: "error",
+      code: 404,
+      message: "Empty Data",
+    });
+  }
+};
+
+exports.sendData_TBPrimer = async (req, res, next) => {
+  var uniqueID = new Date().getTime().toString(36);
+  let tempJsonData = JSON.parse(JSON.stringify(req.body));
+
+  if (Object.keys(req.body).length != 0) {
+    if (req.files) {
+      if (req.files.length != 0) {
+        tempJsonData.file_audio = req.files[0].filename + "." + req.files[0].originalname.split(".")[1];
+        handleUploadFile(req.files[0], "./public/uploads/batuk_tbprimer/");
+  
+        const device = await device_data_coughTBPrimerSchema.create({ uuid: uniqueID, device_id: req.params.device_id, json_data: JSON.stringify(tempJsonData), cough_type: tempJsonData.cough_type, cough: 99});
+        if (device) {
+          res.json({
+            status: "success",
+            code: 200,
+            message: "Success Insert Data",
+          });
+        } else {
+          res.json({
+            status: "error",
+            code: 404,
+            message: device,
+          });
+        }
       }
     } else {
       res.json({

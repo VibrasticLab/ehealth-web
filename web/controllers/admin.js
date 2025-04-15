@@ -9,6 +9,7 @@ const Device = require("../models/device");
 const Device_Data_Cough = require("../models/device_data_cough");
 const Device_Data_Audiometri = require("../models/device_data_audiometri");
 const Device_Data_Naracoba = require("../models/device_data_cough_naracoba");
+const Device_Data_TBPrimer = require("../models/device_data_cough_tbprimer");
 const Batuk_Data = require("../models/batuk_data");
 
 const bcrypt = require("bcryptjs");
@@ -253,6 +254,61 @@ exports.data_batuk_naracoba_edit_post = async (req, res, next) => {
   );
 
   res.redirect("/admin/data-batuk-naracoba");
+};
+
+exports.data_batuk_tbprimer = async (req, res, next) => { 
+  const resultsPerPage = 25;
+  let page = req.query.page >= 1 ? req.query.page : 1;
+  var query = (req.query.search != undefined && req.query.search) ? {device_id: req.query.search} : {};
+  var searchVal = (req.query.search != undefined && req.query.search) ? req.query.search : "";
+
+  const batukData_count = await Device_Data_TBPrimer.countDocuments(query)
+  const batukData = await Device_Data_TBPrimer.find(query)
+    .sort({ time: "desc" })
+    .limit(resultsPerPage)
+    .skip(resultsPerPage * (page - 1));
+
+  res.render("admin/data-batuk_tbprimer", {
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Data Batuk",
+    userdata: req.session.user,
+    batukData: batukData,
+    currentPage: page, 
+    pages: Math.ceil(batukData_count / resultsPerPage), 
+    searchVal: searchVal,
+    lastIndex: resultsPerPage * (page - 1),
+    totalCount: batukData_count,
+    role: req.session.user.role,
+  });
+};
+
+exports.data_batuk_tbprimer_edit = async (req, res, next) => { 
+  const batukData = await Device_Data_TBPrimer.find({uuid: req.query.uuid});
+
+  res.render("admin/data-batuk_tbprimer_edit", { 
+    pageTitle: "E-Health Dashboard",
+    pageHeader: "Edit Data Naracoba",
+    batukData: batukData,
+    userdata: req.session.user,
+    role: req.session.user.role,
+  });
+};
+
+exports.data_batuk_tbprimer_edit_post = async (req, res, next) => { 
+  var nowbatukData = await Device_Data_TBPrimer.find({uuid: req.body.uuid });
+  var data_json = JSON.parse(nowbatukData[0].json_data);
+  data_json['nama'] = req.body.full_name;
+  data_json['gender'] = req.body.gender;
+  data_json['umur'] = req.body.umur;
+  
+  const user = await Device_Data_TBPrimer.update(
+    { uuid: req.body.uuid },
+    {
+      json_data: JSON.stringify(data_json)
+    },
+  );
+
+  res.redirect("/admin/data-batuk-tb-primer");
 };
 
 exports.data_batuk_device_edit = async (req, res, next) => { 

@@ -71,6 +71,7 @@ router.get(
   adminController.data_batuk_export_sound_batuk
 );
 
+// data-batuk-naracoba
 router.get(
   "/admin/data-batuk-naracoba",
   auth.isAuth,
@@ -99,6 +100,29 @@ router.post(
   adminController.data_batuk_naracoba_edit_post
 );
 
+// data-batuk-tb-primer
+router.get(
+  "/admin/data-batuk-tb-primer",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_tbprimer
+);
+
+router.get(
+  "/admin/data-batuk-tb-primer-edit",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_tbprimer_edit
+);
+
+router.post(
+  "/admin/data-batuk-tb-primer-post",
+  auth.isAuth,
+  checkingRole.isAdmin,
+  adminController.data_batuk_tbprimer_edit_post
+);
+
+// data-batuk-device-edit
 router.get(
   "/admin/data-batuk-device-edit",
   auth.isAuth,

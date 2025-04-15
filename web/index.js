@@ -7,6 +7,7 @@ const upload = multer({ dest: "uploads/" });
 var moment = require("moment");
 var bodyParser = require("body-parser");
 var cors = require("cors");
+const fs = require('fs');
 
 // import routing
 const generalRoute = require("./routes/general");
@@ -31,6 +32,11 @@ const auth = require("./middlewares/auth");
 
 const app = express();
 const csrfProtection = csrf();
+
+var tbprimer_folder = './public/uploads/batuk_tbprimer/'
+if (!fs.existsSync(tbprimer_folder)) {
+  fs.mkdirSync(tbprimer_folder, { recursive: true });
+}
 
 // set template engine
 app.set("view engine", "ejs");
@@ -65,6 +71,7 @@ app.use(db.sessionMiddleware);
 app.use(disableAPICSRF(csrf()));
 app.use(auth.clientAuth);
 
+
 // notification
 app.use(flash());
 
@@ -84,21 +91,19 @@ db.initMongoose(() => {
   const server = app.listen(8080);
 });
 
-var skipCSRFArray = ["/api/device/", "/api/vibio/", "/form/", "/submit-data-batuk"];
+const skipCSRFArray = ["/form/", "/submit-data-batuk"];
 
 function disableAPICSRF(fn) {
   return function (req, res, next) {
-    console.log(JSON.stringify(req.path)); //Debug Path
-    var skipCSRF = false;
-    for (let index = 0; index < skipCSRFArray.length; index++) {
-      if (req.path.includes(skipCSRFArray[index])) {
-        skipCSRF = true;
-      }
+    console.log(JSON.stringify(req.path));
+    const path = req.path;
+    const isAPI = path.startsWith("/api/");
+    const isInSkipList = skipCSRFArray.some(p => path.includes(p));
+    const shouldSkip = (isAPI || isInSkipList) && req.method === "POST";
+
+    if (shouldSkip) {
+      return next();
     }
-    if (skipCSRF && req.method === "POST") {
-      next();
-    } else {
-      fn(req, res, next);
-    }
+    return fn(req, res, next);
   };
 }
